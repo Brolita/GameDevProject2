@@ -1,0 +1,46 @@
+{
+	"Scene1":{	
+		"background":"backgroundname.png",
+		"dialogue": [ 
+			{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			},{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			},{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			},{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			}
+		]
+	},
+	"Scene2":{	
+		"background":"backgroundname.png",
+		"dialogue": [ 
+			{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			},{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			},{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			},{
+				"characterName":"example",
+				"sprite":"spirtename.png",
+				"dialogue":"akhsbasjdbhbasojijabscojbojabsd"
+			}
+		]
+	}
+}
