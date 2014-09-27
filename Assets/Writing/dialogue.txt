@@ -1,0 +1,25 @@
+>> scenename
+0  #value of this dialogue 
+spritename.png
+charactername
+"dialogue example that will be totally wrapped in quotes
+to support multiline things"
+1  #value of the next dialogue
+#everything past pounds will be ignored, newline between dialogues
+1  
+spritename.png
+charactername #you can write a note for yourself
+"dialogue example that will be totally wrapped in quotes
+to support multiline things"
+2  #or for other people :)
+
+2  
+spritename.png
+charactername #you can write a note for yourself
+"options will be muitiple things wrapped in quotes"
+"each one can be whatever you want, but you should"
+"probably limit yourself to 3 just for confusions sake"
+3  #this will be where the first one goes
+7  #the second
+10 #and the third
+
