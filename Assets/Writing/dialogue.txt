@@ -1,17 +1,29 @@
+
 >> scenename
+>> background.png
+
+##############SCENE example#####################
+# summary:
+#
+#
+#
+#
+#
+
 0  #value of this dialogue 
 spritename.png
 charactername
 "dialogue example that will be totally wrapped in quotes
 to support multiline things"
 1  #value of the next dialogue
-#everything past pounds will be ignored, newline between dialogues
+   #everything past pounds will be ignored, newline between dialogues
+   
 1  
 spritename.png
-charactername #you can write a note for yourself
+charactername     #you can write a note for yourself
 "dialogue example that will be totally wrapped in quotes
 to support multiline things"
-2  #or for other people :)
+2     #or for other people :)
 
 2  
 spritename.png
@@ -22,4 +34,55 @@ charactername #you can write a note for yourself
 3  #this will be where the first one goes
 7  #the second
 10 #and the third
+
+>> scenetwo
+>> background.png
+
+##############SCENE test#####################
+# summary:
+#
+#
+#
+#
+#
+
+0
+spritename.png
+charactername
+"ahhh more examples make it go away"
+1
+   
+###########
+
+1
+spritename.png
+charactername
+"it wont stop"
+"words, these are words"
+2
+3
+
+###########
+
+2
+spritename.png
+charactername
+"yes"
+4
+
+############
+
+3
+spritename.png
+charactername
+"no"
+4
+
+############
+
+4
+spritename.png
+charactername
+"converged"
+5
 

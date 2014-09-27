@@ -19,11 +19,21 @@ while b != '':
 			b = b[:b.find('\n')]
 		b = b.strip().strip(' ')
 	
-	if ">>" in b:
-		a[b[3:]] = []
-		l = b[3:]
-		a["sceneOrder"].append(l)
-		
+	if b == '':
+		if "value" in cur and "sprite" in cur and "characterName" in cur and "text" in cur:
+			if "dialogue" not in a[l]:
+				a[l]["dialogue"] = []
+			a[l]["dialogue"].append(cur)
+			cur = {}
+	
+	elif ">>" in b:
+		if l not in a or "background" in a[l]:
+			a[b[3:]] = {}
+			l = b[3:]
+			a["sceneOrder"].append(l)
+		else:
+			a[l]["background"] = b[3:]
+	
 	elif "value" not in cur:
 		cur["value"] = int(b)
 	elif "sprite" not in cur:
@@ -54,14 +64,12 @@ while b != '':
 				q = ''
 		else:
 			q += b
-	elif b != '':
+	else:
 		i = 0
 		while "next" in cur["text"][i]:
 			i += 1
 		cur["text"][i]["next"] = int(b)
-	else:
-		a[l].append(cur)
-		cur = {}
-		
+	
 	b = dr.readline()
+	print b
 json.dump(a, rs)
