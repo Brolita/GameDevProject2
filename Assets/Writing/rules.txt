@@ -1,6 +1,6 @@
 dialogue rules:
 	saved a dialogue.txt
-	only one new line after each dialogue
+	only one new line after each dialogue, no spaces on that newline
 	don't comment in quotes
 	follow the ordering conversions
 	end with 2 newlines 
