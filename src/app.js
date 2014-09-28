@@ -9,7 +9,6 @@ function main ( data ) {
 	});
  
 	var Interative = cc.Layer.extend({
-		sprite:null,
 		ctor:function ( dialogueObject ) {
 			this._super();
 			var touchListener = cc.EventListener.create({
@@ -29,11 +28,11 @@ function main ( data ) {
 		
 	});
 	
-	var Background = cc.Layer.extend({
-		sprite:null,
+	var BackgroundLayer = cc.Layer.extend({
 		ctor:function ( backgroundSprite ) {
 			this._super();
-			this.sprite = backgroundSprite;
+			var background = cc.Sprite.create( backgroundSprite );
+			this.addChild( background );
 		}
 	});
 
