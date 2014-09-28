@@ -32,14 +32,14 @@ while b != '':
 			l = b[3:]
 			a["sceneOrder"].append(l)
 		else:
-			a[l]["background"] = b[3:]
+			a[l]["background"] =  "../assets/art/real/backgrounds/" + b[3:] + ".png";
 	
 	elif "value" not in cur:
 		cur["value"] = int(b)
-	elif "sprite" not in cur:
-		cur["sprite"] = b
 	elif "characterName" not in cur:
 		cur["characterName"] = b
+	elif "sprite" not in cur:
+		cur["sprite"] = "../assets/art/real/portraits/" + cur["characterName"] + '_' + b + ".png";
 	elif b.find('"') != -1 or read:
 		read = True
 		if b.find('"') != -1 and q != '':

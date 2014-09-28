@@ -11,6 +11,7 @@
     "modules" : ["cocos2d"],
 
     "jsList" : [
+		"src/jquery-2.1.1.min.js",
         "src/resource.js",
         "src/app.js"
     ]

@@ -1,6 +1,6 @@
 
 >> scenename
->> background.png
+>> background
 
 ##############SCENE example#####################
 # summary:
@@ -11,23 +11,23 @@
 #
 
 0  #value of this dialogue 
-spritename.png
-charactername
+charactername 
+spritename
 "dialogue example that will be totally wrapped in quotes
 to support multiline things"
 1  #value of the next dialogue
    #everything past pounds will be ignored, newline between dialogues
    
 1  
-spritename.png
-charactername     #you can write a note for yourself
+charactername 
+spritename     #you can write a note for yourself
 "dialogue example that will be totally wrapped in quotes
 to support multiline things"
 2     #or for other people :)
 
 2  
-spritename.png
-charactername #you can write a note for yourself
+charactername 
+spritename #you can write a note for yourself
 "options will be muitiple things wrapped in quotes"
 "each one can be whatever you want, but you should"
 "probably limit yourself to 3 just for confusions sake"
@@ -36,7 +36,7 @@ charactername #you can write a note for yourself
 10 #and the third
 
 >> scenetwo
->> background.png
+>> background
 
 ##############SCENE test#####################
 # summary:
@@ -47,16 +47,16 @@ charactername #you can write a note for yourself
 #
 
 0
-spritename.png
-charactername
+charactername 
+spritename
 "ahhh more examples make it go away"
 1
    
 ###########
 
 1
-spritename.png
-charactername
+charactername 
+spritename
 "it wont stop"
 "words, these are words"
 2
@@ -65,24 +65,24 @@ charactername
 ###########
 
 2
-spritename.png
-charactername
+charactername 
+spritename
 "yes"
 4
 
 ############
 
 3
-spritename.png
-charactername
+charactername 
+spritename
 "no"
 4
 
 ############
 
 4
-spritename.png
-charactername
+charactername 
+spritename
 "converged"
 5
 
