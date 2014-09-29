@@ -46,14 +46,35 @@
  }
  *
  */
+ 
+var res = [];
+var master = {"day": [{"scene2": {"dialogue": [{"text": [{"value": "scene 3", "next": "scene3"}, {"value": "end the day", "next": "game"}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}], "background": "../assets/art/real/backgrounds/background.png"}, "scene1": {"dialogue": [{"text": [{"value": "ahhh an examples make it go away", "next": 1}], "sprite": "../assets/art/real/portraits/Emily_normal.png", "charaterName": "Emily"}, {"text": [{"action": {"target": "Emily", "value": 1}, "value": "say yes", "next": 2}, {"action": {"target": "Emily", "value": 0}, "value": "say no", "next": 3}], "sprite": "../assets/art/real/portraits/you_happy.png", "charaterName": "you"}, {"text": [{"value": "yes", "next": 4}], "sprite": "../assets/art/real/portraits/Emily_happy.png", "charaterName": "Emily"}, {"text": [{"value": "no", "next": 4}], "sprite": "../assets/art/real/portraits/Emily_sad.png", "charaterName": "Emily"}, {"text": [{"value": "converged", "next": 5}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}, {"text": [{"case": {"target": "Emily", "value": 0, "cmp": "<"}, "value": "said yes", "next": 6}, {"case": {"target": "Emily", "value": 0, "cmp": "="}, "value": "said no", "next": 6}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}, {"text": [{"value": "end scene", "next": "scene2"}], "sprite": "../assets/art/real/portraits/Emily_normal.png", "charaterName": "Emily"}], "background": "../assets/art/real/backgrounds/background.png"}}, {"scene3": {"dialogue": [{"text": [{"value": "game time", "next": "game"}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}], "background": "../assets/art/real/backgrounds/background.png"}}], "Preston": 0, "Mara": 0, "Clark": 0, "Jackie": 0};
 
+(function loadManager () {
+	for (i in master.day) {
+		for (key in master.day[i]) {
+			if (!master.day[i][key].background in res) {
+				res.push(master.day[i][key].background);
+			}
+			for (j in master.day[i][key].dialogue) {
+				if (!master.day[i][key].dialogue[j].sprite in res) {
+					//res.push(master.day[i][key].dialogue[j].sprite);
+				}
+			}
+		}
+	}
+	for (var i = 0; i < 9; i++) {
+		res.push("../assets/art/real/sprites/click_" + i + ".png");
+	}
+	cc.game.run()
+})();
+ 
 cc.game.onStart = function(){
     cc.view.adjustViewPort(true);
-    cc.view.setDesignResolutionSize(800, 450, cc.ResolutionPolicy.SHOW_ALL);
+    cc.view.setDesignResolutionSize(1280, 720, cc.ResolutionPolicy.SHOW_ALL);
     cc.view.resizeWithBrowserSize(true);
     //load resources
-    cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(new HelloWorldScene());
+    cc.LoaderScene.preload(res, function () {
+        cc.director.runScene(new Scene());
     }, this);
 };
-cc.game.run();

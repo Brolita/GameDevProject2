@@ -3,3 +3,40 @@ dialogue rules:
 	don't comment in quotes
 	follow the ordering conversions
 	at least one new line inbetween dialogues
+	don't name scenes with character's names 
+	
+How to:
+
+Start a day with 									<< 
+Then start a scene with the command					>> [scene name]
+Immediately after that, on the next line put 		>> [background]
+Start a dialogue by entering a number				0
+Give a character name (only valid names are ok)		Emily
+Give a sprite (will be loaded as Emily_sad.png)		sad
+Here you may give a case							[case: Emily < 3]
+Give a quote, it can be multiple lines				"you said something that made me sad...
+but it will be displayed all at once				... so now I am sad"
+Here you may give an action as a result of this		[Emily + 0]
+Finally a destination to go to next					1
+You can give another dialogue as well				[case: Emily > 2]
+Each can have its own case, but make sure 			"Hey, that was kinda mean..."
+theres a case for all possibilities					[Emily + 0]
+Note the destination can be a scene					[other scene name]
+end dialogues with at least one newline
+to start the next scene, just redo the command		>> [other scene name]
+but make sure to keep following the rules			>> [background]
+I'd recommend using comments with #					0 # comments can go pretty much anywhere
+You can use CRTL+F to find comments					Emily
+Which will be helpful when something breaks			happy
+By the way, don't comment on lines with quotes		"Don't comment after me" [#DONT DO THIS]
+You also don't need to but cases and actions		game
+go to the game by making the desintation game
+
+notes:
+ >> cases should be used for subtle differences, because they still use 
+	the same sprite and come from the same dialogue, but can be used to 
+	branch off if the player has a high enough score to do something
+ >> actions can be + any number, but the cannot subtract (you could probably 
+	get away will [Emily + -1] but I'm not %100 sure about that)
+ >> the code can throw some errors at you if you do something wrong
+	but don't rely on it too much, it really only catches small things

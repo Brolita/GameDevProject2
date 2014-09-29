@@ -1,75 +1,160 @@
 import json 
+import sys
 
 #convery.py
-dr = open("dialogue.txt", "r")
-rs = open("dialogue.json", "w")
+read = open("dialogue.txt", "r")
+write = open("dialogue.json", "w")
 a = {}
-a["sceneOrder"] = []
-cur = {}
-q = ''
-read = False
-l = ''
+a["Mara"] = 0
+a["Clark"] = 0
+a["Jackie"] = 0
+a["Preston"] = 0
+a["day"] = []
+currentDay = {}
+sceneName = ''
+currentScene = {}
+dialogueNumber = None
+currentDialogue = {}
+currentText = {}
+quote = ''
+reading = False
 
-b = dr.readline()
-while b != '':	
-	if b.find('"') == -1:
-		if b.find('#') != -1:
-			b = b[:b.find('#')]
+line = read.readline()
+i = 0;
+while line != '':	
+	i+= 1
+	
+	if '"' not in line or reading:
+		if '#' in line:
+			line = line[:line.find('#')]
+		line = line.strip().replace(' ', '')
+
+	if line is '':
+		if currentDialogue:
+			currentScene["dialogue"].append(currentDialogue)
+			currentDialogue = {}
+	elif '<<' in line:    # new day 
+		if currentDay:
+			a["day"].append(currentDay)
+		currentDay = {}
+	
+	elif '>>' in line:    # new scene
+		if currentScene:
+			currentDay[sceneName] = currentScene
+		sceneName = line[2:]
+		currentScene = {}
+		currentScene["dialogue"] = []
+		line = read.readline().strip().replace(' ', '')
+		currentScene["background"] = "../assets/art/real/backgrounds/" + line[2:] + ".png"
+	
+	elif not currentDialogue and line != '':  # new dialogue
+		try:
+			int(line)
+		except ValueError:
+			print "Error: Line " + i + ": Expected dialogue number, read " + line
+			sys.exit(0)
+		dialogueNumber = int(line)
+		currentDialogue["text"] = []
+	elif "charaterName" not in currentDialogue:  # get charaterName
+		currentDialogue["charaterName"] = line
+	elif "sprite" not in currentDialogue: # get sprite
+		currentDialogue["sprite"] = "../assets/art/real/portraits/" + currentDialogue["charaterName"] + '_' + line + ".png"
+	
+	else:  #new text
+		if '"' in line:
+			if line.count('"') == 2:
+				currentText["value"] = line.strip().strip('"')
+			elif not reading:
+				reading = True
+				quote = line[line.find('"'):]
+			else:
+				reading = False
+				quote += line[:line.find('"')]
+				currentText["value"] = quote
+				quote = ""
+		elif reading:
+			quote += line
+		
+		elif "case:" in line:
+			currentText["case"] = {}
+			if "Mara" in line:
+				currentText["case"]["target"] = "Mara"
+			elif "Clark" in line:
+				currentText["case"]["target"] = "Clark"
+			elif "Jackie" in line:
+				currentText["case"]["target"] = "Jackie"
+			elif "Preston" in line:
+				currentText["case"]["target"] = "Preston"
+			elif "Emily" in line:
+				currentText["case"]["target"] = "Emily"
+			else:
+				print "Error: Line " + str(i) + ": Epected name in case, read " + line
+				sys.exit(0)
+			if '>' in line:
+				currentText["case"]["cmp"] = "<"
+				try:
+					int(line[line.find('<'):])
+				except ValueError:
+					print "Error: Line " + str(i) + ": Epected value to compare to in case, read " + line
+					sys.exit(0)
+				currentText["case"]["value"] = int(line[line.find('<'):])
+			elif '<' in line:
+				currentText["case"]["cmp"] = ">"
+				try:
+					int(line[line.find('>')+1:])
+				except ValueError:
+					print "Error: Line " + str(i) + ": Epected value to compare to in case, read " + line
+					sys.exit(0)
+				currentText["case"]["value"] = int(line[line.find('>')+1:])
+			elif '=' in line:
+				currentText["case"]["cmp"] = "="
+				try:
+					int(line[line.find('=')+1:])
+				except ValueError:
+					print "Error: Line " + str(i) + ": Epected value to compare to in case, read " + line
+					sys.exit(0)
+				currentText["case"]["value"] = int(line[line.find('=')+1:])
+			else:
+				print "Error: Line " + str(i) + ": Expected comparator in case, read " + line
+				sys.exit(0)
+			
+		elif "Mara" in line or "Clark" in line or "Jackie" in line or "Preston" in line or "Emily" in line:
+			currentText["action"] = {}
+			if "Mara" in line:
+				currentText["action"]["target"] = "Mara"
+			elif "Clark" in line:
+				currentText["action"]["target"] = "Clark"
+			elif "Jackie" in line:
+				currentText["action"]["target"] = "Jackie"
+			elif "Preston" in line:
+				currentText["action"]["target"] = "Preston"
+			elif "Emily" in line:
+				currentText["action"]["target"] = "Emily"
+			if '+' not in line:
+				print "Error: Line " + str(i) + ": Epected + in action, read " + line
+				sys.exit(0)
+			else:
+				try:
+					int(line[line.find('+')+1:])
+				except ValueError:
+					print "Error: Line " + i + ": Epected number after +, read " + line
+					sys.exit(0)
+				currentText["action"]["value"] = int(line[line.find('+')+1:])
+		
 		else:
-			b = b[:b.find('\n')]
-		b = b.strip().strip(' ')
+			try:
+				currentText["next"] = int(line)
+			except ValueError:
+				currentText["next"] = line
+			currentDialogue["text"].append(currentText)
+			currentText = {}
+			
+	line = read.readline()
+			
+if currentScene:
+	currentDay[sceneName] = currentScene
 	
-	if b == '':
-		if "value" in cur and "sprite" in cur and "characterName" in cur and "text" in cur:
-			if "dialogue" not in a[l]:
-				a[l]["dialogue"] = []
-			a[l]["dialogue"].append(cur)
-			cur = {}
+if currentDay:
+	a["day"].append(currentDay)
 	
-	elif ">>" in b:
-		if l not in a or "background" in a[l]:
-			a[b[3:]] = {}
-			l = b[3:]
-			a["sceneOrder"].append(l)
-		else:
-			a[l]["background"] =  "../assets/art/real/backgrounds/" + b[3:] + ".png";
-	
-	elif "value" not in cur:
-		cur["value"] = int(b)
-	elif "characterName" not in cur:
-		cur["characterName"] = b
-	elif "sprite" not in cur:
-		cur["sprite"] = "../assets/art/real/portraits/" + cur["characterName"] + '_' + b + ".png";
-	elif b.find('"') != -1 or read:
-		read = True
-		if b.find('"') != -1 and q != '':
-			q += b[:b.find('"')].replace('\n','')
-			if "text" not in cur:
-				cur["text"] = []
-			obj = {}
-			obj["value"] = q
-			cur["text"].append(obj)
-			read = False
-			q = ''
-		elif b.find('"') != -1:
-			q += b[b.find('"') + 1:]
-			if b.count('"') == 2:
-				q = b[b.find('"') + 1:].replace('"\n','')
-				if "text" not in cur:
-					cur["text"] = []
-				obj = {}
-				obj["value"] = q
-				cur["text"].append(obj)
-				read = False
-				q = ''
-		else:
-			q += b
-	else:
-		i = 0
-		while "next" in cur["text"][i]:
-			i += 1
-		cur["text"][i]["next"] = int(b)
-	
-	b = dr.readline()
-	print b
-json.dump(a, rs)
+json.dump(a, write)

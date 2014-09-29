@@ -1,3 +1,5 @@
+<< #Day 1
+
 >> scene1
 >> background
 
@@ -12,18 +14,18 @@
 0
 Emily 
 normal
-"ahhh more examples make it go away"
+"ahhh an examples make it go away"
 1
    
 ###########
 
 1
 you
-happy
-"it wont stop"
+normal
+"say yes"
 Emily + 1
 2
-"words, these are words"
+"say no"
 Emily + 0
 3
 
@@ -69,7 +71,7 @@ case: Emily = 0
 Emily
 normal
 "end scene"
-scenethree
+scene2
 
 ################################
 
@@ -80,15 +82,20 @@ scenethree
 you
 normal
 "scene 3"
-Emily + 0
 scene3
-"scene 4"
-Emily + 0
-scene4
+"end the day"
+game
+
+################################
 
 >> scene3
 >> background
 
->> scene4
->> background
+0
+you
+normal
+"game time"
+game
+
+<< #Day 2
 
