@@ -1,41 +1,4 @@
-
->> scenename
->> background
-
-##############SCENE example#####################
-# summary:
-#
-#
-#
-#
-#
-
-0  #value of this dialogue 
-charactername 
-spritename
-"dialogue example that will be totally wrapped in quotes
-to support multiline things"
-1  #value of the next dialogue
-   #everything past pounds will be ignored, newline between dialogues
-   
-1  
-charactername 
-spritename     #you can write a note for yourself
-"dialogue example that will be totally wrapped in quotes
-to support multiline things"
-2     #or for other people :)
-
-2  
-charactername 
-spritename #you can write a note for yourself
-"options will be muitiple things wrapped in quotes"
-"each one can be whatever you want, but you should"
-"probably limit yourself to 3 just for confusions sake"
-3  #this will be where the first one goes
-7  #the second
-10 #and the third
-
->> scenetwo
+>> scene1
 >> background
 
 ##############SCENE test#####################
@@ -47,42 +10,85 @@ spritename #you can write a note for yourself
 #
 
 0
-charactername 
-spritename
+Emily 
+normal
 "ahhh more examples make it go away"
 1
    
 ###########
 
 1
-charactername 
-spritename
+you
+happy
 "it wont stop"
-"words, these are words"
+Emily + 1
 2
+"words, these are words"
+Emily + 0
 3
 
 ###########
 
 2
-charactername 
-spritename
+Emily
+happy
 "yes"
 4
 
 ############
 
 3
-charactername 
-spritename
+Emily
+sad
 "no"
 4
 
 ############
 
 4
-charactername 
-spritename
+you
+normal
 "converged"
 5
+
+#############
+
+5
+you
+normal
+case: Emily > 0
+"said yes"
+6
+case: Emily = 0
+"said no"
+6
+
+##############
+
+6
+Emily
+normal
+"end scene"
+scenethree
+
+################################
+
+>> scene2
+>> background
+
+0
+you
+normal
+"scene 3"
+Emily + 0
+scene3
+"scene 4"
+Emily + 0
+scene4
+
+>> scene3
+>> background
+
+>> scene4
+>> background
 
