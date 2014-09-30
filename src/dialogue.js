@@ -3,8 +3,6 @@
  * for the fantasy 
  *
  */
-console.log("Hello world");
-
 var Interactive = cc.Layer.extend({
 	ctor:function ( dialogueObject ) {
 		this._super();
