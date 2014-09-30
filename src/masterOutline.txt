@@ -1,0 +1,35 @@
+master => m
+m.day
+m.Preston
+m.Mara
+m.Clark
+m.Jackie
+m.currentDay
+
+master.day[index] => d
+d[sceneName]
+d.firstScene
+
+master.day[index][sceneName] => s
+s.background
+s.dialogue
+s.characters
+s.dialogue
+
+master.day[index][sceneName].characters[index] => c
+c.charaterName
+c.sprite
+
+master.day[index][sceneName].dialogue[index] => q
+q.text
+q.sprite
+q.charaterName
+
+master.day[index][sceneName].dialogue[index].text[index] => t
+t.value
+t.next
+t.action.target
+t.action.value
+t.case.target
+t.case.value
+t.case.cmp

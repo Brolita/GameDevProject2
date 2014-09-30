@@ -8,8 +8,13 @@ dialogue rules:
 How to:
 
 Start a day with 									<< 
+Then give the scene name that will start the day	<< [scene name]
 Then start a scene with the command					>> [scene name]
 Immediately after that, on the next line put 		>> [background]
+Then give the characters that start that day		>> Emily
+and the sprite to start them with as well			>> sad
+If a character is not in the initial scene			>> you
+There entrance will be handled, so don't worry		>> normal
 Start a dialogue by entering a number				0
 Give a character name (only valid names are ok)		Emily
 Give a sprite (will be loaded as Emily_sad.png)		sad

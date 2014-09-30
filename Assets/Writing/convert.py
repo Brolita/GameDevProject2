@@ -5,10 +5,6 @@ import sys
 read = open("dialogue.txt", "r")
 write = open("dialogue.json", "w")
 a = {}
-a["Mara"] = 0
-a["Clark"] = 0
-a["Jackie"] = 0
-a["Preston"] = 0
 a["day"] = []
 currentDay = {}
 sceneName = ''
@@ -16,18 +12,23 @@ currentScene = {}
 dialogueNumber = None
 currentDialogue = {}
 currentText = {}
+currentCharacter = {}
 quote = ''
 reading = False
 
 line = read.readline()
 i = 0;
+def clean(li):
+	l = li[:]
+	if '"' not in l or reading:
+		if '#' in l:
+			l = l[:l.find('#')]
+		l = l.strip().replace(' ', '')
+	return l
+
 while line != '':	
 	i+= 1
-	
-	if '"' not in line or reading:
-		if '#' in line:
-			line = line[:line.find('#')]
-		line = line.strip().replace(' ', '')
+	line = clean(line)
 
 	if line is '':
 		if currentDialogue:
@@ -37,6 +38,9 @@ while line != '':
 		if currentDay:
 			a["day"].append(currentDay)
 		currentDay = {}
+		line = read.readline()
+		line = clean(line)
+		currentDay["firstScene"] = line[2:]
 	
 	elif '>>' in line:    # new scene
 		if currentScene:
@@ -44,8 +48,21 @@ while line != '':
 		sceneName = line[2:]
 		currentScene = {}
 		currentScene["dialogue"] = []
-		line = read.readline().strip().replace(' ', '')
+		line = read.readline()
+		line = clean(line)
 		currentScene["background"] = "../assets/art/real/backgrounds/" + line[2:] + ".png"
+		line = read.readline()
+		line = clean(line)
+		currentScene["characters"] = []
+		while '>>' in line:
+			if currentCharacter:
+				currentCharacter["sprite"] = "../assets/art/real/portraits/" + currentCharacter["charaterName"] + '_' + line[2:] + ".png"
+				currentScene["characters"].append(currentCharacter)
+				currentCharacter = {}
+			else:
+				currentCharacter["charaterName"] = line[2:]
+			line = read.readline()
+			line = clean(line)
 	
 	elif not currentDialogue and line != '':  # new dialogue
 		try:

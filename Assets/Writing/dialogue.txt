@@ -1,7 +1,12 @@
 << #Day 1
+<< scene1 #first scene
 
 >> scene1
 >> background
+>> Emily  #initial characters
+>> normal
+>> you
+>> normal
 
 ##############SCENE test#####################
 # summary:
@@ -14,7 +19,7 @@
 0
 Emily 
 normal
-"ahhh an examples make it go away"
+"ahhh an example make it go away"
 1
    
 ###########
@@ -77,6 +82,8 @@ scene2
 
 >> scene2
 >> background
+>> you
+>> normal
 
 0
 you
@@ -90,6 +97,8 @@ game
 
 >> scene3
 >> background
+>> you
+>> normal
 
 0
 you
