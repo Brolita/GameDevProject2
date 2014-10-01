@@ -248,7 +248,7 @@ on
 28
 Ken
 sad
-"Please, man.  I'm begging you!  Everyone else cancelled, and I can't storm Blackthorn Castle and slay the Ancient Monster alone!"
+"Please, man.  I'm begging you!  Everyone else cancelled, and I can't storm the Pit of Despairing Souls and slay Malleus, the Demon King alone!"
 29
 
 ##############################################
@@ -682,3 +682,337 @@ Anyways, just follow me.  We want to go over this bridge and then take a left he
 11
 Mara
 default
+"I am attending a study session for chemistry; it has been giving me some trouble as of late."
+12
+
+################################################
+
+12
+Ken
+default
+"If it's for chemistry and during Wednesday mornings...that means you have O'Donaughan, right?  Ah, it's a right down this path."
+13
+
+################################################
+
+13
+Mara
+default
+"You are correct; I also attend his Friday evening sessions."
+14
+
+################################################
+
+14
+Ken
+default
+"(Poor Mara.  Who puts sessions on Wednesday mornings and Friday evenings anyway?
+
+Wait...Friday evenings?  Maybe, just maybe...!)"
+15
+
+################################################
+
+15
+Ken
+default
+"Wow, I can't believe you have to blow your Fridays studying like that.  You should really have more fun."
+Mara + 0
+16
+"It really sucks that you have to study on Friday.  I took O'Donoughan's class last year, so how about I help you out on Thursdays?"
+Mara + 1
+21
+
+################################################
+
+16
+Mara
+angry
+"I am not wasting my Fridays as you so ineloquently stated.  Academia is a valuable pursuit, and one that someone as irresponsible as you should pay more attention to."
+17
+
+################################################
+
+17
+Ken
+sad
+"Err...I might've put that badly , but I still think that-"
+18
+
+################################################
+
+18
+Mara
+angry
+"And furthermore, I enjoy studying and Professor O'Donoughan's sessions!  It is immensely rewarding to solve a problem after struggling with it!
+
+Now if you excuse me, I have a session to attend.  This is Redwood Laboratory, is it not?"
+19
+
+################################################
+
+19
+Ken
+sad
+"Yes, it is.  Have a nice day."
+20
+
+################################################
+
+20
+Ken
+angry
+"(Okay, Ken's foot and Ken's mouth, have you stopped having your orgy yet?  You have?  Oh, how excellent.  In that case: Ken's face, meet Ken's fist.)
+
+OWWWWWWW!  That really hurt...man, I guess I'll get lunch."
+Lunchtime_with_Little_Sister
+
+################################################
+
+21
+Mara
+default
+"I do not dislike studying on Fridays, though I do admit that I would like to join my friends on their outings on occasion."
+22
+
+################################################
+
+22
+Ken
+embarrassed
+"Well in that case, how about I help you!  I aced his class last semester, so I've got everything he teaches downpat.  I've got Thursday off, so I can help you any time then."
+23
+
+################################################
+
+23
+Mara
+confused
+"That is very kind of you.  But what makes your aid more worthwhile than the professor's?"
+24
+
+################################################
+
+24
+Ken
+default
+"I've got better handwriting, for one.  And you'll get all your questions answered as well.  He has a pretty big class, so a lot of times only the loud people get what they need."
+25
+
+################################################
+
+25
+Mara
+happy
+"I cannot deny his poor handwriting, and I do have troubles being heard sometimes...while I still plan to attend on Fridays, I will accept your offer of aid.  Is 5:30 p.m. in the Library an acceptable time and place?"
+26
+
+################################################
+
+26
+Ken
+happy
+"Of course!  I'll see you then, Mara!"
+27
+
+################################################
+
+27
+Mara
+happy
+"Very well then.  I must leave, but thank you for leading me here, Ken."
+28
+
+################################################
+
+28
+Ken
+happy
+"YES! (Ah crap, people are staring at me!  Tone it down, tone it down...but still!  I've got a good way to talk to Mara and get to know her now!  And if I can convince her to free up her Fridays, then...
+
+Okay, take it easy, Ken.  Let's have some lunch.)"
+Lunchtime_with_Little_Sister
+
+################################################
+
+>> Chasing_after_Clark
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Clark
+>> default
+>> Ken
+>> default
+
+################################################
+
+0
+Ken
+default
+"Hey!  Clark, wait up!"
+1 
+
+################################################
+
+1 
+Clark
+default
+"Huh?  Oh hey, sorry about knocking you over, but I'm really in a hurry, so if it's not important, can I go now?"
+2 
+
+################################################
+
+2 
+Ken
+default
+"You dropped your headphones.  Here you go."
+3 
+
+################################################
+
+3 
+Clark
+happy
+"Thanks, dude.  You do not even know how much these things cost me...wait.  Where's the other half?"
+4 
+
+################################################
+
+4 
+Ken
+confused
+"Other...half...?
+
+(Dammit, this isn't going to be good.)"
+5
+
+################################################
+
+5
+Clark
+angry
+"Yeah, the other half.  This is supposed to be a pair of headphones, not a headphone, some wires and broken plastic!"
+6
+
+################################################
+
+6
+Ken
+default
+"Maybe it came off when you crashed into me?  It could still be in that bush."
+7 
+
+################################################
+
+7 
+Clark
+angry
+"Even if it is, that won't fix my headphones!"
+8
+
+################################################
+
+8
+Clark
+sad
+"Ugh, what a way to start a day.  Thanks for telling me about my headphones though, even if they're broken."
+9
+
+################################################
+
+9
+Ken
+default
+"Yeah, no problem.  For what it's worth, have a nice day."
+10
+
+################################################
+
+10
+Clark
+default
+"Thanks.  Umm...you and that other kid...what were you two talking about?"
+11
+
+################################################
+
+11
+Ken
+confused
+"Huh?  
+
+(That's weird, why is Clark interested?  Does he like MythQuest or something?  I doubt it; I mean, he certainly doesn't look the type.  But then again...)"
+
+################################################
+
+11
+Ken
+default
+"We were talking about a game we both play, called MythQuest."
+Clark + 1
+12
+"We were preparing to storm the Pit of Despairing Souls and slay Malleus, the Demon Lord!"
+Clark + 0
+16
+
+################################################
+
+12
+Clark
+default
+"MythQuest, huh?  That's one of those role-playing games, isn't it?  It doesn't really seem like my style."
+13
+
+################################################
+
+13
+Ken
+default
+"Yeah, it's a table-top RPG.  It's pretty fun, though it takes a few people to really show its true potential."
+14
+
+################################################
+
+14
+Clark
+"Huh, okay.  Ahh, dammit!  I'm super-late; the professor's gonna kill me!  
+
+It was nice talking with you, but I've really gotta go.  Bye!"
+15
+
+################################################
+
+15
+Ken
+default
+"(He left before I could even say goodbye...Clark seems like a decent guy, though.
+
+Wow, I'm pretty hungry.  I should go to lunch.)"
+Lunchtime_with_Little_Sister
+
+################################################
+
+16
+Clark
+default
+"The Pit of What-now?  That sounds...fascinating...
+
+Look, I've got to go; I'm incredibly late for class.  Bye now!"
+17
+
+################################################
+
+17
+Ken
+sad
+"(Ah crap, I think I scared him off.  Well, I may as well go to lunch.)"
+Lunchtime_with_Little_Sister
+
+################################################
+
+>> Lunchtime_with_Little_Sister
+>> Dining_hall #A dining hall filled with tables with nondescript people sitting at them and eating
+>> Jackie
+>> default
+>> Ken
+>> default
+
+################################################
