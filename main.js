@@ -50,7 +50,8 @@
 document.getElementsByTagName("body")[0].style.cursor = "none";
  
 var res = [
-	"../assets/art/real/sprites/dialogue_box.png"
+	"Assets/art/real/sprites/dialogue_box.png",
+	"Assets/art/fantasy/Sketches/IMAG0786_1.jpg"
 ];
 
 var master = {"day": [{"firstScene": "scene1", "scene2": {"dialogue": [{"text": [{"value": "scene 3", "next": "scene3"}, {"value": "end the day", "next": "game"}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}], "characters": [{"sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}], "background": "../assets/art/real/backgrounds/background.png"}, "scene1": {"dialogue": [{"text": [{"value": "ahhh an example make it \ngo away", "next": 1}], "sprite": "../assets/art/real/portraits/Emily_normal.png", "charaterName": "Emily"}, {"text": [{"action": {"target": "Emily", "value": 1}, "value": "say yes", "next": 3}, {"action": {"target": "Emily", "value": 0}, "value": "say no", "next": 4}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}, {"text": [{"value": "yes", "next": 5}], "sprite": "../assets/art/real/portraits/Emily_happy.png", "charaterName": "Emily"}, {"text": [{"value": "no", "next": 5}], "sprite": "../assets/art/real/portraits/Emily_sad.png", "charaterName": "Emily"}, {"text": [{"value": "converged", "next": 6}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}, {"text": [{"case": {"target": "Emily", "value": 0, "cmp": "<"}, "value": "said yes", "next": 7}, {"case": {"target": "Emily", "value": 0, "cmp": "="}, "value": "said no", "next": 7}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}, {"text": [{"value": "end scene", "next": "scene2"}], "sprite": "../assets/art/real/portraits/Emily_normal.png", "charaterName": "Emily"}], "characters": [{"sprite": "../assets/art/real/portraits/Emily_normal.png", "charaterName": "Emily"}, {"sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}], "background": "../assets/art/real/backgrounds/background.png"}}, {"firstScene": "", "scene3": {"dialogue": [{"text": [{"value": "game time", "next": "game"}], "sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}], "characters": [{"sprite": "../assets/art/real/portraits/you_normal.png", "charaterName": "you"}], "background": "../assets/art/real/backgrounds/background.png"}}]};
@@ -86,6 +87,6 @@ cc.game.onStart = function(){
     cc.view.resizeWithBrowserSize(true);
     //load resources
     cc.LoaderScene.preload(res, function () {
-        cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
+        cc.director.runScene(new game());//cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
     }, this);
 };
