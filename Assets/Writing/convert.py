@@ -20,7 +20,7 @@ line = read.readline()
 i = 0;
 def clean(li):
 	l = li[:]
-	if '"' not in l or reading:
+	if '"' not in l and not reading:
 		if '#' in l:
 			l = l[:l.find('#')]
 		l = l.strip().replace(' ', '')
@@ -83,7 +83,7 @@ while line != '':
 				currentText["value"] = line.strip().strip('"')
 			elif not reading:
 				reading = True
-				quote = line[line.find('"'):]
+				quote = line[line.find('"') + 1:]
 			else:
 				reading = False
 				quote += line[:line.find('"')]

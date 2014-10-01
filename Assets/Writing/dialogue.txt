@@ -24,55 +24,55 @@ normal
    
 ###########
 
-1
+2
 you
 normal
 "say yes"
 Emily + 1
-2
+3
 "say no"
 Emily + 0
-3
+4
 
 ###########
 
-2
+3
 Emily
 happy
 "yes"
-4
+5
 
 ############
 
-3
+4
 Emily
 sad
 "no"
-4
+5
 
 ############
 
-4
+5
 you
 normal
 "converged"
-5
+6
 
 #############
 
-5
+6
 you
 normal
 case: Emily > 0
 "said yes"
-6
+7
 case: Emily = 0
 "said no"
-6
+7
 
 ##############
 
-6
+7
 Emily
 normal
 "end scene"

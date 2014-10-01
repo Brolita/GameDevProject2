@@ -3,6 +3,7 @@
  * for the fantasy
  *
  */
+ 
 var Interactive = cc.Layer.extend({
 	sceneInfo: null,
 	diaNumber: 0,
@@ -29,13 +30,14 @@ var Interactive = cc.Layer.extend({
 		//this.diaText.lineWidth = 960;
 		this.diaText.x = cc.director.getWinSize().width/2;
 		this.diaText.y = cc.director.getWinSize().height/4 + 110;
+	
 		
 		this.parseDialogue();
 		
 		this.addChild(this.diaText);
 
 		// touch bubble
-
+		
 		var touchBubble = cc.Sprite.create("../assets/art/real/sprites/click_0.png" );
 		
 		var touchBubbleAnim = cc.Animation.create();
@@ -76,7 +78,16 @@ var Interactive = cc.Layer.extend({
 
 	}, 
 	click: function() {
-		//console.log(this.dialogue)
+		if(this.texNumber != -1) {
+			this.diaNumber = this.sceneInfo.dialogue[this.diaNumber].text[this.texNumber].next;
+			if(this.diaNumber == "game") {
+				// change to game scene
+			} else if(typeof this.diaNumber === 'string' ) {
+				this.parent.changeScene(this.diaNumber);
+			} else {
+				this.parseDialogue();
+			}
+		}
 	}, 
 	parseDialogue: function() {
 		var text = this.sceneInfo.dialogue[this.diaNumber].text;
@@ -114,36 +125,59 @@ var Interactive = cc.Layer.extend({
 		// here there must be a choice because there were multiple texts that are possible
 		
 		else {
-		
+			this.texNumber = -1;
 		}
 	}
-
 });
 
 var BackgroundLayer = cc.Layer.extend({
-	ctor:function ( backgroundSprite ) {
+	ctor:function ( backgroundSprite, sceneName ) {
 		this._super();
+		
+		// background
+		
 		var background = cc.Sprite.create( backgroundSprite );
 		background.x = cc.director.getWinSize().width/2;
 		background.y = cc.director.getWinSize().height/2;
+		background.opacity = 0;
 		this.addChild( background );
+		var action = cc.fadeIn(1.0)
+		background.runAction( action );
+		
+		// scene into
+		
+		//var sc
 	}
 });
 
-var Scene = cc.Scene.extend({
+var Dialogue = cc.Scene.extend({
 	characterCount: 0,
 	sceneName: null,
 	ctor: function( sceneName ) {
 		this._super();
 		this.sceneName = sceneName;
-	}, onEnter:function () {
-		s = master.day[master.currentDay][this.sceneName]
+	}, 
+	onEnter:function () {
 		this._super();
-		var background = new BackgroundLayer(s.background);
+		
+		s = master.day[master.currentDay][this.sceneName]
+		
+		var background = new BackgroundLayer(s.background, this.sceneName);
 		this.addChild(background);
+		
 		var interactive = new Interactive(s);
 		this.addChild(interactive);
-	}, nextScene: function(sceneName) {
-
+	}, 
+	changeScene: function ( sceneName ) {
+		var oldScene = this;
+		var action = cc.FadeOut.create(3.0); //create a 3 second fade out
+		var clean = cc.Action.extend({ // this will actually change the scene
+			update: function() {
+				cc.director.runScene(new Scene(sceneName));
+				oldScene.cleanup();
+				this.stop();
+			}
+		});
+		this.runAction( cc.Sequence.create( action, new clean() ) );
 	}
 });
