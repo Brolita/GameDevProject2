@@ -1,0 +1,320 @@
+<< #Day 0 + 1
+<< [Catastrophe] #Ken calls friends to no avail, DM gives 2 day ultimatum
+>> [Catastrophe]
+>> [Ken_Room.png] #A simple background of a room
+>> Cellphone
+>> Cellphone_on.png
+>> Ken
+>> Ken_sad.png
+>> Ken_angry.png
+>> Ken_confused.png
+>> Ken_default.png
+
+#############################################
+
+0
+Ken
+confused
+"Huh?  What do you mean you can't make it?"
+1
+
+#############################################
+
+1
+Cellphone
+on
+"I told you, I'm busy.  Besides, it's just a round of MythQuest.  It's not that important."
+2
+
+#############################################
+
+2
+Ken
+angry
+"Not that important!?  That's not how you were acting at the start of the campa-
+
+Hey, did you hang up on me?  Hey!"
+3
+
+#############################################
+
+3
+Ken
+sad
+"Let's try the next one.  Hey, it's me.  You ready for the big battle for our campaign this Friday?"
+4
+
+#############################################
+
+4
+Cellphone
+on
+"I was actually thinking of sitting this whole thing out.  It hasn't been much fun since you started complaining about us RPing and trying to make yourself the main character."
+5
+
+#############################################
+
+5
+Ken
+confused
+"Huh?  What are you talking about?  Everyone's been having plenty of fun.  Remember that time we raided that necromancer's castle and saved that princess?"
+6
+
+#############################################
+
+6
+Cellphone
+on
+"You mean the time you nearly got us all killed attacking everything in sight and then nearly got us all killed after you kissed the princess and started a civil war?  Or the time where you started playing MOBAs while fake-yawning while we were trying to help stabilize the government of Yberia?"
+7
+
+#############################################
+
+7
+Ken
+sad
+"Okay, I goofed up a few times, I'll admit.  But haven't we all been-"
+8
+
+#############################################
+
+8
+Cellphone
+on
+"No.  Only you have, and I'm sick of it.  Goodbye."
+9
+
+#############################################
+
+9
+Ken
+sad
+"Hey, wait!  Dammit!"
+10
+
+#############################################
+
+10
+Ken
+confused
+"But seriously, what is she talking about?  Isn't the swordsman always the main character?  Besides, they were just doing some boring talking stuff, weren't they?"
+11
+
+#############################################
+
+11
+Ken
+default
+"I may have lost the sorcerer and the bard, but I've still got a barbarian!
+
+Yo Gunthar, what's up?  Are you ready for this Friday, or are you ready for this Friday?"
+12
+
+#############################################
+
+12
+Cellphone
+on
+"Actually, I'm not; I have a cold.  And I've told you a thousand times: my name is Harold, which you'd remember if you weren't being an insufferable jerk 24/7/365."
+13
+
+##############################################
+
+13
+Ken
+sad
+"Okay, I'm really sorry about that, Gun- Harold.  But I really need you for this.  Youcef and Tracy already cancelled on me, and you're my last tank while I deal damage."
+14
+
+##############################################
+
+14
+Cellphone
+on
+"You don't even realize what you say, do you?  
+
+I already told you that I'm not doing it, and now I really don't feel like it.  Have fun going it alone, Armageddon the Doomblade."
+15
+
+##############################################
+
+15
+Ken
+angry
+"Goddammit!"  
+16
+
+##############################################
+
+16
+Ken
+sad
+"But...I guess I've really ticked them off.  Okay Victor, you're my last hope.  
+
+Come on man, pick up the phone already.  What the hell's taking you so long?
+
+Great, I finally got a hold of you.  Victor, you ready for Friday?"
+17
+
+##############################################
+
+17
+Cellphone
+on
+"Do you actively try to have such horrible timing, or is it just your superpower?"
+18
+
+##############################################
+
+18
+Ken
+confused
+"Huh?  What are you talking about?  Were you in the middle of something?"
+19
+
+##############################################
+
+19
+Cellphone
+on
+"It's 11:47 p.m.  Of course I'm in the middle of something.  It's called sleeping.  You know I have a 6 a.m. tomorrow, so why are you calling me?"
+20
+
+##############################################
+
+20
+Ken
+sad
+"Oh God, I'm sorry Victor.  But um, are you available for Friday's MythQuest session?  It's the big boss fight, and everyone else cancelled, so I'd really appreciate it if you could come."
+21
+
+##############################################
+
+21
+Cellphone
+on
+"You woke me up for this?  You could've called me tomorrow!  
+
+And to answer your question, no, I can't.  I told you last week that I had a date then."
+22
+
+##############################################
+
+22
+Ken
+sad
+"I'm sorry, I really am.  I completely forgot about that."
+23
+
+##############################################
+
+23
+Cellphone
+on
+"I know.  Just like you forgot I needed that antidote you sold while I was bleeding out from Rakshasa venom.  Good night."
+24
+
+##############################################
+
+24
+Ken
+sad
+"Well crap.  Now what do I do?  Ugh, I'll call the DM and see what he does."
+25
+
+##############################################
+
+25
+Cellphone
+on
+"Ken, keep it short.  I'm mid-match, and this could make me Platinum."
+26
+
+##############################################
+
+26
+Ken
+default
+"Everyone else in the party cancelled.  Can we delay the final battle for a week or so?"
+27
+
+##############################################
+
+27
+Cellphone
+on
+"Can't do that, Ken.  My schedule's packed every day after Friday."
+28
+
+##############################################
+
+28
+Ken
+sad
+"Please, man.  I'm begging you!  Everyone else cancelled, and I can't storm Blackthorn Castle and slay the Ancient Monster alone!"
+29
+
+##############################################
+
+29
+Cellphone
+on
+"Sorry, but those are the breaks.  I can't introduce any more NPCs this late in the game either, and all the other campaign members texted me that their characters committed suicide."
+30
+
+###############################################
+
+30
+Ken
+angry
+"You've got to be kidding me!"
+31
+
+###############################################
+
+31
+Ken
+sad
+"They were that fed up with me?  I...Jesus, that's..."
+32
+
+###############################################
+
+32
+Cellphone
+on
+"Look, you've got two days to find more people for the campaign.  Go to bed, Ken.  Good luck to y- ALRIGHT, A PENTA!  EAT IT OFF THE FLOOR, SCRUBLORDS!"
+33
+
+###############################################
+
+33
+Ken
+sad
+"Ugh...
+
+I'll figure this out in the morning."
+[Meeting_with_Preston]
+
+###############################################
+
+>> [Meeting_with_Preston]
+>> [Campus.png] #A field with paths, trees and nondescript people in the background
+>> Preston
+>> Preston_default.png
+>> Preston_happy.png
+>> Preston_sad.png
+>> Ken
+>> Ken_sad.png
+>> Ken_happy.png
+>> Ken_default.png
+
+###############################################
+
+0
+Ken
+default
+"Okay, who do I know who plays MythQuest who doesn't hate my guts?"
+1
+
+###############################################
