@@ -21,6 +21,9 @@
 	player:null, //our reference to the player
 	ctor:function(){
 		this._super();
+		//add physics to the world
+		
+		
 		this.player = new cc.Sprite("src/grossini.png"); //loading in the sprite
 		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
 		
@@ -40,6 +43,8 @@
 				event.getCurrentTarget().moveIt(event.getLocation());
 			}
 		},this);
+		
+		//swet
 	},
 	moveIt:function(p) { //functionality for moving
 		if(this.canMove){
