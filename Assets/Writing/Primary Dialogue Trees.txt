@@ -1,14 +1,11 @@
 << #Day 0 + 1
-<< [Catastrophe] #Ken calls friends to no avail, DM gives 2 day ultimatum
->> [Catastrophe]
->> [Ken_Room.png] #A simple background of a room
+<< Catastrophe #Ken calls friends to no avail, DM gives 2 day ultimatum
+>> Catastrophe
+>> Ken_Room #A simple background of a room
 >> Cellphone
->> Cellphone_on.png
+>> on
 >> Ken
->> Ken_sad.png
->> Ken_angry.png
->> Ken_confused.png
->> Ken_default.png
+>> default
 
 #############################################
 
@@ -251,7 +248,7 @@ on
 28
 Ken
 sad
-"Please, man.  I'm begging you!  Everyone else cancelled, and I can't storm Blackthorn Castle and slay the Ancient Monster alone!"
+"Please, man.  I'm begging you!  Everyone else cancelled, and I can't storm the Pit of Despairing Souls and slay Malleus, the Demon King alone!"
 29
 
 ##############################################
@@ -294,27 +291,728 @@ sad
 "Ugh...
 
 I'll figure this out in the morning."
-[Meeting_with_Preston]
+Meeting_with_Preston
 
 ###############################################
 
->> [Meeting_with_Preston]
->> [Campus.png] #A field with paths, trees and nondescript people in the background
+>> Meeting_with_Preston
+>> Campus #A field with paths, trees and nondescript people in the background
 >> Preston
->> Preston_default.png
->> Preston_happy.png
->> Preston_sad.png
+>> default
 >> Ken
->> Ken_sad.png
->> Ken_happy.png
->> Ken_default.png
+>> default
 
 ###############################################
 
 0
 Ken
 default
-"Okay, who do I know who plays MythQuest who doesn't hate my guts?"
+"(Okay, who do I know who plays MythQuest who doesn't hate my guts?  Arjun?  Nah, he's a jerk.  Nina?  Wait, she's in England, the lucky bum.  
+
+Oh hey, is that...?)
+
+Preston!  Hey, Preston!  Wait up!"
 1
 
 ###############################################
+
+1
+Preston
+default
+"Yo Ken, what's up!  How's your day been?"
+2
+
+###############################################
+
+2 
+Ken
+default
+"Alright I guess, though Bio's as boring as usual.  What about you?"
+3
+
+###############################################
+
+3 
+Preston
+default
+"The same for me; well, minus the Bio of course.  Unlike some slackers, I get the boring stuff done quickly."
+4
+
+###############################################
+
+4 
+Ken
+angry
+"Yeah yeah yeah, keep exfoliating me.  I bet you've got all the time in the world for Wild Warrior World or whatever you're playing."
+5
+
+###############################################
+
+5
+Preston
+sad
+"Actually, I'm not playing triple-W much any more.  It got boring after they nerfed Utreyo, so I quit.  Now I've got a crapton of free time I have nothing to do with."
+6
+
+###############################################
+
+6
+Ken
+happy
+"How about MythQuest?  We had a lot of fun with it a couple years ago."
+7
+
+###############################################
+
+7
+Preston
+default
+"MythQuest, huh?  Yeah, it was pretty fun RPing back then.  You know someone running a campaign or something?"
+8
+
+###############################################
+
+8
+Ken
+happy
+"Yeah, and a spot just opened up.  We meet every Friday, though I can probably get the DM to run an intro session or two to get you up to speed."
+9
+
+###############################################
+
+9
+Preston
+default
+"Whoa whoa whoa, don't include me in this yet.  I don't even know the plot or anything.  Heck, there might not even be room for someone of my incomparable caliber."
+10
+
+################################################
+
+10 
+Ken
+default
+"Well, it's a story about...
+
+(Actually, how do I sell this to him?  Preston likes interacting with the DM's world and characters, from what I remember.  Except we're already at the boss dungeon, so there's no chance for that.  But he also likes bragging and stuff during combat, so maybe I can...hmm...
+
+What do I say?)"
+11
+
+################################################
+
+11
+Ken
+default
+"...a party of extraordinary heroes working to save a kingdom from the ever-looming threat of a demon king.  They currently stand at the threshold of his foul lair, heroically poised to cleanse the land of his evil once and for all!"
+Preston + 1
+12
+"...a party of heroes led by an extraordinary swordsman.  Their mission: save the kingdom from the swordsman's archnemesis - the Demon King.  The swordsman stands at the threshold of the demon's foul lair, ready to lead his party of adventurers to glory!"
+Preston + 0
+18
+
+################################################
+
+12
+Preston
+default
+"A party of extraordinary heroes, huh?  It's a pity we're already at the last boss, but it sounds interesting."
+13
+
+################################################
+
+13
+Ken
+default
+"So are you in?  I could use the unrivalled expertise of Tatsumi, Sniper of the Gods.  He's a bit of a blowhard, but he's an interesting guy."
+14
+
+################################################
+
+14
+Preston
+happy
+"A bit of a blowhard, huh?  Sounds like someone requires a refresher on the unparalleled skills of Tatsumi.
+
+Count me in.  This demon king won't know what hit him, and with some luck your DM will make a post-game too!"
+15
+
+################################################
+
+15
+Ken
+happy
+"Alright!  Thanks, Preston!  We meet in the Library in the conference room on the fifth floor.  Friday at seven, remember the date!"
+16
+
+################################################
+
+16
+Preston
+default
+"Got it.  Well, I've gotta leave for class, but see you Friday, okay?"
+17
+
+################################################
+
+17
+Ken
+default
+"Yeah, see you then.  
+
+(Alright!  Party member GET!  But he was the only person I knew who played off the top of my head.  I guess I need to find some new people, but who the heck else plays here...?)"
+24 
+
+################################################
+
+18
+Preston
+sad
+"So this lone swordsman is the important guy, then?  Because everyone else sounds pretty superfluous."
+19
+
+################################################
+
+19
+Ken
+sad
+"Well, the other people are important too, or rather, they were before they all quit..."
+20
+
+################################################
+
+20
+Preston
+sad
+"I guess you didn't change from two years ago then, huh?  Man, and here I hoped you'd started paying attention to other people more."
+21
+
+################################################
+
+21
+Ken
+sad
+"I'm trying to, alright!  It's just a little hard to remember sometimes.  Look, I'll pay more attention to you and I won't get annoyed if you try overacting aga-"
+22
+
+################################################
+
+22
+Preston
+sad
+"Just...talk to me later, okay?  I've got to get to class."
+23
+
+################################################
+
+23
+Ken
+sad
+"Yeah.  See you around, Preston.  
+
+(Ugh, dammit!  He was my last lead, too!  I hope I can talk to him again at some point.  Still, I need to find some more people to fill in the party.  But who else even plays MythQuest here?)"
+24 
+
+################################################
+
+24 
+Clark
+angry
+"Out of my way, dude!"
+25
+
+################################################
+
+25
+Ken
+angry
+"Ooof!  Jesus, watch where you're going, would you!"
+26
+
+################################################
+
+26
+Clark
+embarrassed
+"Sorry!"
+27
+
+################################################
+
+27
+Ken
+default
+"Seriously... (I can't believe he smacked me into a bush...hey, are these headphones?  They're not mine, that's for certain.  Maybe they belong to that guy...Clark, I think his name was?  I should probably get these back to him somehow, but-
+
+Hey wait, is that?)"
+28
+
+################################################
+
+28
+Mara
+default
+"Where is the Redwood Building?  I've looked everywhere, and I haven't seen it anywhere."
+29
+
+################################################
+
+29
+Ken
+embarrassed
+"(That's Mara!  Ahh, she's as lovely as always...  
+
+Wait, this is no time to space out!  I should give these headphones to Clark before he runs out of sight.  But Mara's right there!  And she looks lost too; this is my chance!  
+
+Aaaagh, what do I do?)"
+30
+
+################################################
+
+30
+Ken
+default
+"(I've gotta chase after Mara; sorry Clark, but this is my chance!)"
+Meeting_with_Mara
+"(Ughhh...I'll track down Clark.  These headphones are probably expensive.)"
+Chasing_after_Clark
+
+################################################
+
+>> Meeting_with_Mara
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Mara
+>> default
+>> Ken
+>> embarrassed
+
+################################################
+
+0
+Ken
+embarrassed
+"Wait, Mara!  Wait up!"
+1
+
+################################################
+
+1 
+Mara
+confused
+"Do I...know you?"
+2 
+
+################################################
+
+2 
+Ken
+sad
+"(I think I just took 2D6 emotional damage...)"
+3 
+
+################################################
+
+3 
+Ken
+embarrassed
+"I'm uh, Ken.  We have the same writing class?"
+4 
+
+################################################
+
+4 
+Mara
+default
+"Oh yes, I remember now.  You usually show up late and out of breath, do you not?"
+5
+
+################################################
+
+5
+Ken
+embarrassed
+"(Oh God in Heaven, kill me now.)
+
+Haha, yeah...anyways, I couldn't help but notice, but um...are you lost?"
+6
+
+################################################
+
+6
+Mara
+default
+"I suppose you could say that.  I am trying to locate Redwood Laboratory; would you happen to know where it is?"
+7
+
+################################################
+
+7 
+Ken
+embarrassed
+"Y-yeah!  It's...on the other side of campus.  How'd you end up here?"
+8
+
+################################################
+
+8
+Mara
+embarrassed
+"I've never been there before, alright?  Getting a bit lo-"
+9
+
+################################################
+
+9
+Mara
+default
+"Becoming somewhat disoriented is only natural on one's first journey to a location."
+10
+
+################################################
+
+10
+Ken
+embarrassed
+"(Oh God, even her embarrassment is adorable!)
+
+Anyways, just follow me.  We want to go over this bridge and then take a left here.  So why are you headed to Redwood Lab?"
+11
+
+################################################
+
+11
+Mara
+default
+"I am attending a study session for chemistry; it has been giving me some trouble as of late."
+12
+
+################################################
+
+12
+Ken
+default
+"If it's for chemistry and during Wednesday mornings...that means you have O'Donaughan, right?  Ah, it's a right down this path."
+13
+
+################################################
+
+13
+Mara
+default
+"You are correct; I also attend his Friday evening sessions."
+14
+
+################################################
+
+14
+Ken
+default
+"(Poor Mara.  Who puts sessions on Wednesday mornings and Friday evenings anyway?
+
+Wait...Friday evenings?  Maybe, just maybe...!)"
+15
+
+################################################
+
+15
+Ken
+default
+"Wow, I can't believe you have to blow your Fridays studying like that.  You should really have more fun."
+Mara + 0
+16
+"It really sucks that you have to study on Friday.  I took O'Donoughan's class last year, so how about I help you out on Thursdays?"
+Mara + 1
+21
+
+################################################
+
+16
+Mara
+angry
+"I am not wasting my Fridays as you so ineloquently stated.  Academia is a valuable pursuit, and one that someone as irresponsible as you should pay more attention to."
+17
+
+################################################
+
+17
+Ken
+sad
+"Err...I might've put that badly , but I still think that-"
+18
+
+################################################
+
+18
+Mara
+angry
+"And furthermore, I enjoy studying and Professor O'Donoughan's sessions!  It is immensely rewarding to solve a problem after struggling with it!
+
+Now if you excuse me, I have a session to attend.  This is Redwood Laboratory, is it not?"
+19
+
+################################################
+
+19
+Ken
+sad
+"Yes, it is.  Have a nice day."
+20
+
+################################################
+
+20
+Ken
+angry
+"(Okay, Ken's foot and Ken's mouth, have you stopped having your orgy yet?  You have?  Oh, how excellent.  In that case: Ken's face, meet Ken's fist.)
+
+OWWWWWWW!  That really hurt...man, I guess I'll get lunch."
+Lunchtime_with_Little_Sister
+
+################################################
+
+21
+Mara
+default
+"I do not dislike studying on Fridays, though I do admit that I would like to join my friends on their outings on occasion."
+22
+
+################################################
+
+22
+Ken
+embarrassed
+"Well in that case, how about I help you!  I aced his class last semester, so I've got everything he teaches downpat.  I've got Thursday off, so I can help you any time then."
+23
+
+################################################
+
+23
+Mara
+confused
+"That is very kind of you.  But what makes your aid more worthwhile than the professor's?"
+24
+
+################################################
+
+24
+Ken
+default
+"I've got better handwriting, for one.  And you'll get all your questions answered as well.  He has a pretty big class, so a lot of times only the loud people get what they need."
+25
+
+################################################
+
+25
+Mara
+happy
+"I cannot deny his poor handwriting, and I do have troubles being heard sometimes...while I still plan to attend on Fridays, I will accept your offer of aid.  Is 5:30 p.m. in the Library an acceptable time and place?"
+26
+
+################################################
+
+26
+Ken
+happy
+"Of course!  I'll see you then, Mara!"
+27
+
+################################################
+
+27
+Mara
+happy
+"Very well then.  I must leave, but thank you for leading me here, Ken."
+28
+
+################################################
+
+28
+Ken
+happy
+"YES! (Ah crap, people are staring at me!  Tone it down, tone it down...but still!  I've got a good way to talk to Mara and get to know her now!  And if I can convince her to free up her Fridays, then...
+
+Okay, take it easy, Ken.  Let's have some lunch.)"
+Lunchtime_with_Little_Sister
+
+################################################
+
+>> Chasing_after_Clark
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Clark
+>> default
+>> Ken
+>> default
+
+################################################
+
+0
+Ken
+default
+"Hey!  Clark, wait up!"
+1 
+
+################################################
+
+1 
+Clark
+default
+"Huh?  Oh hey, sorry about knocking you over, but I'm really in a hurry, so if it's not important, can I go now?"
+2 
+
+################################################
+
+2 
+Ken
+default
+"You dropped your headphones.  Here you go."
+3 
+
+################################################
+
+3 
+Clark
+happy
+"Thanks, dude.  You do not even know how much these things cost me...wait.  Where's the other half?"
+4 
+
+################################################
+
+4 
+Ken
+confused
+"Other...half...?
+
+(Dammit, this isn't going to be good.)"
+5
+
+################################################
+
+5
+Clark
+angry
+"Yeah, the other half.  This is supposed to be a pair of headphones, not a headphone, some wires and broken plastic!"
+6
+
+################################################
+
+6
+Ken
+default
+"Maybe it came off when you crashed into me?  It could still be in that bush."
+7 
+
+################################################
+
+7 
+Clark
+angry
+"Even if it is, that won't fix my headphones!"
+8
+
+################################################
+
+8
+Clark
+sad
+"Ugh, what a way to start a day.  Thanks for telling me about my headphones though, even if they're broken."
+9
+
+################################################
+
+9
+Ken
+default
+"Yeah, no problem.  For what it's worth, have a nice day."
+10
+
+################################################
+
+10
+Clark
+default
+"Thanks.  Umm...you and that other kid...what were you two talking about?"
+11
+
+################################################
+
+11
+Ken
+confused
+"Huh?  
+
+(That's weird, why is Clark interested?  Does he like MythQuest or something?  I doubt it; I mean, he certainly doesn't look the type.  But then again...)"
+
+################################################
+
+11
+Ken
+default
+"We were talking about a game we both play, called MythQuest."
+Clark + 1
+12
+"We were preparing to storm the Pit of Despairing Souls and slay Malleus, the Demon Lord!"
+Clark + 0
+16
+
+################################################
+
+12
+Clark
+default
+"MythQuest, huh?  That's one of those role-playing games, isn't it?  It doesn't really seem like my style."
+13
+
+################################################
+
+13
+Ken
+default
+"Yeah, it's a table-top RPG.  It's pretty fun, though it takes a few people to really show its true potential."
+14
+
+################################################
+
+14
+Clark
+"Huh, okay.  Ahh, dammit!  I'm super-late; the professor's gonna kill me!  
+
+It was nice talking with you, but I've really gotta go.  Bye!"
+15
+
+################################################
+
+15
+Ken
+default
+"(He left before I could even say goodbye...Clark seems like a decent guy, though.
+
+Wow, I'm pretty hungry.  I should go to lunch.)"
+Lunchtime_with_Little_Sister
+
+################################################
+
+16
+Clark
+default
+"The Pit of What-now?  That sounds...fascinating...
+
+Look, I've got to go; I'm incredibly late for class.  Bye now!"
+17
+
+################################################
+
+17
+Ken
+sad
+"(Ah crap, I think I scared him off.  Well, I may as well go to lunch.)"
+Lunchtime_with_Little_Sister
+
+################################################
+
+>> Lunchtime_with_Little_Sister
+>> Dining_hall #A dining hall filled with tables with nondescript people sitting at them and eating
+>> Jackie
+>> default
+>> Ken
+>> default
+
+################################################
