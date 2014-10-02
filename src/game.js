@@ -18,25 +18,44 @@
  });
  
  var ActionsDemoLayer = cc.Layer.extend ({
-	player:null,
+	player:null, //our reference to the player
 	ctor:function(){
 		this._super();
-		this.player = new cc.Sprite("src/grossini.png");
-		this.addChild(this.player);
-		this.player.setPosition(0,0);
-		var action = cc.moveTo(1,cc.p(100,200));
+		this.player = new cc.Sprite("src/grossini.png"); //loading in the sprite
+		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
+		
+		
+		this.player.setPosition(0,0); //put him in the corner
+		
+		this.canMove = true //whether or not the player can move, prevents double movement
+		
+		var action = cc.moveTo(1,cc.p(100,200)); //move him onto the screne
 		this.player.runAction(action);
 		
-		cc.eventManager.addListener ({
+				
+		
+		cc.eventManager.addListener ({ //whenever you click, move the character to that position
 			event: cc.EventListener.MOUSE,
 			onMouseDown: function(event) {
 				event.getCurrentTarget().moveIt(event.getLocation());
 			}
 		},this);
 	},
-	moveIt:function(p) {
-		var action = cc.jumpTo (4,p,100,4);
-		this.player.runAction(action);
+	moveIt:function(p) { //functionality for moving
+		if(this.canMove){
+			this.player.fixedHeight = this.player.y; //set the fixed player height, the bottom point in jump
+			console.log("this.player.fixedHeight:" + this.player.fixedHeight + " this.player.y" + this.player.y);
+		
+		
+			console.log("before alteration p.x: " + p.x + " p.y: " + p.y);
+			p.y = this.player.fixedHeight; //fix the player's y position
+			
+			var jumps = (Math.abs(this.player.x - p.x) )/100
+			console.log("after alteration p.x: " + p.x + " p.y: " + p.y);
+			
+			var action = cc.MoveTo.create(2*jumps,p);
+			this.player.runAction(action);
+		}
 	}
  });
  
@@ -95,6 +114,7 @@ var FantasyBackgroundLayer = cc.Layer.extend({
 				return false;
 			}, 
 			onMouseUp: function(event) {
+				console.log("OnMouseUp");
 				//var action = cc.Animate.create(touchBubbleAnim);
 				//touchBubble.runAction( action.reverse() );
 				event.getCurrentTarget().parent.click(event.getLocation());
@@ -109,12 +129,13 @@ var FantasyBackgroundLayer = cc.Layer.extend({
 	
 	},
 	onEnter:function() {
-			var foo = cc.moveTo(1,cc.p(300,300));
+		var foo = cc.moveTo(1,cc.p(300,300));
 		this.player.runAction(foo);
 		cc.log("onEnter");
         //this.player.runAction(cc.jumpTo(4, cc.p(300, 48), 100, 4));
 	},
 	click:function(p){
+		p.y = player.y; //do not change the player's vertical coordinates
 		console.log("click x:" + p.x + " y:" + p.y);
 		//this.player.setPosition(p);
 		this.player.runAction(cc.moveTo(1, p));

@@ -47,7 +47,7 @@
  *
  */
  
-document.getElementsByTagName("body")[0].style.cursor = "none";
+//cursor disabled: document.getElementsByTagName("body")[0].style.cursor = "none";
  
 var res = [
 	"Assets/art/real/sprites/dialogue_box.png",
