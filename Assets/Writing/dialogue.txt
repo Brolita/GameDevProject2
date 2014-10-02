@@ -24,14 +24,22 @@ normal
    
 ###########
 
+1
+you
+normal
+"next thing"
+2
+   
+###########
+
 2
 you
 normal
 "say yes"
-Emily + 1
+Mara + 1
 3
 "say no"
-Emily + 0
+Mara + 0
 4
 
 ###########
@@ -63,10 +71,10 @@ normal
 6
 you
 normal
-case: Emily > 0
+case: Mara > 0
 "said yes"
 7
-case: Emily = 0
+case: Mara = 0
 "said no"
 7
 
@@ -86,6 +94,12 @@ scene2
 >> normal
 
 0
+you
+normal
+"next scene"
+1
+
+1
 you
 normal
 "scene 3"

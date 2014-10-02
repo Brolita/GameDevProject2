@@ -36,6 +36,9 @@ while line != '':
 			currentDialogue = {}
 	elif '<<' in line:    # new day 
 		if currentDay:
+			if currentScene:
+				currentDay[sceneName] = currentScene;
+				currentScene = {};
 			a["day"].append(currentDay)
 		currentDay = {}
 		line = read.readline()
@@ -108,7 +111,7 @@ while line != '':
 				print "Error: Line " + str(i) + ": Epected name in case, read " + line
 				sys.exit(0)
 			if '>' in line:
-				currentText["case"]["cmp"] = "<"
+				currentText["case"]["cmp"] = ">"
 				try:
 					int(line[line.find('<'):])
 				except ValueError:
@@ -116,7 +119,7 @@ while line != '':
 					sys.exit(0)
 				currentText["case"]["value"] = int(line[line.find('<'):])
 			elif '<' in line:
-				currentText["case"]["cmp"] = ">"
+				currentText["case"]["cmp"] = "<"
 				try:
 					int(line[line.find('>')+1:])
 				except ValueError:
