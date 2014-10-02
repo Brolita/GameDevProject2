@@ -11,9 +11,9 @@
 	onEnter:function(){ //this is called right after ctor, generate layers here	
 		this._super();		//var fanatsyBackground = new FantasyBackgroundLayer();
 		var demoLayer = new ActionsDemoLayer();
+		var backgroundLayer = new FantasyBackgroundLayer();
+		this.addChild(backgroundLayer);
 		this.addChild(demoLayer); 
-		//var fantasyInteractiveLayer = new FantasyInteractiveLayer();
-		//this.addChild(fantasyInteractiveLayer);
 	}
  });
  
@@ -43,15 +43,16 @@
 	},
 	moveIt:function(p) { //functionality for moving
 		if(this.canMove){
+			this.player.stopAllActions(); //prevent double movement [uber bad]
 			this.player.fixedHeight = this.player.y; //set the fixed player height, the bottom point in jump
-			console.log("this.player.fixedHeight:" + this.player.fixedHeight + " this.player.y" + this.player.y);
+			//console.log("this.player.fixedHeight:" + this.player.fixedHeight + " this.player.y" + this.player.y);
 		
 		
-			console.log("before alteration p.x: " + p.x + " p.y: " + p.y);
+			//console.log("before alteration p.x: " + p.x + " p.y: " + p.y);
 			p.y = this.player.fixedHeight; //fix the player's y position
 			
 			var jumps = (Math.abs(this.player.x - p.x) )/100
-			console.log("after alteration p.x: " + p.x + " p.y: " + p.y);
+			//console.log("after alteration p.x: " + p.x + " p.y: " + p.y);
 			
 			var action = cc.MoveTo.create(2*jumps,p);
 			this.player.runAction(action);
