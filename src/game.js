@@ -8,12 +8,34 @@
 		this._super();
 	},
 	
+	// init space of chipmunk
+    initPhysics:function() {
+		var g_groundHight = 57;
+		var g_runnerStartX = 80;
+	
+        //1. new space object 
+        this.space = new cp.Space();
+        //2. setup the  Gravity
+        this.space.gravity = cp.v(0, -350);
+
+        // 3. set up Walls
+        var wallBottom = new cp.SegmentShape(this.space.staticBody,
+            cp.v(0, g_groundHight),// start point
+            cp.v(4294967295, g_groundHight),// MAX INT:4294967295
+            0);// thickness of wall
+        this.space.addStaticShape(wallBottom);
+    },
+	
 	onEnter:function(){ //this is called right after ctor, generate layers here	
 		this._super();		//var fanatsyBackground = new FantasyBackgroundLayer();
+		this.initPhysics();
+		
 		var demoLayer = new ActionsDemoLayer();
 		var backgroundLayer = new FantasyBackgroundLayer();
 		this.addChild(backgroundLayer);
 		this.addChild(demoLayer); 
+		
+		this.scheduleUpdate();
 	}
  });
  
@@ -22,9 +44,23 @@
 	ctor:function(){
 		this._super();
 		//add physics to the world
+		this.space = new cp.Space();
 		
+		this.space.gravity = cp.v(0,-350);
+		var g_groundHeight = 57; //position of ground
+		
+		
+        // 3. set up Walls
+        var wallBottom = new cp.SegmentShape(this.space.staticBody,
+            cp.v(0, g_groundHeight),// start point
+            cp.v(4294967295, g_groundHeight),// MAX INT:4294967295
+            0);// thickness of wall
+        this.space.addStaticShape(wallBottom);
 		
 		this.player = new cc.Sprite("src/grossini.png"); //loading in the sprite
+		
+		
+
 		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
 		
 		
@@ -35,7 +71,32 @@
 		var action = cc.moveTo(1,cc.p(100,200)); //move him onto the screne
 		this.player.runAction(action);
 		
-				
+		var g_groundHight = 57;
+		var g_runnerStartX = 80;
+		//1. create PhysicsSprite with a sprite frame name
+        this.sprite = new cc.PhysicsSprite("src/grossini.png");
+        var contentSize = this.sprite.getContentSize();
+        // 2. init the runner physic body
+		
+		contentSize.width = 100;
+		contentSize.height = 100;
+		cc.log("contentSize.width: " + contentSize.width + " contentSize.height: " + contentSize.height);
+        
+		
+		this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        //3. set the position of the runner
+        this.body.p = cc.p(g_runnerStartX, g_groundHight + contentSize.height / 2);
+        //4. apply impulse to the body
+        this.body.applyImpulse(cp.v(150, 0), cp.v(0, 0));//run speed
+        //5. add the created body to space
+        this.space.addBody(this.body);
+        //6. create the shape for the body
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        //7. add shape to space
+        this.space.addShape(this.shape);
+        //8. set body to the physic sprite
+        this.sprite.setBody(this.body);
+		
 		
 		cc.eventManager.addListener ({ //whenever you click, move the character to that position
 			event: cc.EventListener.MOUSE,
@@ -45,6 +106,10 @@
 		},this);
 		
 		//swet
+	},
+	update:function(dt){
+		cc.log("93: update function call");
+		this.space.step(dt);
 	},
 	moveIt:function(p) { //functionality for moving
 		if(this.canMove){
