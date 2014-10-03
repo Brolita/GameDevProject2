@@ -3,7 +3,10 @@
  *
  *
  */
- var game = cc.Scene.extend({ //setting up the scene object
+ 
+var GAME_DEBUG_MODE = false;
+ 
+var game = cc.Scene.extend({ //setting up the scene object
 	ctor:function(difficulty, characters) { //the scene constructor
 		this._super();
 	},
@@ -229,3 +232,47 @@ var TestScene = cc.Scene.extend({
  
  var FantasyParallaxLayer;
  var FantasyInteractiveLayer; 
+ 
+/*
+ *
+ *
+ *
+ *
+ *
+ */
+ 
+ 
+var gameMaster = {
+	enemies: [],
+	characters: [],
+	collision: function() {
+		//for each i, enemy and j, characters
+		for (var i in enemies) { 
+			for (var j in characters) {
+				var enemy = this.enemies[i];
+				var characters = this.characters[j];
+				for(var k in enemy.hitbox.getAll()) { 
+					for( var l in character.hurtbox.getAll()) {
+						var hitbox = enemy.hitbox.getAll()[k];
+						var hurtbox = character.hurtbox.getAll()[l];
+						// here check if hitbox hits hurtbox, and if
+						// so, call hit on both of them
+						
+					}
+				}
+				for(var k in enemy.hurtbox.getAll()) { 
+					for( var l in character.hitbox.getAll()) {
+						var hitbox = character.hitbox.getAll()[k];
+						var hurtbox = enemy.hurtbox.getAll()[l];
+						// here check if hitbox hits hurtbox, and if
+						// so, call hit on both of them
+						
+					}
+				}
+			}
+		}
+	}
+}
+ 
+ 
+ 

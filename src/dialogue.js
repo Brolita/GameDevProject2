@@ -42,6 +42,8 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 	characters: null,
 	ctor:function ( sceneObject ) {
 		this._super();
+		this.cascadeColor = true;
+		this.cascadeOpacity = true;
 
 		this.sceneInfo = sceneObject;
 		
@@ -138,15 +140,18 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		intro = intro || false;
 		var addNum = 0;
 		if( this.characters[dialogueObject.characterName] ) {
-			// exists
+			// existed before this (a sprite change)
 			var oldc = this.characters[dialogueObject.characterName];
 			addNum = oldc.addNum;
 			oldc.runAction( cc.sequence( oldc.fadeChar.clone().reverse(), oldc.deleteChar ) );
 		} else {
-			//doesn't exist
+			// didn't exist before this (an entrance)
 			addNum = this.characters.number;
 			this.characters.number ++;
 		}
+		
+		// this is the character class, since character are only made in this scope
+		// it is defined here
 		
 		var character = cc.Sprite.extend({
 			ctor: function(s) {
@@ -164,31 +169,49 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 			}
 		});
 		
+		// we make a new sprite with initalization
+		
 		var c = new character( dialogueObject.sprite );
 		c.addNum = addNum;
 		
 		c.y = 4*cc.director.getWinSize().height/7;
 		c.zIndex = 0;
 		
+		// if they're not talking this scene, we gray them out as well
+		
 		if(this.previous != -1 && this.sceneInfo.dialogue[this.previous].characterName != dialogueObject.characterName) {
 			c.setColor( new cc.Color(128,128,128,255) );
 		}
 		
+		// we set opacity to 0 so we can fade them in
+		
 		c.opacity = 0;
+		
+		// add them to the scene and to the characters list
 		
 		this.characters[dialogueObject.characterName] = c;
 		this.addChild(c);
+		
+		// if this is the intro to a scene, the first characters have a bit of a 
+		// more complex set of actions
+		
 		if(intro) {
-		//	console.log("intro");
-			
+			c.setColor( new cc.Color(128,128,128,255) );
 			if(this.sceneInfo.dialogue[this.diaNumber].characterName == dialogueObject.characterName)  {
-				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),c.whiteChar.clone()) );
+				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),cc.delayTime(1.66),c.whiteChar.clone()) );
 			} else {
-				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),c.grayChar.clone()) );
+				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone()) );
 			}
-		} else {
+		}
+		
+		// otherwise, we are just going to fade them in as normal
+		
+		else {
 			c.runAction( c.fadeChar.clone() );
 		}
+		
+		// here is how we place the characters, the idea being that entrance 
+		// numbers influence positioning, the numbers aren't super important
 		
 		for(key in this.characters) {
 			if(!this.characters[key]) continue;
@@ -240,22 +263,50 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		}
 	}, 
 	parseAction: function() {
+		
+		// if the user has been prompted with a choice this cycle, we ignore 
+		// actions until they choose
+		
 		if(this.choice)
 			return;
+		
+		// if theres an action, preform it
+		
 		var action = this.sceneInfo.dialogue[this.diaNumber].text[this.texNumber].action;
 		if(action) {
 			master[action.target] += action.value;
 		}
+		
+		// if theres an exit, preform it
+		
 		var exit = this.sceneInfo.dialogue[this.diaNumber].text[this.texNumber].exit;
 		if(exit) {
+			
+			// fade them away
+			
 			this.characters[exit].runAction(  cc.sequence( this.characters[exit].fadeChar.clone().reverse(), this.characters[exit].deleteChar ) );
+			
+			// reset the entrance numbers to be correct
+			
+			var oldNum = this.characters[exit].addNum;
+			for(key in this.characters) {
+				if(!this.characters[key]) continue;
+				if(key == "number") continue;
+				if(key == exit) continue;
+				if(this.characters[key].addNum > oldNum) this.characters[key].addNum--;
+			}
+			this.characters.number--;
+			
+			// and finally, unset the character in the characters list
+			
+			this.characters[exit] = null;
 		}
 	},
 	parseDialogue: function(intro) {
 		intro = intro || false;
 	
 		if(this.diaNumber == "game") {
-			// change to game scene
+			cc.director.runScene(new game());
 			return;	
 		} else if(typeof this.diaNumber === 'string' ) {
 			this.parent.changeScene(this.diaNumber);
@@ -425,6 +476,8 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 var DialogueBackgroundLayer = cc.Layer.extend({
 	ctor:function ( backgroundSprite, sceneName ) {
 		this._super();
+		this.cascadeColor = true;
+		this.cascadeOpacity = true;
 		
 		// background
 		
@@ -462,14 +515,13 @@ var Dialogue = cc.Scene.extend({
 	}, 
 	changeScene: function ( sceneName ) {
 		var oldScene = this;
-		var action = cc.fadeOut(2.0); //create a 3 second fade out
-		var clean = cc.Action.extend({ // this will actually change the scene
-			update: function() {
-				cc.director.runScene(new Dialogue(sceneName));
-				oldScene.cleanup();
-				this.stop();
-			}
-		});
-		this.runAction( cc.Sequence.create( action, new clean() ) );
+		var clean = function() {
+			cc.director.runScene(new Dialogue(sceneName));
+			oldScene.cleanup();
+			this.stop();
+		}
+		this.cascadeColor = true;
+		this.cascadeOpacity = true;
+		this.runAction( cc.Sequence.create( cc.fadeOut(.33), cc.callFunc(clean) ) );
 	}
 });
