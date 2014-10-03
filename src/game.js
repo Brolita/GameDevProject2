@@ -94,7 +94,7 @@
 				this.player.setPosition(900,70); //put him in the corner
 				break;
 		}
-		this.canMove = true //whether or not the player can move, prevents double movement
+		this.player.canMove = true //whether or not the player can move, prevents double movement
 		
 		
 		
@@ -115,7 +115,7 @@
 		this.space.step(dt);
 	},
 	moveIt:function(p) { //functionality for moving
-		if(this.canMove){
+		if(this.player.canMove){
 			cc.log("this.player.x:" + this.player.x + " this.player.y:" + this.player.y);
 			this.player.stopAllActions(); //prevent double movement [uber bad]
 			this.player.fixedHeight = this.player.y; //set the fixed player height, the bottom point in jump
