@@ -35,7 +35,6 @@
 		this.addChild(backgroundLayer);
 		this.addChild(demoLayer); 
 		
-		this.scheduleUpdate();
 	}
  });
  
@@ -46,7 +45,7 @@
 		//add physics to the world
 		this.space = new cp.Space();
 		
-		this.space.gravity = cp.v(0,-350);
+		this.space.gravity = cp.v(0,-200);
 		var g_groundHeight = 57; //position of ground
 		
 		
@@ -57,7 +56,25 @@
             0);// thickness of wall
         this.space.addStaticShape(wallBottom);
 		
-		this.player = new cc.Sprite("src/grossini.png"); //loading in the sprite
+		var g_runnerStartX = 80;
+		
+		this.player = new cc.PhysicsSprite("src/grossini.png"); //loading in the sprite
+		
+		var contentSize = this.player.getContentSize();
+		contentSize.width = 100;
+		contentSize.height = 100;
+		cc.log("contentSize.width: " + contentSize.width + " contentSize.height: " + contentSize.height);
+        
+		this.playerBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        //3. set the position of the runner
+        this.playerBody.p = cc.p(g_runnerStartX, g_groundHeight + contentSize.height / 2);
+        //5. add the created body to space
+        this.space.addBody(this.playerBody);
+        this.playerShape = new cp.BoxShape(this.playerBody, contentSize.width - 14, contentSize.height);
+        //7. add shape to space
+        this.space.addShape(this.playerShape);
+        this.player.setBody(this.playerBody);
+		
 		
 		
 
@@ -71,6 +88,12 @@
 		var action = cc.moveTo(1,cc.p(100,200)); //move him onto the screne
 		this.player.runAction(action);
 		
+		//create a floor
+		var floor = this.space.addShape(new cp.SegmentShape(this.space.staticBody, cp.v(0, 0), cp.v(640, 0), 0));
+        floor.setElasticity(1);
+        floor.setFriction(1);
+		
+		/*
 		var g_groundHight = 57;
 		var g_runnerStartX = 80;
 		//1. create PhysicsSprite with a sprite frame name
@@ -96,7 +119,8 @@
         this.space.addShape(this.shape);
         //8. set body to the physic sprite
         this.sprite.setBody(this.body);
-		
+		*/
+		this.scheduleUpdate();
 		
 		cc.eventManager.addListener ({ //whenever you click, move the character to that position
 			event: cc.EventListener.MOUSE,
@@ -108,11 +132,15 @@
 		//swet
 	},
 	update:function(dt){
-		cc.log("93: update function call");
+		if(this.player.y < -200){
+			this.player.x = 500;
+			this.player.y = 500;
+		}
 		this.space.step(dt);
 	},
 	moveIt:function(p) { //functionality for moving
 		if(this.canMove){
+			cc.log("this.player.x:" + this.player.x + " this.player.y:" + this.player.y);
 			this.player.stopAllActions(); //prevent double movement [uber bad]
 			this.player.fixedHeight = this.player.y; //set the fixed player height, the bottom point in jump
 			//console.log("this.player.fixedHeight:" + this.player.fixedHeight + " this.player.y" + this.player.y);
