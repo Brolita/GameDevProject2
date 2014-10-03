@@ -180,11 +180,11 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		this.addChild(c);
 		if(intro) {
 		//	console.log("intro");
-			
+			c.setColor( new cc.Color(128,128,128,255) );
 			if(this.sceneInfo.dialogue[this.diaNumber].characterName == dialogueObject.characterName)  {
-				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),c.whiteChar.clone()) );
+				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),cc.delayTime(1),c.whiteChar.clone()) );
 			} else {
-				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),c.grayChar.clone()) );
+				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone()) );
 			}
 		} else {
 			c.runAction( c.fadeChar.clone() );
@@ -249,6 +249,15 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		var exit = this.sceneInfo.dialogue[this.diaNumber].text[this.texNumber].exit;
 		if(exit) {
 			this.characters[exit].runAction(  cc.sequence( this.characters[exit].fadeChar.clone().reverse(), this.characters[exit].deleteChar ) );
+			var oldNum = this.characters[exit].addNum;
+			for(key in this.characters) {
+				if(!this.characters[key]) continue;
+				if(key == "number") continue;
+				if(key == exit) continue;
+				if(this.characters[key].addNum > oldNum) this.characters[key].addNum--;
+			}
+			this.characters.number--;
+			this.characters[exit] = null;
 		}
 	},
 	parseDialogue: function(intro) {
