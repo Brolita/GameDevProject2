@@ -81,45 +81,16 @@
 		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
 		
 		
-		this.player.setPosition(0,0); //put him in the corner
+		this.player.setPosition(600,600); //put him in the corner
 		
 		this.canMove = true //whether or not the player can move, prevents double movement
 		
-		var action = cc.moveTo(1,cc.p(100,200)); //move him onto the screne
-		this.player.runAction(action);
 		
 		//create a floor
 		var floor = this.space.addShape(new cp.SegmentShape(this.space.staticBody, cp.v(0, 0), cp.v(640, 0), 0));
         floor.setElasticity(1);
         floor.setFriction(1);
 		
-		/*
-		var g_groundHight = 57;
-		var g_runnerStartX = 80;
-		//1. create PhysicsSprite with a sprite frame name
-        this.sprite = new cc.PhysicsSprite("src/grossini.png");
-        var contentSize = this.sprite.getContentSize();
-        // 2. init the runner physic body
-		
-		contentSize.width = 100;
-		contentSize.height = 100;
-		cc.log("contentSize.width: " + contentSize.width + " contentSize.height: " + contentSize.height);
-        
-		
-		this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        //3. set the position of the runner
-        this.body.p = cc.p(g_runnerStartX, g_groundHight + contentSize.height / 2);
-        //4. apply impulse to the body
-        this.body.applyImpulse(cp.v(150, 0), cp.v(0, 0));//run speed
-        //5. add the created body to space
-        this.space.addBody(this.body);
-        //6. create the shape for the body
-        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
-        //7. add shape to space
-        this.space.addShape(this.shape);
-        //8. set body to the physic sprite
-        this.sprite.setBody(this.body);
-		*/
 		this.scheduleUpdate();
 		
 		cc.eventManager.addListener ({ //whenever you click, move the character to that position
@@ -132,9 +103,14 @@
 		//swet
 	},
 	update:function(dt){
-		if(this.player.y < -200){
-			this.player.x = 500;
-			this.player.y = 500;
+		if(this.player.y < -200){//transition down
+			
+		}
+		if(this.player.x > 1000){ //transition right
+		
+		}
+		else if(this.player.x < 100){ //transition left
+		
 		}
 		this.space.step(dt);
 	},
