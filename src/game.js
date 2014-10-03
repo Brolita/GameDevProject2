@@ -233,9 +233,9 @@ var TestScene = cc.Scene.extend({
  
 /*
  *
+ * EVERY THING ABOVE IS CODING SPACE FOR WILL
  *
- *
- *
+ * EVERY THING BELOW IS CODING SPACE FOR COREY
  *
  */
  
