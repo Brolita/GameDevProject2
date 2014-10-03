@@ -34,7 +34,6 @@
 		var backgroundLayer = new FantasyBackgroundLayer();
 		this.addChild(backgroundLayer);
 		this.addChild(demoLayer); 
-		
 	}
  });
  
@@ -50,6 +49,7 @@
 		this.space.gravity = cp.v(0,-200);
 		
 		this.makePlayer();
+		this.makeFireball();
 		
 		
 		this.scheduleUpdate();
@@ -67,22 +67,24 @@
 	makeFireball:function(){
 		var g_groundHeight = 57; //position of ground
 		
-		this.player = new cc.PhysicsSprite("src/grossini.png"); //loading in the sprite
-		var contentSize = this.player.getContentSize();
+		this.fireBall = new cc.PhysicsSprite("src/grossini.png"); //loading in the sprite
+		var contentSize = this.fireBall.getContentSize();
 		contentSize.width = 100;
 		contentSize.height = 100;
 		cc.log("contentSize.width: " + contentSize.width + " contentSize.height: " + contentSize.height);
         
-		this.playerBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+		this.fireBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         //3. set the position of the runner
-        this.playerBody.p = cc.p(80, g_groundHeight + contentSize.height / 2);
+        this.fireBody.p = cc.p(80, g_groundHeight + contentSize.height / 2);
         //5. add the created body to space
-        this.space.addBody(this.playerBody);
-        this.playerShape = new cp.BoxShape(this.playerBody, contentSize.width - 14, contentSize.height);
+        this.space.addBody(this.fireBody);
+        this.fireShape = new cp.BoxShape(this.fireBody, contentSize.width - 14, contentSize.height);
         //7. add shape to space
-        this.space.addShape(this.playerShape);
-        this.player.setBody(this.playerBody);
-		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
+        this.space.addShape(this.fireShape);
+        this.fireBall.setBody(this.fireBody);
+		this.addChild(this.fireBall); //Make the player sprite part of the scene heirarchy
+		
+		this.fireBody.p.y = 999;
 		
 	},
 	
