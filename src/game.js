@@ -38,6 +38,8 @@
 	}
  });
  
+ 
+
  var ActionsDemoLayer = cc.Layer.extend ({
 	player:null, //our reference to the player
 	ctor:function(){
@@ -46,6 +48,23 @@
 		this.space = new cp.Space();
 		
 		this.space.gravity = cp.v(0,-200);
+		
+		this.makePlayer();
+		
+		
+		this.scheduleUpdate();
+		
+		cc.eventManager.addListener ({ //whenever you click, move the character to that position
+			event: cc.EventListener.MOUSE,
+			onMouseDown: function(event) {
+				event.getCurrentTarget().moveIt(event.getLocation());
+			}
+		},this);
+		
+		this.initFrame("down");
+	},
+	
+	makeFireball:function(){
 		var g_groundHeight = 57; //position of ground
 		
 		this.player = new cc.PhysicsSprite("src/grossini.png"); //loading in the sprite
@@ -65,16 +84,28 @@
         this.player.setBody(this.playerBody);
 		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
 		
-		this.scheduleUpdate();
+	},
+	
+	makePlayer:function(){
+		var g_groundHeight = 57; //position of ground
 		
-		cc.eventManager.addListener ({ //whenever you click, move the character to that position
-			event: cc.EventListener.MOUSE,
-			onMouseDown: function(event) {
-				event.getCurrentTarget().moveIt(event.getLocation());
-			}
-		},this);
+		this.player = new cc.PhysicsSprite("src/grossini.png"); //loading in the sprite
+		var contentSize = this.player.getContentSize();
+		contentSize.width = 100;
+		contentSize.height = 100;
+		cc.log("contentSize.width: " + contentSize.width + " contentSize.height: " + contentSize.height);
+        
+		this.playerBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        //3. set the position of the runner
+        this.playerBody.p = cc.p(80, g_groundHeight + contentSize.height / 2);
+        //5. add the created body to space
+        this.space.addBody(this.playerBody);
+        this.playerShape = new cp.BoxShape(this.playerBody, contentSize.width - 14, contentSize.height);
+        //7. add shape to space
+        this.space.addShape(this.playerShape);
+        this.player.setBody(this.playerBody);
+		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
 		
-		this.initFrame("down");
 	},
 	
 	initFrame:function(dirFrom){		
@@ -144,80 +175,6 @@ var FantasyBackgroundLayer = cc.Layer.extend({
 	}
  });
  
- var FantasyInteractiveLayer = cc.Layer.extend({
-	player:null,
-	ctor:function() {
-		this._super();
-		// touch bubble
-		/*
-		var parent = this;
-		var touchBubble = cc.Sprite.create("../Assets/art/real/sprites/click_0.png" );
-		
-		var touchBubbleAnim = cc.Animation.create();
-		for ( var i = 0 ; i < 9 ; i ++ ) {
-			var frameName = "../Assets/art/real/sprites/click_" + i + ".png" ;
-			touchBubbleAnim. addSpriteFrameWithFile ( frameName ) ;
-		}
-		touchBubbleAnim.setDelayPerUnit ( 1 / 60 ) ;
-		touchBubbleAnim.setRestoreOriginalFrame ( false ) ;
-		*/
-		
-        this.player = new cc.Sprite("src/grossini.png");
-		
-        this.addChild(this.player/*, 0, TAG_SPRITE*/);
-		
-        this.player.x = 200;
-	    this.player.y = 150;
-
-		var action = cc.moveTo(1,cc.p(100,200));
-		this.player.runAction(action);
-
-		
-		// touch listener
-		
-		var touchListener = cc.EventListener.create({
-			event: cc.EventListener.MOUSE,
-			swallowTouches: true,
-			onMouseDown: function (event) {
-				var action = cc.Animate.create(touchBubbleAnim)
-				touchBubble.runAction( action );
-				return false;
-			}, 
-			onMouseMove: function(event) {
-				touchBubble.x = event._x;
-				touchBubble.y = event._y;
-				return false;
-			}, 
-			onMouseUp: function(event) {
-				console.log("OnMouseUp");
-				//var action = cc.Animate.create(touchBubbleAnim);
-				//touchBubble.runAction( action.reverse() );
-				event.getCurrentTarget().parent.click(event.getLocation());
-				return false;
-			}
-		});
-
-		// attach listener to touch bubble
-		
-		//cc.eventManager.addListener(touchListener, touchBubble);
-		//this.addChild(touchBubble);
-	
-	},
-	onEnter:function() {
-		var foo = cc.moveTo(1,cc.p(300,300));
-		this.player.runAction(foo);
-		cc.log("onEnter");
-        //this.player.runAction(cc.jumpTo(4, cc.p(300, 48), 100, 4));
-	},
-	click:function(p){
-		p.y = player.y; //do not change the player's vertical coordinates
-		console.log("click x:" + p.x + " y:" + p.y);
-		//this.player.setPosition(p);
-		this.player.runAction(cc.moveTo(1, p));
-
-	}
-	
-});
 
 //copied directly from demo code
 
