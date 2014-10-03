@@ -1,0 +1,48 @@
+gameMaster
+	enemies
+	characters
+	collision()
+
+entity (extends sprite)
+	health
+		healthBar
+	controller
+		animations
+			delay()
+			play()
+		actions (AI)
+			attack()
+		interaction 
+	collision
+		hurtbox
+			getAll()
+			hit()
+		hitbox
+			getAll()
+			hit()
+		wall
+	physics
+		falling
+	
+screen
+	x
+	y
+	z
+	
+interactions / general flow
+
+--click event--
+entity.controller.interaction -> entity.controller.actions
+ entity.controller.actions -> entity.controller.animations.play
+ entity.controller.actions -> entity.collision.hitbox.AddHitbox
+
+--hurtbox hit--
+entity.collision.hurtbox.hit -> entity.controller.actions
+ entity.controller.actions -> entity.controller.animations.delay
+ entity.controller.actions -> entity.health
+  entity.health -> entity.health.healthBar
+
+--hitbox hit--
+entity.collision.hitbox.hit -> entity.controller.actions
+ entity.controller.actions -> entity.controller.animations.delay
+ 

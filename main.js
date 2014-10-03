@@ -87,7 +87,7 @@ cc.game.onStart = function(){
     cc.view.resizeWithBrowserSize(true);
     //load resources
     cc.LoaderScene.preload(res, function () {
-        cc.director.runScene(new game());
-		//cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
+        //cc.director.runScene(new game());
+		cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
     }, this);
 };
