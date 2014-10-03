@@ -48,18 +48,7 @@
 		this.space.gravity = cp.v(0,-200);
 		var g_groundHeight = 57; //position of ground
 		
-		
-        // 3. set up Walls
-        var wallBottom = new cp.SegmentShape(this.space.staticBody,
-            cp.v(0, g_groundHeight),// start point
-            cp.v(4294967295, g_groundHeight),// MAX INT:4294967295
-            0);// thickness of wall
-        this.space.addStaticShape(wallBottom);
-		
-		var g_runnerStartX = 80;
-		
 		this.player = new cc.PhysicsSprite("src/grossini.png"); //loading in the sprite
-		
 		var contentSize = this.player.getContentSize();
 		contentSize.width = 100;
 		contentSize.height = 100;
@@ -67,29 +56,14 @@
         
 		this.playerBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         //3. set the position of the runner
-        this.playerBody.p = cc.p(g_runnerStartX, g_groundHeight + contentSize.height / 2);
+        this.playerBody.p = cc.p(80, g_groundHeight + contentSize.height / 2);
         //5. add the created body to space
         this.space.addBody(this.playerBody);
         this.playerShape = new cp.BoxShape(this.playerBody, contentSize.width - 14, contentSize.height);
         //7. add shape to space
         this.space.addShape(this.playerShape);
         this.player.setBody(this.playerBody);
-		
-		
-		
-
 		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
-		
-		
-		this.player.setPosition(600,600); //put him in the corner
-		
-		this.canMove = true //whether or not the player can move, prevents double movement
-		
-		
-		//create a floor
-		var floor = this.space.addShape(new cp.SegmentShape(this.space.staticBody, cp.v(0, 0), cp.v(640, 0), 0));
-        floor.setElasticity(1);
-        floor.setFriction(1);
 		
 		this.scheduleUpdate();
 		
@@ -100,17 +74,43 @@
 			}
 		},this);
 		
-		//swet
+		this.initFrame("down");
 	},
+	
+	initFrame:function(dirFrom){		
+		//create a floor
+		var floor = this.space.addShape(new cp.SegmentShape(this.space.staticBody, cp.v(0, 0), cp.v(1100, 0), 0));
+        floor.setElasticity(1);
+        floor.setFriction(1);
+		
+		switch(dirFrom){
+			case "down":
+				this.player.setPosition(600,600); //put him in the corner
+				break;
+			case "right":
+				this.player.setPosition(110,70); //put him in the corner
+				break;
+			case "left":
+				this.player.setPosition(900,70); //put him in the corner
+				break;
+		}
+		this.canMove = true //whether or not the player can move, prevents double movement
+		
+		
+		
+		
+	
+	},
+	
 	update:function(dt){
 		if(this.player.y < -200){//transition down
-			
+			this.initFrame("down");
 		}
 		if(this.player.x > 1000){ //transition right
-		
+			this.initFrame("right");
 		}
 		else if(this.player.x < 100){ //transition left
-		
+			this.initFrame("left")
 		}
 		this.space.step(dt);
 	},
