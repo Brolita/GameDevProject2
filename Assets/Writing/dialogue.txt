@@ -81,9 +81,27 @@ case: Mara = 0
 ##############
 
 7
-Emily
+you
 normal
-"end scene"
+"Emily exits after this"
+exit Emily
+8
+
+##############
+
+8
+you
+sad
+"She's gone"
+9
+
+##############
+
+9
+enter Emily
+Emily
+happy
+"Emily comes back"
 scene2
 
 ################################
