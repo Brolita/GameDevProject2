@@ -59,11 +59,11 @@ while line != '':
 		currentScene["characters"] = []
 		while '>>' in line:
 			if currentCharacter:
-				currentCharacter["sprite"] = "../assets/art/real/portraits/" + currentCharacter["charaterName"] + '_' + line[2:] + ".png"
+				currentCharacter["sprite"] = "../assets/art/real/portraits/" + currentCharacter["characterName"] + '_' + line[2:] + ".png"
 				currentScene["characters"].append(currentCharacter)
 				currentCharacter = {}
 			else:
-				currentCharacter["charaterName"] = line[2:]
+				currentCharacter["characterName"] = line[2:]
 			line = read.readline()
 			line = clean(line)
 	
@@ -75,10 +75,12 @@ while line != '':
 			sys.exit(0)
 		dialogueNumber = int(line)
 		currentDialogue["text"] = []
-	elif "charaterName" not in currentDialogue:  # get charaterName
-		currentDialogue["charaterName"] = line
+	elif "enter" in line:
+		currentDialogue["enter"] = line[line.find("enter") + 5:]
+	elif "characterName" not in currentDialogue:  # get characterName
+		currentDialogue["characterName"] = line
 	elif "sprite" not in currentDialogue: # get sprite
-		currentDialogue["sprite"] = "../assets/art/real/portraits/" + currentDialogue["charaterName"] + '_' + line + ".png"
+		currentDialogue["sprite"] = "../assets/art/real/portraits/" + currentDialogue["characterName"] + '_' + line + ".png"
 	
 	else:  #new text
 		if '"' in line:
@@ -94,7 +96,8 @@ while line != '':
 				quote = ""
 		elif reading:
 			quote += line
-		
+		elif "exit" in line:
+			currentText["exit"] = line[line.find("exit") + 4:]
 		elif "case:" in line:
 			currentText["case"] = {}
 			if "Mara" in line:

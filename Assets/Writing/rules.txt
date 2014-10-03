@@ -7,6 +7,8 @@ dialogue rules:
 	
 How to:
 
+brackets are options (sorry fo the confusion)
+
 Start a day with 									<< 
 Then give the scene name that will start the day	<< [scene name]
 Then start a scene with the command					>> [scene name]
@@ -22,6 +24,7 @@ Here you may give a case							[case: Emily < 3]
 Give a quote, it can be multiple lines				"you said something that made me sad...
 but it will be displayed all at once				... so now I am sad"
 Here you may give an action as a result of this		[Emily + 0]
+exit will make a character exit (in this case)		[exit Emily]
 Finally a destination to go to next					1
 You can give another dialogue as well				[case: Emily > 2]
 Each can have its own case, but make sure 			"Hey, that was kinda mean..."
@@ -31,6 +34,7 @@ end dialogues with at least one newline
 to start the next scene, just redo the command		>> [other scene name]
 but make sure to keep following the rules			>> [background]
 I'd recommend using comments with #					0 # comments can go pretty much anywhere
+You use enter to being a haracter into the scene	[enter Emily]
 You can use CRTL+F to find comments					Emily
 Which will be helpful when something breaks			happy
 By the way, don't comment on lines with quotes		"Don't comment after me" [#DONT DO THIS]

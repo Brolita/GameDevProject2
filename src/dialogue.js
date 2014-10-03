@@ -2,35 +2,81 @@
  * part of the game, below them will be the classes
  * for the fantasy
  *
+ * flow:
+ * initalization
+ *  create background layer 
+ *   fade in background
+ *  create interactive layer
+ *   create character
+ *    fade in each
+ *    gray each
+ *   fade in dialogue
+ *    parse dialogue for info
+ *     number of choices
+ *     value of text
+ *     white character
+ *  --wait on click--
+ *   case: left click
+ *    case: 1 choice 
+ *     run action
+ *     advance dialogue
+ *    case: 2 choice
+ *     case: targeted a choice
+ *      run action
+ *      advance dialogue
+ *   case: right click
+ *    case: previous not null (-1)
+ *     set dialogue to pervious
+ *     set previous to null
+ *
  */
  
 var DialogueInteractiveLayer = cc.Layer.extend({
 	sceneInfo: null,
-	previous: 0,
+	previous: -1,
 	diaNumber: 0,
 	diaText: null,
 	texNumber: 0,
 	choice: false,
 	target: -1,
+	characters: null,
 	ctor:function ( sceneObject ) {
 		this._super();
 
 		this.sceneInfo = sceneObject;
-
-		var waitChar = cc.delayTime(1);
-		var fadeChar = cc.fadeIn(1);
-		var grayChar = cc.tintTo(1, 128,128,128);
 		
 		var waitDia = cc.delayTime(3);
 		var fadeDia = cc.fadeIn(.5);
 		
 		var parent = this;
 
+		// characters
+		
+		// init character object 
+		
+		this.characters = {
+			Emily:null, //remove after testing
+			you:null, // remove after testing
+			Ken:null,
+			Mara:null,
+			Clark:null,
+			Preston:null,
+			Jackie:null,
+			number: 0
+		}
+		
+		// load init characters
+		
+		for (var i in sceneObject.characters) {
+			this.characterChange(sceneObject.characters[i], true);
+		}
+		
 		// dialogueBox
 
 		var dialogueBox = cc.Sprite.create("../assets/art/real/sprites/dialogue_box.png");
 		dialogueBox.x = cc.director.getWinSize().width/2;
 		dialogueBox.y = cc.director.getWinSize().height/4;
+		dialogueBox.zIndex = 1;
 		dialogueBox.opacity = 0;
 		
 		this.addChild(dialogueBox);
@@ -41,20 +87,22 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		this.diaText = cc.LabelTTF.create("Something went wrong :(", "calibri", 32, cc.size(900, 210), cc.TEXT_ALIGNMENT_LEFT);
 		this.diaText.x = cc.director.getWinSize().width/2;
 		this.diaText.y = cc.director.getWinSize().height/4;
+		this.diaText.zIndex = 1;
 		this.diaText.opacity = 0;
 		this.diaText.runAction( cc.Sequence.create(waitDia.clone(), fadeDia.clone()) )
-		this.parseDialogue();
+		this.parseDialogue(true);
 		
 		this.addChild(this.diaText);
 
 		// touch bubble
 		
 		var touchBubble = cc.Sprite.create("../assets/art/real/sprites/click_0.png" );
+		touchBubble.zIndex = 5;
 		
 		var touchBubbleAnim = cc.Animation.create();
 		for ( var i = 0 ; i < 9 ; i ++ ) {
 			var frameName = "../assets/art/real/sprites/click_" + i + ".png" ;
-			touchBubbleAnim. addSpriteFrameWithFile ( frameName ) ;
+			touchBubbleAnim.addSpriteFrameWithFile ( frameName ) ;
 		}
 		touchBubbleAnim.setDelayPerUnit ( 1 / 60 ) ;
 		touchBubbleAnim.setRestoreOriginalFrame ( false ) ;
@@ -76,7 +124,7 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 			}, 
 			onMouseUp: function(event) {
 				touchBubble.runAction( animation.clone().reverse() );
-				parent.click();
+				parent.click(event);
 				return false;
 			}
 		});
@@ -85,24 +133,109 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		
 		cc.eventManager.addListener(touchListener, touchBubble);
 		this.addChild(touchBubble);
-
 	}, 
-	click: function() {
+	characterChange: function(dialogueObject, intro) {
+		intro = intro || false;
+		var addNum = 0;
+		if( this.characters[dialogueObject.characterName] ) {
+			// exists
+			var oldc = this.characters[dialogueObject.characterName];
+			addNum = oldc.addNum;
+			oldc.runAction( cc.sequence( oldc.fadeChar.clone().reverse(), oldc.deleteChar ) );
+		} else {
+			//doesn't exist
+			addNum = this.characters.number;
+			this.characters.number ++;
+		}
+		
+		var character = cc.Sprite.extend({
+			ctor: function(s) {
+				this._super();
+				this.initWithFile(s);
+			},
+			fadeChar: cc.fadeIn(.33),
+			grayChar: cc.tintTo(.33, 128,128,128),
+			whiteChar: cc.tintTo(.33, 255,255,255),
+			deleteChar: cc.callFunc(this.deleteSelf, this),
+			addNum:null,
+			deleteSelf: function() {
+				this.parent.removeChild(this);
+				this.cleanup();
+			}
+		});
+		
+		var c = new character( dialogueObject.sprite );
+		c.addNum = addNum;
+		
+		c.y = 4*cc.director.getWinSize().height/7;
+		c.zIndex = 0;
+		
+		if(this.previous != -1 && this.sceneInfo.dialogue[this.previous].characterName != dialogueObject.characterName) {
+			c.setColor( new cc.Color(128,128,128,255) );
+		}
+		
+		c.opacity = 0;
+		
+		this.characters[dialogueObject.characterName] = c;
+		this.addChild(c);
+		if(intro) {
+		//	console.log("intro");
+			
+			if(this.sceneInfo.dialogue[this.diaNumber].characterName == dialogueObject.characterName)  {
+				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),c.whiteChar.clone()) );
+			} else {
+				c.runAction( cc.sequence(cc.delayTime(1),c.fadeChar.clone(),c.grayChar.clone()) );
+			}
+		} else {
+			c.runAction( c.fadeChar.clone() );
+		}
+		
+		for(key in this.characters) {
+			if(!this.characters[key]) continue;
+			if(this.characters[key].addNum == 0) {	
+				if(this.characters.number == 1) this.characters[key].x = 640;
+				if(this.characters.number == 2) this.characters[key].x = 400;
+				if(this.characters.number == 3) this.characters[key].x = 300;
+			} else if (this.characters[key].addNum == 1) {
+				if(this.characters.number == 2) this.characters[key].x = 880;
+				if(this.characters.number == 3) this.characters[key].x = 980;
+			} else if (this.characters[key].addNum == 2) {
+				this.characters[key].x = 640;
+			}
+		}
+	},
+	click: function(event) {
+		//console.log(" diaNumber: " + this.diaNumber + " target: " + this.target + " choice: " + this.choice + " previous: " + this.previous);
 		if(this.diaText.opacity != 255)
 			return;
-		if(!this.choice) {
-			this.previous = this.diaNumber;
-			this.diaNumber = this.sceneInfo.dialogue[this.diaNumber].text[this.texNumber].next;
-			this.parseDialogue();
-		} else {
-			if(this.target != -1) {
-				// redo the parseAction because last time we didn't know which happened
-				this.choice = false;
-				this.texNumber = this.target;
+		if(event._button == 0) {
+			if(!this.choice) {
+				// advance and log history
 				this.parseAction();
-				// then parse the dialogue
-				this.diaNumber = this.sceneInfo.dialogue[this.diaNumber].text[this.target].next;
+				this.previous = this.diaNumber;
+				this.diaNumber = this.sceneInfo.dialogue[this.diaNumber].text[this.texNumber].next;
 				this.parseDialogue();
+			} else {
+				if(this.target != -1) {
+					this.previous = -1;
+					// redo the parseAction because last time we didn't know which happened
+					this.choice = false;
+					this.texNumber = this.target;
+					this.parseAction();
+					// then parse the dialogue
+					this.diaNumber = this.sceneInfo.dialogue[this.diaNumber].text[this.target].next;
+					this.parseDialogue();
+				}
+			}
+		} else if(event._button == 2) {
+			if(this.previous != -1) {
+				// reset choice listening info
+				this.choice = false;
+				this.target = -1;
+				// move dialogue bak a space
+				this.diaNumber = this.previous;
+				this.parseDialogue();
+				this.previous = -1;
 			}
 		}
 	}, 
@@ -113,14 +246,47 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		if(action) {
 			master[action.target] += action.value;
 		}
+		var exit = this.sceneInfo.dialogue[this.diaNumber].text[this.texNumber].exit;
+		if(exit) {
+			this.characters[exit].runAction(  cc.sequence( this.characters[exit].fadeChar.clone().reverse(), this.characters[exit].deleteChar ) );
+		}
 	},
-	parseDialogue: function() {
+	parseDialogue: function(intro) {
+		intro = intro || false;
+	
 		if(this.diaNumber == "game") {
 			// change to game scene
-			return;
+			return;	
 		} else if(typeof this.diaNumber === 'string' ) {
 			this.parent.changeScene(this.diaNumber);
 			return;
+		}
+		
+		// detect entrances 
+		
+		if( this.sceneInfo.dialogue[this.diaNumber].enter ) {
+			this.characterChange({
+				"characterName":this.sceneInfo.dialogue[this.diaNumber].enter,
+				// THIS NEEDS TO BE CHANGED TO DEFAULT AFTER TESTING
+				"sprite": "../assets/art/real/portraits/" + this.sceneInfo.dialogue[this.diaNumber].enter + "_normal.png"
+			})
+		}
+		
+		// call character change (we dont do this during the intro)
+		if(!intro) {
+			this.characterChange( this.sceneInfo.dialogue[this.diaNumber] );
+			if (this.characters[this.sceneInfo.dialogue[this.diaNumber].characterName].color.r != 255) {
+				this.characters[this.sceneInfo.dialogue[this.diaNumber].characterName].runAction (
+					this.characters[this.sceneInfo.dialogue[this.diaNumber].characterName].whiteChar.clone()
+				);
+			}
+			
+			for(key in this.characters) {
+				if(!this.characters[key]) continue;
+				if(key == "number") continue;
+				if(key == this.sceneInfo.dialogue[this.diaNumber].characterName) continue;
+				this.characters[key].runAction (this.characters[key].grayChar.clone());
+			}
 		}
 		var text = this.sceneInfo.dialogue[this.diaNumber].text;
 		
@@ -170,16 +336,26 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 			
 			// make a TTF for the bottom
 			
-			
 			var otherDiaText = cc.LabelTTF.create(text[possible[1]].value, "calibri", 32, cc.size(900, 210), cc.TEXT_ALIGNMENT_LEFT);
 			otherDiaText.x = cc.director.getWinSize().width/2;
 			otherDiaText.y = cc.director.getWinSize().height/4 - 105;
+			otherDiaText.zIndex = 2;
 			
 			this.addChild(otherDiaText);
 			
 			// make choice listener
 			
+			// set target to "null"
+			
 			this.target = -1;
+			
+			// create a hover b	ackground
+			
+			var hoverBackground = cc.DrawNode.create();
+			hoverBackground.zIndex = 3; 	
+			
+			this.addChild(hoverBackground);
+			
 			
 			var choiceListener = cc.EventListener.create({
 				event: cc.EventListener.MOUSE,
@@ -192,9 +368,37 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 						if (event._y > (cc.director.getWinSize().height/4 - 105)
 						 && event._y < (cc.director.getWinSize().height/4) ) {
 							parent.target = possible[1];
+							
+							// set hoverbackground behind new hover
+							
+							hoverBackground.clear();
+							var origin = new cc.Point( 
+								cc.director.getWinSize().width/2 - 480,
+								cc.director.getWinSize().height/4 - 115
+							);  var destination = new cc.Point(
+								cc.director.getWinSize().width/2 + 480,
+								cc.director.getWinSize().height/4
+							);
+							var color = new cc.Color(255,255,255,64)
+							hoverBackground.drawRect(origin, destination, color, 0, new cc.Color(0,0,0,0) );
+							
 						} else if (event._y > (cc.director.getWinSize().height/4)
 						        && event._y < (cc.director.getWinSize().height/4 + 105) ) {
 							parent.target = possible[0];
+
+							// set hoverbackground behind new hover
+							
+							hoverBackground.clear();
+							var origin = new cc.Point( 
+								cc.director.getWinSize().width/2 - 480,
+								cc.director.getWinSize().height/4
+							);  var destination = new cc.Point(
+								cc.director.getWinSize().width/2 + 480,
+								cc.director.getWinSize().height/4 + 115
+							);
+							var color = new cc.Color(255,255,255,64)
+							hoverBackground.drawRect(origin, destination, color, 0, new cc.Color(0,0,0,0) );
+							
 						}
 					}
 					return false;
@@ -207,6 +411,7 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 					if(parent.target != -1) {
 						cc.eventManager.removeListener(this);
 						parent.removeChild(otherDiaText);
+						parent.removeChild(hoverBackground);
 					}
 					return false;
 				}
@@ -214,7 +419,6 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 			
 			cc.eventManager.addListener(choiceListener, otherDiaText);
 		}
-		this.parseAction();
 	}
 });
 
@@ -231,10 +435,6 @@ var DialogueBackgroundLayer = cc.Layer.extend({
 		this.addChild( background );
 		var action = cc.fadeIn(1.0)
 		background.runAction( action );
-		
-		// scene into
-		
-		//var sc
 	}
 });
 
@@ -246,7 +446,6 @@ var Dialogue = cc.Scene.extend({
 		this.sceneName = sceneName;
 	}, 
 	onEnter:function () {
-		console.log(master);
 		this._super();
 		
 		s = master.day[master.currentDay][this.sceneName]
@@ -263,7 +462,7 @@ var Dialogue = cc.Scene.extend({
 	}, 
 	changeScene: function ( sceneName ) {
 		var oldScene = this;
-		var action = cc.FadeOut.create(3.0); //create a 3 second fade out
+		var action = cc.fadeOut(2.0); //create a 3 second fade out
 		var clean = cc.Action.extend({ // this will actually change the scene
 			update: function() {
 				cc.director.runScene(new Dialogue(sceneName));
