@@ -9,6 +9,7 @@ var GAME_DEBUG_MODE = false;
 var game = cc.Scene.extend({ //setting up the scene object
 	ctor:function(difficulty, characters) { //the scene constructor
 		this._super();
+		this.levelContainer = new this.LevelContainer(this.LevelConstructor);
 	},
 	
 	// init space of chipmunk
@@ -29,14 +30,73 @@ var game = cc.Scene.extend({ //setting up the scene object
         this.space.addStaticShape(wallBottom);
     },
 	
-	onEnter:function(){ //this is called right after ctor, generate layers here	
+	LevelConstructor: cc.Sprite.extend({ //Level class, controlled by levelContainer
+		ctor:function(background){
+			this._super();
+			this.initWithFile(background);
+			this._background = background;
+			console.log("this._background = " + this._background);
+		},
+		
+		getBackground:function(){
+			return this._background
+		}
+	}),
+	
+	LevelContainer: cc.Node.extend({
+		ctor:function(LevelConstructor){
+			this.levels = [];
+			
+			console.log("this.levelConstructor:" + LevelConstructor);
+			this.levels.push(new LevelConstructor("Assets/art/real/sprites/dialogue_box.png"));
+			this.levels.push(new LevelConstructor("Assets/art/fantasy/Sketches/IMAG0786_1.jpg"));
+			this.levels.push(new LevelConstructor("Assets/art/real/backgrounds/background.png"));
+			
+		},
+		
+		getLevel:function(index){//return the level information, do not allow for index errors
+			if(index <0){
+				index = 0;
+			}
+			else if(index > this.levels.length-1){
+				index = this.levels.length-1;
+			}
+			return this.levels[index]
+		}
+	}),
+	
+	
+	levelSetup:function(){
+		var levelDetails = this.levelContainer.getLevel(this.level); //get constructor from container
+		cc.log("levelDetails.getBackground" + levelDetails.getBackground());
+		
+		this.backgroundLayer.setLevel(levelDetails);//set the backgroundLayer
+		
+		this.demoLayer.setLevel(levelDetails);//set the demoLayer
+	},
+	
+	increaseLevel:function(){
+		this.level++;
+		this.demoLayer.level = this.level;
+		this.levelSetup();
+	},
+	
+	decreaseLevel:function(){
+		this.level--;
+		this.demoLayer.level = this.level;
+		this.levelSetup();
+	},
+	
+	onEnter:function(){ //this is called right after ctor, generate layers here		
 		this._super();		//var fanatsyBackground = new FantasyBackgroundLayer();
 		this.initPhysics();
 		
-		var demoLayer = new ActionsDemoLayer();
-		var backgroundLayer = new FantasyBackgroundLayer();
-		this.addChild(backgroundLayer);
-		this.addChild(demoLayer); 
+		this.level = 0;
+		
+		this.demoLayer = new ActionsDemoLayer();
+		this.backgroundLayer = new FantasyBackgroundLayer();
+		this.addChild(this.backgroundLayer);
+		this.addChild(this.demoLayer); 
 	}
  });
  
@@ -44,6 +104,7 @@ var game = cc.Scene.extend({ //setting up the scene object
 
  var ActionsDemoLayer = cc.Layer.extend ({
 	player:null, //our reference to the player
+	
 	ctor:function(){
 		this._super();
 		//add physics to the world
@@ -65,6 +126,12 @@ var game = cc.Scene.extend({ //setting up the scene object
 		},this);
 		
 		this.initFrame("down");
+	},
+	
+	setLevel:function(levelDetails){ //set the new level details
+		//set up all the enemies
+		
+		//set up all the obstacles
 	},
 	
 	makeFireball:function(){
@@ -114,6 +181,7 @@ var game = cc.Scene.extend({ //setting up the scene object
 	},
 	
 	initFrame:function(dirFrom){		
+		cc.log("level:" + this.level);
 		//create a floor
 		var floor = this.space.addShape(new cp.SegmentShape(this.space.staticBody, cp.v(0, 0), cp.v(1100, 0), 0));
         floor.setElasticity(1);
@@ -140,13 +208,16 @@ var game = cc.Scene.extend({ //setting up the scene object
 	
 	update:function(dt){
 		if(this.player.y < -200){//transition down
+			this.parent.increaseLevel();//this.level += 1;
 			this.initFrame("down");
 		}
 		if(this.player.x > 1000){ //transition right
+			this.parent.increaseLevel();//this.level += 1;
 			this.initFrame("right");
 		}
 		else if(this.player.x < 100){ //transition left
-			this.initFrame("left")
+			this.parent.decreaseLevel();
+			this.initFrame("left");//this.level -= 1;
 		}
 		this.space.step(dt);
 	},
@@ -161,7 +232,7 @@ var game = cc.Scene.extend({ //setting up the scene object
 			//console.log("before alteration p.x: " + p.x + " p.y: " + p.y);
 			p.y = this.player.fixedHeight; //fix the player's y position
 			
-			var jumps = (Math.abs(this.player.x - p.x) )/100
+			var jumps = (Math.abs(this.player.x - p.x) )/1000
 			//console.log("after alteration p.x: " + p.x + " p.y: " + p.y);
 			
 			var action = cc.MoveTo.create(2*jumps,p);
@@ -173,10 +244,19 @@ var game = cc.Scene.extend({ //setting up the scene object
 var FantasyBackgroundLayer = cc.Layer.extend({
 	ctor:function() {
 		this._super();
-		var helloworld = cc.Sprite.create("../Assets/art/real/sprites/dialogue_box.png");
-		helloworld.x = cc.director.getWinSize().width/2;
-		helloworld.y = cc.director.getWinSize().height/2;
-		this.addChild(helloworld);
+		this.helloworld = cc.Sprite.create("../Assets/art/real/sprites/dialogue_box.png");
+		this.helloworld.x = cc.director.getWinSize().width/2;
+		this.helloworld.y = cc.director.getWinSize().height/2;
+		this.addChild(this.helloworld);
+	},
+	
+	setLevel:function(levelDetails){//set up the new level
+		this.removeChild(this.helloworld);
+		this.helloworld = cc.Sprite.create(levelDetails.getBackground());
+		cc.log("this.helloworld = " + this.helloworld);
+		this.helloworld.x = cc.director.getWinSize().width/2;
+		this.helloworld.y = cc.director.getWinSize().height/2;
+		this.addChild(this.helloworld);
 	}
  });
  
