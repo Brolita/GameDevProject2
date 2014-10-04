@@ -1,63 +1,73 @@
 /*
- *
- *
+ * Game.js
+ * 
+ * Controls the fantasy-world portion of the game
+ * The main scene is the game "scene" which contains 
+ * both a background layer and a Gameplay layer
  *
  */
  
-var GAME_DEBUG_MODE = false;
- 
+ /*
+ * game scene, contains the layers for this gamess.
+ */
 var game = cc.Scene.extend({ //setting up the scene object
-	ctor:function(difficulty, characters) { //the scene constructor
+	ctor:function(difficulty, characters) { //construct an instance of this game scene
 		this._super();
+		
+		//create the object that contains all the levels
 		this.levelContainer = new this.LevelContainer(this.LevelConstructor);
 	},
 	
-	// init space of chipmunk
+	// initialize the space of chipmunk
     initPhysics:function() {
-		var g_groundHight = 57;
+		//use these variables for setting up the scene
+		var g_groundHeight = 57;
 		var g_runnerStartX = 80;
 	
-        //1. new space object 
+        //make the space object where all the physics components of the world reside
         this.space = new cp.Space();
-        //2. setup the  Gravity
+        //add gravity to the physical space
         this.space.gravity = cp.v(0, -350);
 
-        // 3. set up Walls
+        // make floor objects
         var wallBottom = new cp.SegmentShape(this.space.staticBody,
-            cp.v(0, g_groundHight),// start point
-            cp.v(4294967295, g_groundHight),// MAX INT:4294967295
+            cp.v(0, g_groundHeight),// start point
+            cp.v(4294967295, g_groundHeight),// MAX INT:4294967295
             0);// thickness of wall
         this.space.addStaticShape(wallBottom);
     },
 	
-	LevelConstructor: cc.Sprite.extend({ //Level class, controlled by levelContainer
+	//Level class, contained within levelContainer, has all of the properties of each level
+	LevelConstructor: cc.Sprite.extend({ 
+		//initialize this object, save the background for this level
 		ctor:function(background){
 			this._super();
 			this.initWithFile(background);
 			this._background = background;
-/*#ifdef debugMode
-			console.log("this._background = " + this._background);
-#endif */
-			},
+		},
 		
+		//return the background for this level, used so that the background layer can access
+		//the background
 		getBackground:function(){
 			return this._background
 		}
 	}),
 	
+	//creates and holds all of the level objects
 	LevelContainer: cc.Node.extend({
+		//initialize this instance and create all of the levels
 		ctor:function(LevelConstructor){
-			this.levels = [];
-/*#ifdef debugMode			
-			console.log("this.levelConstructor:" + LevelConstructor);
-#endif */			
+			this.levels = []; //create the level array
 			this.levels.push(new LevelConstructor("Assets/art/real/sprites/dialogue_box.png"));
 			this.levels.push(new LevelConstructor("Assets/art/fantasy/Sketches/IMAG0786_1.jpg"));
 			this.levels.push(new LevelConstructor("Assets/art/real/backgrounds/background.png"));
 			
 		},
 		
-		getLevel:function(index){//return the level information, do not allow for index errors
+		//return the level at this index, unless the index is out of range.
+		getLevel:function(index){
+			//if the index is out of range, put the index in range and then return the object
+			//at the in range index
 			if(index <0){
 				index = 0;
 			}
@@ -68,72 +78,67 @@ var game = cc.Scene.extend({ //setting up the scene object
 		}
 	}),
 	
-	
+	//Set up the current level, use the this.level variable to find out which level should be
+	//set up, get the level object and pass it to both layers
 	levelSetup:function(){
 		var levelDetails = this.levelContainer.getLevel(this.level); //get constructor from container
-/*#ifdef debugMode		
-		cc.log("levelDetails.getBackground" + levelDetails.getBackground());
-#endif */
 		this.backgroundLayer.setLevel(levelDetails);//set the backgroundLayer
 		
-		this.demoLayer.setLevel(levelDetails);//set the demoLayer
+		this.gameplayLayer.setLevel(levelDetails);//set the gameplayLayer
 	},
 	
+	//go to the next level
 	increaseLevel:function(){
-		this.level++;
-		this.demoLayer.level = this.level;
-		this.levelSetup();
+		this.level++; //increment level value
+		this.levelSetup(); //setup the new level
 	},
 	
+	//go to the previous level
 	decreaseLevel:function(){
-		this.level--;
-		this.demoLayer.level = this.level;
-		this.levelSetup();
+		this.level--; //decrement level value
+		this.levelSetup(); //setup previous level
 	},
 	
-	onEnter:function(){ //this is called right after ctor, generate layers here		
-		this._super();		//var fanatsyBackground = new FantasyBackgroundLayer();
+	//Set up the layers and add them as children to the game scene
+	onEnter:function(){ //this is called right after ctor	
+		this._super();		
 		this.initPhysics();
 		
-		this.level = 0;
+		this.level = 0; //have the level start out as 0
 		
-		this.demoLayer = new ActionsDemoLayer();
+		this.gameplayLayer = new ActionsgameplayLayer();
 		this.backgroundLayer = new FantasyBackgroundLayer();
 		this.addChild(this.backgroundLayer);
-		this.addChild(this.demoLayer); 
+		this.addChild(this.gameplayLayer); 
 	}
  });
  
- 
- var ActionsDemoLayer = cc.Layer.extend ({
+//this is the layer where all the actual gameplay happens
+var ActionsgameplayLayer = cc.Layer.extend ({
 	player:null, //our reference to the player
 	
+	//Constructor setup the game space
 	ctor:function(){
 		this._super();
 		
+		var winSize = cc.director.getWinSize(); //used later in calculations
 
 		//add physics to the world
-		var winSize = cc.director.getWinSize();
-		
 		this.space = new cp.Space();
+		this.space.gravity = cp.v(0,-200); //set the gravity
 		
-		this.space.gravity = cp.v(0,-200);
+		this.lastClick = Date.now() - 100; //get time of last click used to determine if the player
+		//should jump, or just moce
 		
-		this.lastClick = Date.now() - 100;
+		this.makePlayer(); //create the player
 		
-		this.makePlayer();
-		this.makeFireball();
+		this.scheduleUpdate(); //tell cocos to routinely call update function
 		
-		var sprite1 = this.createPhysicsSprite( cc.p(winSize.width/2, winSize.height-20), "src/grossini.png", 1);
-		var sprite2 = this.createPhysicsSprite( cc.p(winSize.width/2, 50), "src/grossini.png", 2);
+		//add the event listeners
+		cc.eventManager.addListener ({ 
 		
-		
-		this.addChild( sprite1 );
-		this.addChild( sprite2 );
-		
-		this.scheduleUpdate();
-		
-		cc.eventManager.addListener ({ //whenever you click, move the character to that position
+			//mouse event listener, key method of player interaction. One click means move to 
+			//click location. Two clicks means jump
 			event: cc.EventListener.MOUSE,
 			onMouseDown: function(event) {
 				var now = Date.now();
@@ -142,7 +147,6 @@ var game = cc.Scene.extend({ //setting up the scene object
 					cc.log("setting lastjump");
 					this.lastJump = now;
 				}
-				
 				
 				if ((now - this.lastClick) < 1000 && (now - this.lastJump) > 1000){
 					this.lastJump = now;
@@ -175,15 +179,6 @@ var game = cc.Scene.extend({ //setting up the scene object
 		
 		//set up all the obstacles
 	},
-	
-	/*onEnter : function () {
-		this.space.addCollisionHandler( 1, 2,
-			this.collisionBegin.bind(this),
-			this.collisionPre.bind(this),
-			this.collisionPost.bind(this),
-			this.collisionSeparate.bind(this)
-			);
-	},*/
 
 	onExit : function() {
 		this.space.removeCollisionHandler( 1, 2 );
@@ -191,42 +186,20 @@ var game = cc.Scene.extend({ //setting up the scene object
 	
 	collisionBegin : function ( arbiter, space ) {
 
-		if( ! this.messageDisplayed ) {
-			/*var label = new cc.LabelBMFont("Collision Detected", s_bitmapFontTest5_fnt);
-			this.addChild( label );
-			label.x = winSize.width/2;
-			label.y = winSize.height/2 ;
-			this.messageDisplayed = true;*/
-			cc.log('177:collision begin')
-		}
-		cc.log('collision begin');
 		var shapes = arbiter.getShapes();
 		var collTypeA = shapes[0].collision_type;
 		var collTypeB = shapes[1].collision_type;
-/*#if debug
-		cc.log( 'Collision Type A:' + collTypeA );
-		cc.log( 'Collision Type B:' + collTypeB );
-#endif */
 		return true;
 	},
 
 	collisionPre : function ( arbiter, space ) {
-/* #if debug	
-		cc.log('collision pre');
-#endif */
 		return true;
 	},
 
     collisionPost : function ( arbiter, space ) {
-/* #if debug
-		cc.log('collision post');
-#endif */
 	},
 
     collisionSeparate : function ( arbiter, space ) {
-/* #if debug
-		cc.log('collision separate');
-#endif */
     },
 	
 	makeFireball:function(){
@@ -236,9 +209,7 @@ var game = cc.Scene.extend({ //setting up the scene object
 		var contentSize = this.fireBall.getContentSize();
 		contentSize.width = 100;
 		contentSize.height = 100;
-/* #if debug
-		cc.log("contentSize.width: " + contentSize.width + " contentSize.height: " + contentSize.height);
-#endif */
+
 		this.fireBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         //3. set the position of the runner
         this.fireBody.p = cc.p(600, g_groundHeight + contentSize.height / 2);
@@ -261,9 +232,7 @@ var game = cc.Scene.extend({ //setting up the scene object
 		var contentSize = this.player.getContentSize();
 		contentSize.width = 100;
 		contentSize.height = 100;
-/* #if debug		
-		cc.log("contentSize.width: " + contentSize.width + " contentSize.height: " + contentSize.height);
-#endif */       
+
 		this.playerBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         //3. set the position of the runner
         this.playerBody.p = cc.p(80, g_groundHeight + contentSize.height / 2);
@@ -293,9 +262,6 @@ var game = cc.Scene.extend({ //setting up the scene object
 	},
 	
 	initFrame:function(dirFrom){		
-/* #if debug
-		cc.log("level:" + this.level);
-#endif */
 		//create a floor
 		var floor = this.space.addShape(new cp.SegmentShape(this.space.staticBody, cp.v(0, 0), cp.v(1100, 0), 0));
         floor.setElasticity(1);
@@ -312,16 +278,10 @@ var game = cc.Scene.extend({ //setting up the scene object
 				this.player.setPosition(900,70); //put him in the corner
 				break;
 		}
-		this.player.canMove = true //whether or not the player can move, prevents double movement
-		
-		
-		
-		
-	
+		this.player.canMove = true //whether or not the player can move, prevents double movement	
 	},
 	
 	update:function(dt){
-		
 		if(this.player.y < -200){//transition down
 			this.parent.increaseLevel();//this.level += 1;
 			this.initFrame("down");
@@ -336,56 +296,34 @@ var game = cc.Scene.extend({ //setting up the scene object
 		}
 		this.space.step(dt);
 	},
+	
 	moveIt:function(p) { //functionality for moving
 		if(this.player.canMove){
-/* #if debug
-			cc.log("this.player.x:" + this.player.x + " this.player.y:" + this.player.y);
-#endif */
 			this.player.stopAllActions(); //prevent double movement [uber bad]
 			this.player.fixedHeight = this.player.y; //set the fixed player height, the bottom point in jump
-/* #if debug
-			console.log("this.player.fixedHeight:" + this.player.fixedHeight + " this.player.y" + this.player.y);
-#endif */
-		
-/* #if debug
-			console.log("before alteration p.x: " + p.x + " p.y: " + p.y);
-#endif */
 			p.y = this.player.fixedHeight; //fix the player's y position
 			
 			var jumps = (Math.abs(this.player.x - p.x) )/1000
-/* #if debug
-			console.log("after alteration p.x: " + p.x + " p.y: " + p.y);
-#endif */
 			var action = cc.MoveTo.create(2*jumps,p);
 			this.player.runAction(action);
 		}
 	},
-	jumpIt:function(p) { //functionality for moving
+	jumpIt:function(p) { //functionality for jumping. Launch the player in the air, but do not
+		//change their x coordinates
 		if(this.player.canMove){
-/* #if debug
-			cc.log("this.player.x:" + this.player.x + " this.player.y:" + this.player.y);
-#endif */
 			this.player.stopAllActions(); //prevent double movement [uber bad]
-			this.player.fixedHeight = this.player.y + 200; //set the fixed player height, the bottom point in jump
-/* #if debug
-			console.log("this.player.fixedHeight:" + this.player.fixedHeight + " this.player.y" + this.player.y);
-#endif */
-		
-/* #if debug
-			console.log("before alteration p.x: " + p.x + " p.y: " + p.y);
-#endif */
+			this.player.fixedHeight = this.player.y + 500; //set the fixed player height, the bottom point in jump
 			p.y = this.player.fixedHeight; //fix the player's y position
+			p.x = this.player.x
 			//jumping added
 			var jumps = (Math.abs(this.player.x - p.x) )/1000
-/* #if debug
-			console.log("after alteration p.x: " + p.x + " p.y: " + p.y);
-#endif */
 			var action = cc.MoveTo.create(jumps + 1,p);
 			this.player.runAction(action);
 		}
 	}
  });
  
+//background layer. Controls the background layer in the fantasy world
 var FantasyBackgroundLayer = cc.Layer.extend({
 	ctor:function() {
 		this._super();
@@ -395,71 +333,16 @@ var FantasyBackgroundLayer = cc.Layer.extend({
 		this.addChild(this.helloworld);
 	},
 	
-	setLevel:function(levelDetails){//set up the new level
+	setLevel:function(levelDetails){//set up the new level with the levelDetails passed
 		this.removeChild(this.helloworld);
 		this.helloworld = cc.Sprite.create(levelDetails.getBackground());
-/* #if debug
-		cc.log("this.helloworld = " + this.helloworld);
-#endif */
 		this.helloworld.x = cc.director.getWinSize().width/2;
 		this.helloworld.y = cc.director.getWinSize().height/2;
 		this.addChild(this.helloworld);
 	}
  });
- 
-
-//copied directly from demo code
-
-var TestScene = cc.Scene.extend({
-    ctor:function (bPortrait) {
-        this._super();
-        this.init();
-
-        var label = cc.LabelTTF.create("Main Menu", "Arial", 20);
-        var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
-
-        var menu = cc.Menu.create(menuItem);
-        menu.x = 0;
-        menu.y = 0;
-        menuItem.x = winSize.width - 50;
-        menuItem.y = 25;
-
-        if(!window.sideIndexBar){
-            this.addChild(menu, 1);
-        }
-    },
-    onMainMenuCallback:function () {
-        var scene = cc.Scene.create();
-        var layer = new TestController();
-        scene.addChild(layer);
-        var transition = cc.TransitionProgressRadialCCW.create(0.5,scene);
-		
-		var ts = new TestScene();
-		
-        director.runScene(ts);
-    },
-
-    runThisTest:function () {
-        // override me
-    }
-
-});
-
-/*var ClickAndMoveTestScene = TestScene.extend({
-    runThisTest:function () {
-        var layer = new MainLayer();
-
-        this.addChild(layer);
-        director.runScene(this);
-    }
-});	*/
 
 
-//end direct copy from click demo
- 
- var FantasyParallaxLayer;
- var FantasyInteractiveLayer; 
- 
 /*
  *
  * EVERY THING ABOVE IS CODING SPACE FOR WILL
@@ -515,10 +398,7 @@ var entity = cc.Sprite.extend({
 	physics:null,
 	ctor: function(args) {
 		this.health = new healthConstructor(args.health);
-		this.addChild(this.health);
-		
-		
-		
+		this.addChild(this.health);	
 	}
 });
 
