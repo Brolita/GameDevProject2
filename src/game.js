@@ -477,7 +477,11 @@ var rect = function(x,y,w,h) {
 
 var myTestScene = cc.Scene.extend({
 	ctor: function() {
-		createTest();
+		this._super();
+		var a = createTest();
+		a.x = 300;
+		a.y = 300;
+		this.addChild(a);
 	}
 })
  
@@ -486,17 +490,17 @@ function createTest() {
 	var testIdle = cc.Animation.create();
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
-	testIdle.setDelayPerUnit( 1 / 60);
+	testIdle.setDelayPerUnit( 1 / 24);
 	
 	var testAttack = cc.Animation.create();
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
-	testAttack.setDelayPerUnit( 1 / 60);
+	testAttack.setDelayPerUnit( 1 / 24);
 	
 	var testWalk = cc.Animation.create();
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
-	testWalk.setDelayPerUnit( 1 / 60);
+	testWalk.setDelayPerUnit( 1 / 24);
 	
 	var testAI = cc.Node.extend({
 		idle: cc.Action.extend({
@@ -524,22 +528,28 @@ function createTest() {
 			}
 		}),
 		
-		ctor: function() {
+		ctor: function(animations, entity) {
 			this._super();
 			
-			ControllerConstructor(arguments[0], arguments[1], this);
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.addChild( this.animator );
+			
+			this.main();
 		},
 		
 		main: function() {
 			// this.entity
 			// this.animator
 			// collisionMaster.enemies and collisionMaster.characters 
-			console.log("hello world")
-			this.animator.play("idle", this.callback1, this);
+			var data = {idlecount: 0}
+			this.animator.play("idle", data);
 		},
 		
-		callback1: function() {
-			console.log("hello world 2.0");
+		callback: function(IGNOREME, data) {
+			data.idlecount ++;
+			this.animator.play("idle", data);
 		}
 	});
 	
@@ -592,6 +602,8 @@ var entity = cc.Sprite.extend({
 	controller:null,
 	collider:null,
 	ctor: function(args) {
+		this._super();
+		
 		this.health = new HealthConstructor(args.health, this);
 		this.addChild(this.health);
 		
@@ -656,16 +668,6 @@ var HealthConstructor = cc.Node.extend({
 	}
 });
 
-var ControllerConstructor = function(animations, entity, AI) {
-	console.log(arguments);
-	AI.entity = entity;
-	
-	AI.animator = new AnimatorConstructor(animations, this);
-	AI.addChild( AI.animator );
-	
-	AI.main();
-}
-
 var AnimatorConstructor = cc.Sprite.extend({
 	controller: null,
 	animations: null,
@@ -676,19 +678,20 @@ var AnimatorConstructor = cc.Sprite.extend({
 		this.controller = controller;
 		this.animations = animations;
 	},
-	play: function(animationName, callbackFunction, caller) {
+	play: function(animationName, callbackData) {
 		if(!animationName in this.animations) {
 			console.log("No animation by the name " + animationName);
 			return;
 		}
-		console(this);
 		this.stopActionByTag(this.__animation_tag);
+		var anim = cc.Animate.create(this.animations[animationName]);
 		var seq = cc.sequence(
-			cc.Animate.create(this.animations[animationName]),
-			cc.callFunc(callbackFunction, caller)
+			anim,
+			cc.callFunc(this.controller.callback, this.controller, callbackData)
 		);
 		seq.tag = this.__animation_tag;
 		this.runAction(seq);
+		
 	},
 	delay: function() {
 		if(this.getActionByTag(this.__animation_tag)) {
@@ -697,7 +700,7 @@ var AnimatorConstructor = cc.Sprite.extend({
 		}
 	},
 	_unsetDelay: function() {
-		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 60);
+		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 24);
 	}
 });
 
