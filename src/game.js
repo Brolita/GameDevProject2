@@ -328,6 +328,85 @@ var rect = function(x,y,w,h) {
 };
  
 
+var myTestScene = cc.Scene.extend({
+	ctor: function() {
+		createTest();
+	}
+})
+ 
+function createTest() {
+	
+	var testIdle = cc.Animation.create();
+	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	testIdle.setDelayPerUnit( 1 / 60);
+	
+	var testAttack = cc.Animation.create();
+	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
+	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+	testAttack.setDelayPerUnit( 1 / 60);
+	
+	var testWalk = cc.Animation.create();
+	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
+	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
+	testWalk.setDelayPerUnit( 1 / 60);
+	
+	var testAI = cc.Node.extend({
+		idle: cc.Action.extend({
+			ctor: function() {
+				this._super();
+			},
+			update: function(dt) {
+				
+			}
+		}),
+		walk: cc.Action.extend({
+			ctor: function() {
+				this._super();
+			},
+			update: function(dt) {
+				
+			}
+		}),
+		attack: cc.Action.extend({
+			ctor: function() {
+				this._super();
+			},
+			update: function(dt) {
+				
+			}
+		}),
+		
+		ctor: function() {
+			this._super();
+			
+			ControllerConstructor(arguments[0], arguments[1], this);
+		},
+		
+		main: function() {
+			// this.entity
+			// this.animator
+			// collisionMaster.enemies and collisionMaster.characters 
+			console.log("hello world")
+			this.animator.play("idle", this.callback1, this);
+		},
+		
+		callback1: function() {
+			console.log("hello world 2.0");
+		}
+	});
+	
+	return new entity({
+		health: 10,
+		animations: {
+			idle: testIdle,
+			walk: testWalk,
+			attack: testAttack,
+		}, 
+		controller: testAI,
+		
+	});
+}
  
 var collisionMaster = {
 	enemies: [],
@@ -364,22 +443,26 @@ var collisionMaster = {
 var entity = cc.Sprite.extend({
 	health:null,
 	controller:null,
-	collision:null,
-	physics:null,
+	collider:null,
 	ctor: function(args) {
-		this.health = new healthConstructor(args.health);
+		this.health = new HealthConstructor(args.health, this);
 		this.addChild(this.health);
 		
+		this.controller = new args.controller(args.animations, this);
+		this.addChild(this.controller);
 		
+		//this.collider = new ColliderConstructor( /*fill in args */ );
 		
 	}
 });
 
-var healthConstructor = cc.Node.extend({
+var HealthConstructor = cc.Node.extend({
 	_value:0,
 	maxHealth:null,
 	healthBar:null,
-	ctor:function(health) {
+	entity:null,
+	ctor:function(health, entity) {
+		this.entity = entity
 		this._super();
 		if(health === undefined) {
 			console.log("entity needs a health argument");
@@ -426,8 +509,48 @@ var healthConstructor = cc.Node.extend({
 	}
 });
 
- 
-var controllerConstructor = cc.Node.extend({
+var ControllerConstructor = function(animations, entity, AI) {
+	console.log(arguments);
+	AI.entity = entity;
+	
+	AI.animator = new AnimatorConstructor(animations, this);
+	AI.addChild( AI.animator );
+	
+	AI.main();
+}
 
+var AnimatorConstructor = cc.Sprite.extend({
+	controller: null,
+	animations: null,
+	__animation_tag: null,
+	ctor: function(animations, controller) {
+		this._super();
+		this.__animation_tag = Math.floor(Math.random() * 1000000);
+		this.controller = controller;
+		this.animations = animations;
+	},
+	play: function(animationName, callbackFunction, caller) {
+		if(!animationName in this.animations) {
+			console.log("No animation by the name " + animationName);
+			return;
+		}
+		console(this);
+		this.stopActionByTag(this.__animation_tag);
+		var seq = cc.sequence(
+			cc.Animate.create(this.animations[animationName]),
+			cc.callFunc(callbackFunction, caller)
+		);
+		seq.tag = this.__animation_tag;
+		this.runAction(seq);
+	},
+	delay: function() {
+		if(this.getActionByTag(this.__animation_tag)) {
+			this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1);
+			this.runAction ( cc.sequence( cc.delayTime(.05), cc.callFunc(this._unsetDelay, this) ) );
+		}
+	},
+	_unsetDelay: function() {
+		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 60);
+	}
 });
- 
+

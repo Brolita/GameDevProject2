@@ -1,4 +1,9 @@
-gameMaster
+AI -> ctor -> controller contructor -> 
+main
+	
+
+
+collisionMaster
 	enemies
 	characters
 	collision()
@@ -7,19 +12,21 @@ entity (extends sprite)
 	health
 		healthBar
 	controller
-		animations
+		animator
 			delay()
 			play()
-		actions (AI)
-			attack()
-		interaction 
+		entity
+		main
 	collision
 		hurtbox
 			getAll()
 			hit()
+			getIgnore()
 		hitbox
+			addHitbox()
 			getAll()
 			hit()
+			getIgnore()
 		wall
 	physics
 		falling
@@ -33,16 +40,19 @@ interactions / general flow
 
 --click event--
 entity.controller.interaction -> entity.controller.actions
- entity.controller.actions -> entity.controller.animations.play
+ entity.controller.actions -> entity.controller.animator.play
  entity.controller.actions -> entity.collision.hitbox.AddHitbox
 
 --hurtbox hit--
 entity.collision.hurtbox.hit -> entity.controller.actions
- entity.controller.actions -> entity.controller.animations.delay
+ entity.controller.actions -> entity.controller.animator.delay
  entity.controller.actions -> entity.health
   entity.health -> entity.health.healthBar
 
 --hitbox hit--
 entity.collision.hitbox.hit -> entity.controller.actions
- entity.controller.actions -> entity.controller.animations.delay
+ entity.controller.actions -> entity.controller.animator.delay
+ 
+--AI decision--
+entity.controller.actions.AI
  
