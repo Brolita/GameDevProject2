@@ -101,13 +101,14 @@ var game = cc.Scene.extend({ //setting up the scene object
  });
  
  
-
  var ActionsDemoLayer = cc.Layer.extend ({
 	player:null, //our reference to the player
 	
 	ctor:function(){
 		this._super();
 		//add physics to the world
+		var winSize = cc.director.getWinSize();
+		
 		this.space = new cp.Space();
 		
 		this.space.gravity = cp.v(0,-200);
@@ -115,6 +116,12 @@ var game = cc.Scene.extend({ //setting up the scene object
 		this.makePlayer();
 		this.makeFireball();
 		
+		var sprite1 = this.createPhysicsSprite( cc.p(winSize.width/2, winSize.height-20), "src/grossini.png", 1);
+		var sprite2 = this.createPhysicsSprite( cc.p(winSize.width/2, 50), "src/grossini.png", 2);
+		
+		
+		this.addChild( sprite1 );
+		this.addChild( sprite2 );
 		
 		this.scheduleUpdate();
 		
@@ -125,14 +132,71 @@ var game = cc.Scene.extend({ //setting up the scene object
 			}
 		},this);
 		
+		
+		this.space.addCollisionHandler( 1, 2,
+			this.collisionBegin.bind(this),
+			this.collisionPre.bind(this),
+			this.collisionPost.bind(this),
+			this.collisionSeparate.bind(this)
+			);
+		
 		this.initFrame("down");
+		
+		
 	},
+	
+	
 	
 	setLevel:function(levelDetails){ //set the new level details
 		//set up all the enemies
 		
 		//set up all the obstacles
 	},
+	
+	/*onEnter : function () {
+		this.space.addCollisionHandler( 1, 2,
+			this.collisionBegin.bind(this),
+			this.collisionPre.bind(this),
+			this.collisionPost.bind(this),
+			this.collisionSeparate.bind(this)
+			);
+	},*/
+
+	onExit : function() {
+		this.space.removeCollisionHandler( 1, 2 );
+	},
+	
+	collisionBegin : function ( arbiter, space ) {
+
+		if( ! this.messageDisplayed ) {
+			/*var label = new cc.LabelBMFont("Collision Detected", s_bitmapFontTest5_fnt);
+			this.addChild( label );
+			label.x = winSize.width/2;
+			label.y = winSize.height/2 ;
+			this.messageDisplayed = true;*/
+			cc.log('177:collision begin')
+		}
+		cc.log('collision begin');
+		var shapes = arbiter.getShapes();
+		var collTypeA = shapes[0].collision_type;
+		var collTypeB = shapes[1].collision_type;
+		cc.log( 'Collision Type A:' + collTypeA );
+		cc.log( 'Collision Type B:' + collTypeB );
+		return true;
+	},
+
+	collisionPre : function ( arbiter, space ) {
+		cc.log('collision pre');
+		return true;
+	},
+
+    collisionPost : function ( arbiter, space ) {
+		cc.log('collision post');
+	},
+
+    collisionSeparate : function ( arbiter, space ) {
+		cc.log('collision separate');
+    },
 	
 	makeFireball:function(){
 		var g_groundHeight = 57; //position of ground
@@ -145,7 +209,7 @@ var game = cc.Scene.extend({ //setting up the scene object
         
 		this.fireBody = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         //3. set the position of the runner
-        this.fireBody.p = cc.p(80, g_groundHeight + contentSize.height / 2);
+        this.fireBody.p = cc.p(600, g_groundHeight + contentSize.height / 2);
         //5. add the created body to space
         this.space.addBody(this.fireBody);
         this.fireShape = new cp.BoxShape(this.fireBody, contentSize.width - 14, contentSize.height);
@@ -178,6 +242,21 @@ var game = cc.Scene.extend({ //setting up the scene object
         this.player.setBody(this.playerBody);
 		this.addChild(this.player); //Make the player sprite part of the scene heirarchy
 		
+	},
+	
+	createPhysicsSprite : function( pos, file, collision_type ) {
+		var body = new cp.Body(1, cp.momentForBox(1, 48, 108) );
+		body.setPos(pos);
+		this.space.addBody(body);
+		var shape = new cp.BoxShape( body, 48, 108);
+		shape.setElasticity( 0.5 );
+		shape.setFriction( 0.5 );
+		shape.setCollisionType( collision_type );
+		this.space.addShape( shape );
+
+		var sprite = new cc.PhysicsSprite(file);
+		sprite.setBody( body );
+		return sprite;
 	},
 	
 	initFrame:function(dirFrom){		
