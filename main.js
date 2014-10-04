@@ -76,7 +76,7 @@ master["currentDay"] = 0;
 		}
 	}
 	for (var i = 0; i < 9; i++) {
-		res.push("../assets/art/real/sprites/click_" + i + ".png");
+		res.push("assets/art/real/sprites/click_" + i + ".png");
 	}
 	cc.game.run()
 })();
@@ -87,7 +87,7 @@ cc.game.onStart = function(){
     cc.view.resizeWithBrowserSize(true);
     //load resources
     cc.LoaderScene.preload(res, function () {
-        //cc.director.runScene(new game());
-		cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
+        cc.director.runScene(new game());
+		//cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
     }, this);
 };

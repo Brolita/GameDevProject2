@@ -241,8 +241,15 @@ var TestScene = cc.Scene.extend({
  *
  */
  
+var rect = function(x,y,w,h) {
+	this._point = new cc.Point(x,y);
+	this._size = new cc.Size(w,h);
+	return this;
+};
  
-var gameMaster = {
+
+ 
+var collisionMaster = {
 	enemies: [],
 	characters: [],
 	collision: function() {
@@ -273,6 +280,74 @@ var gameMaster = {
 		}
 	}
 }
+
+var entity = cc.Sprite.extend({
+	health:null,
+	controller:null,
+	collision:null,
+	physics:null,
+	ctor: function(args) {
+		this.health = new healthConstructor(args.health);
+		this.addChild(this.health);
+		
+		
+		
+	}
+});
+
+var healthConstructor = cc.Node.extend({
+	_value:0,
+	maxHealth:null,
+	healthBar:null,
+	ctor:function(health) {
+		this._super();
+		if(health === undefined) {
+			console.log("entity needs a health argument");
+		}
+		this.maxHealth = health;
+		this._value = health;
+		this.healthBar = cc.DrawNode.create();
+		this.damage(0);
+		this.addChild(this.healthBar);
+	},
+	damage:function(hit) {
+		var oldratio = (this._value / this.maxHealth);
+		this._value -= hit;
+		var ratio = (this._value / this.maxHealth);
+		this.healthBar.clear();
+		this.healthBar.drawRect(
+			new cc.Point(-40,100),
+			new cc.Point(80*ratio - 40, 130),
+			new cc.Color(255*(1 - Math.sqrt(ratio)), 255*Math.sqrt(ratio), 0, 255),
+			4,
+			new cc.Color(0,0,0,255)
+		);
+		var healthChunk = cc.DrawNode.extend({
+			ctor: function() {
+				this._super();
+				this.cascadeColor = true;
+				this.cascadeOpacity = true;
+			},
+			deleteSelf: cc.callFunc(this._del, this),
+			_del: function() {
+				this.cleanup();
+			}
+		});
+		var h = new healthChunk();
+		h.drawRect(
+			new cc.Point(80*ratio - 40, 102),
+			new cc.Point(80*oldratio - 40, 128),
+			new cc.Color(255, 0, 0, 255),
+			0,
+			new cc.Color(0,0,0,0)
+		);
+		h.runAction( cc.sequence( cc.delayTime(.2), cc.fadeOut(.3), h.deleteSelf ) );
+		this.addChild(h);
+	}
+});
+
  
- 
+var controllerConstructor = cc.Node.extend({
+
+});
  
