@@ -375,7 +375,7 @@ var game = cc.Scene.extend({ //setting up the scene object
 			console.log("before alteration p.x: " + p.x + " p.y: " + p.y);
 #endif */
 			p.y = this.player.fixedHeight; //fix the player's y position
-			
+			//jumping added
 			var jumps = (Math.abs(this.player.x - p.x) )/1000
 /* #if debug
 			console.log("after alteration p.x: " + p.x + " p.y: " + p.y);
