@@ -370,7 +370,7 @@ function rectCollision(r1, r2) {
 var myTestScene = cc.Scene.extend({
 	ctor: function() {
 		this._super();
-		var a = createTest();
+		var a = createTest(this);
 		a.x = 800;
 		a.y = 300;
 		this.addChild(a);
@@ -409,7 +409,7 @@ customAction = cc.Node.extend({
 	}
 });
  
-function createTest() {
+function createTest(parent) {
 	/* Here is an example AI contruction
 	 * First we must create the animations
 	 */
@@ -417,17 +417,17 @@ function createTest() {
 	var testIdle = cc.Animation.create();
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
-	testIdle.setDelayPerUnit(1 / 20);
+	testIdle.setDelayPerUnit(1 / 15);
 	
 	var testAttack = cc.Animation.create();
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
-	testAttack.setDelayPerUnit(1 / 20);
+	testAttack.setDelayPerUnit(1 / 15);
 	
 	var testWalk = cc.Animation.create();
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
-	testWalk.setDelayPerUnit(1 / 20);
+	testWalk.setDelayPerUnit(1 / 15);
 	
 	/* now we create an AI constructor
 	 * by extending the node class
@@ -486,10 +486,10 @@ function createTest() {
 			this.attack = new customAction({
 				update: function() {
 					// on the second frame (frame 1 is first, not 0)
-					// animatons are 20 fps, but frame in update is 
+					// animatons are 15 fps, but frame in update is 
 					// out of 60 (the fps the game runs at)
 					if(this.frame == 4) {
-						// create a hitbox       relative coordinates       x, y, w, h, damage
+						// create a hitbox relative coordinates       x, y, w, h, damage
 						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,60, 1);
 					}
 				},
@@ -557,12 +557,14 @@ function createTest() {
 			attack: testAttack,
 		}, 
 		controller: testAI,
-		
+		parent: parent
 	});
 }
  
-function createPreston() {
+function createPreston(parent) {
 
+	//WIP
+	
 	var prestonIdle = cc.Animation.create();
 	
 	var prestonRun = cc.Animation.create();
@@ -592,7 +594,7 @@ function createPreston() {
 						a.cleanup();
 				}
 				a.scheduleUpdate();
-				cc.director.getRunningScene().addChild(a)
+				pres.entity.parent.addChild(a)
 			}
 			// idle behavior
 			this.idle = new customAction({
@@ -644,13 +646,36 @@ function createPreston() {
 			this.callback()
 		},
 		callback: function() {
-			if(this.data.count = this.data.idlecount) {
+			if(this.data.count < this.data.idlecount) {
 				if(this.data.count == 0) {
 					this.currentAction.stop();
 					this.idle.start();
 				}
+				this.data.count ++;
+			} else {
+				var tooClose = 0;
+				for( var i in collisionMaster.enemies ) {
+					if (!((this.entity.x + 500) < collidercollisionMaster.enemies[i].x)) {
+						tooClose = 1;
+					}
+					if (!((this.entity.x - 500) > collidercollisionMaster.enemies[i].x)) {
+						tooClose = -1;
+					}
+				}
+				if(tooClose == -1) {
+					this.entity.scaleX = -1;
+					this.currentAction.stop();
+					this.run.start();
+				} else if(tooClose == 1) {
+					this.entity.scaleX = 1;
+					this.currentAction.stop();
+					this.run.start();
+				} else {
+					this.currentAction.stop();
+					this.attack.start();
+					this.data.count = 0;
+				}
 			}
-			
 		}
 	});
 } 
@@ -696,6 +721,8 @@ var entity = cc.Sprite.extend({
 	hurtbox:null,
 	ctor: function(args) {
 		this._super();
+		
+		this.scene = args.parent
 		
 		this.health = new HealthConstructor(args.health, this);
 		this.addChild(this.health);
@@ -806,7 +833,7 @@ var AnimatorConstructor = cc.Sprite.extend({
 		}
 	},
 	_unsetDelay: function() {
-		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 20);
+		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 15);
 	}
 });
 
@@ -848,7 +875,7 @@ var ColliderConstructor = cc.Node.extend({
 	hit: function(collider, damage) {
 		if(collider.__instanceId in this.ignored) return;
 		if(this.type) {
-			this.entitiy.health.damage(damage);
+			this.entity.health.damage(damage);
 		}
 		this.ignored.push(collider.__instanceId);
 	},
