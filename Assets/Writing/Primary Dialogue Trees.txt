@@ -297,9 +297,9 @@ Meeting_with_Preston
 
 >> Meeting_with_Preston
 >> Campus #A field with paths, trees and nondescript people in the background
->> Preston
->> default
 >> Ken
+>> default
+>> Preston
 >> default
 
 ###############################################
@@ -515,6 +515,7 @@ sad
 ################################################
 
 24 
+enter Clark
 Clark
 angry
 "Out of my way, dude!"
@@ -549,6 +550,7 @@ Hey wait, is that?)"
 ################################################
 
 28
+enter Mara
 Mara
 default
 "Where is the Redwood Building?  I've looked everywhere, and I haven't seen it anywhere."
@@ -1016,3 +1018,566 @@ Lunchtime_with_Little_Sister
 >> default
 
 ################################################
+
+0
+Ken
+default
+"Good thing I got here when I did; they were nearly out of bacon! (Still, what am I going to do about new party members?  I guess I could try talking to them again, but...)"
+1
+
+################################################
+
+1 
+Jackie
+default
+"Oh, hi Ken!  Mind if I join you?"
+2 
+
+################################################
+
+2 
+Ken
+default
+"(I wonder if I can try bribing someone.  No, that's ridiculous.  In that case...)"
+3 
+
+################################################
+
+3
+Jackie
+default
+"Hello?  Earth to brother?  Ken?"
+4 
+
+################################################
+
+4 
+Ken
+default
+"(I wonder if a Craigslist ad would work...)"
+5
+
+################################################
+
+5
+Jackie
+angry
+"KEN!  PAY ATTENTION!"
+6
+
+################################################
+
+6
+Ken
+default
+"GYAAAAH!  Jesus Jackie, don't surprise me like that!  Where did you even come from?"
+7 
+
+################################################
+
+7 
+Jackie
+angry
+"I've been standing her for the last minute trying to get your attention while you mumbled to yourself like a creep!"
+8
+
+################################################
+
+8
+Ken
+sad
+"A creep?  That really hurts, sis."
+9
+
+################################################
+
+9
+Jackie
+angry
+"I'm sure it does.  Now can I sit down already?"
+10
+
+################################################
+
+10
+Ken
+default
+"It's may, not- I mean yeah, go ahead."
+11
+
+################################################
+
+11
+Jackie
+default
+"Thank you.  So what's up?  You look pretty stressed."
+12
+
+################################################
+
+12
+Ken
+sad
+"I pissed off a bunch of people I needed to help me, and there's no chance I can get them to help me again.  I've been trying to track down new people to help me out, but it hasn't gone well so far."
+13
+
+################################################
+
+13
+Jackie
+default
+"Well, shouldn't you try apologizing to the old people first?  It's better to make up with them than to abandon them."
+14
+
+################################################
+
+14
+Ken
+sad
+"I tried that, sis; they stopped answering my calls.  I was a real jerk to them, so they won't have anything to do with me any more.  That's why I've been trying to start fresh and do things correctly this time around, but I need to find people with a certain area of expertise."
+15
+
+################################################
+
+15
+Jackie
+default
+"Ken, what exactly are you talking about?"
+16
+
+################################################
+
+16
+Ken
+embarrassed
+"I'm...ahh...how do you put it, exactly?"
+17
+
+################################################
+
+17
+Jackie
+default
+"Spit it out, Ken."
+18
+
+################################################
+
+18
+Ken
+sad
+"It's about MythQuest.  I'm looking for four people to fill in a campaign ever since everyone left but me."
+19
+
+################################################
+
+19
+Jackie
+sad
+"That would explain it.  You drive them away again with that obsession of yours?"
+20
+
+################################################
+
+20
+Ken
+confused
+"(An obsession?  What does she mean?  Maybe it has to do with how I play MythQuest or something.)"
+21
+
+################################################
+
+21
+Ken
+confused
+"Obsession?  I don't know what you're talking about."
+Jackie + 0
+22
+"Could you explain it to me please?  Some other people said that too, and I really don't get it."
+Jackie + 1
+26
+
+################################################
+
+22
+Jackie
+angry
+"Of course you don't, Ken.  You don't have any idea now, and you didn't have any idea back then."
+23
+
+################################################
+
+23
+Ken
+confused
+"Wait, is this about when we played together in the past?"
+24
+
+################################################
+
+24
+Jackie
+sad
+"No, you stupid big brother.  This is about you, and how you don't get that other people want to have fun too."
+25
+
+################################################
+
+25
+Ken
+sad
+"Hey, wait!
+
+(Ugh, she's gone.  I really screwed up there; but what does she mean?  It's not like I don't want others to have fun, but they just keep getting in the way of the story and breaking rules.
+
+It's nearly time for writing class, so I should head out.)"
+Mara_and_Next_Chance
+
+################################################
+
+26
+Jackie
+sad
+"Remember when we used to play MythQuest together back in high school?"
+27
+
+################################################
+
+27
+Ken
+default
+"Yeah, it was loads of fun until you and everyone else stopped."
+28
+
+################################################
+
+28
+Jackie
+sad
+"It wasn't fun for everyone, Ken.  Just for you.  Do you know why I left?
+
+It was because I was tired of arguing with you over every little thing that went your way."
+29
+
+################################################
+
+29
+Ken
+sad
+"Oh..."
+30
+
+#################################################
+
+30
+Jackie
+sad
+"I hope you understand.  You have to compromise sometimes, and let other people enjoy themselves even if you aren't.  I've got class to go to, so bye for now."
+31
+
+#################################################
+
+31
+Ken
+sad
+"Bye, sis.
+
+(Now that I think back, I remember laughing and smiling...but I don't remember anyone else doing so.  Jackie's probably right about this; that's something I need to work on.)
+
+"Ah crap, it's this time already!?  I'm gonna be late to class!"
+Mara_and_Next_Chance
+
+#################################################
+
+>> Mara_and_Next_Chance
+>> Classroom #A classroom filled with empty seats
+>> Mara
+>> default
+>> Ken
+>> default
+
+#################################################
+
+0
+Ken
+default
+"(That stuff about multi-author stories was interesting enough, but damn does Professor Jacobs have a soporific for a voice.  Just gotta clean up these papers and-)
+
+Ah crap!"
+1
+
+#################################################
+
+1 
+Mara
+default
+"Would you like my assistance?"
+2 
+
+#################################################
+
+2
+Ken
+happy
+"Yes you! I mean, thank please!  Err..."
+3
+
+#################################################
+
+3 
+Ken
+embarrassed
+"(Kill me now, kill me now, kill me now...)"
+4 
+
+#################################################
+
+4 
+Mara
+default
+"You are welcome.  These papers, are they for another class?  They have chemistry equations on them."
+5
+
+#################################################
+
+5
+Ken
+default
+"No; you mentioned you were having problems with chemistry, right?  I figured I'd try some of the problems to see if I could help."
+6
+
+#################################################
+
+6
+Mara
+default
+"Well, you certainly appear as if you know what you are doing."
+[Mara > 0]
+"I take it this is preparation for tomorrow?"
+[Mara = 0]
+"Though I must say, it is slightly offputting that you have gone so far without my request."
+7
+
+#################################################
+
+7 
+Ken
+embarrassed
+[Mara > 0]
+"Yeah, I wanted to make sure I was prepared to help you as much as I could."
+[Mara = 0]
+"Ahaha...ha...ha...
+
+Sorry.  I wanted to make it up to you after offending you this morning, but I guess I screwed up again."
+8
+
+#################################################
+
+8
+Mara
+default
+"Well, I thank you for your concern."
+[Emily = 0]
+"If you are willing to aid me in my studies, would you consider doing so at 5:30 p.m. at the Library tomorrow?  It may make an adequate supplement at the least."
+9
+
+#################################################
+
+9
+Ken
+happy
+"Of course!  I mean, thank you!"
+10
+
+#################################################
+
+10
+Ken
+embarrassed
+"(Aaaagh, I always get so tongue-tied around her!)"
+11
+
+#################################################
+
+11
+Mara
+default
+"Though with the number of problems you've completed, were you paying adequate attention to class?  I would hate for your performance in this class to suffer due to my influence."
+12
+
+#################################################
+
+12
+Ken
+default
+"It was about multi-author stories, right?  'The germination of a unique narrative born from the melding of minds of multiple authors' and such?"
+13
+
+#################################################
+
+13
+Mara
+default
+"That is correct."
+14
+
+#################################################
+
+14
+Ken
+default
+"Then don't worry about me; I've got it covered.  In fact, I have an example.  
+
+(Here's the moment of truth...)
+
+Have you heard of the tabletop role-playing game called MythQuest?"
+15
+
+#################################################
+
+15
+Mara
+confused
+"Myth...what?
+16
+
+#################################################
+
+16
+Ken
+sad
+"(Instant failure right off the bat!?)"
+17
+
+#################################################
+
+17
+Ken
+default
+"(Wait no, it's not over yet!  
+
+But how do I go about this?)"
+18
+
+#################################################
+
+18
+Ken
+default
+"MythQuest.  It's a game where one person called a dungeon master makes a world for a bunch of players to explore and make a story."
+Mara + 1
+19
+"MythQuest.  It's an awesome game where you can slay monsters, save princesses and be a hero!"
+Mara + 0
+26
+
+#################################################
+
+19
+Mara
+default
+"Make a story, you say?  I was under the impression that such a task was the responsibility of solely the dungeon master, as you refer to him."
+20
+
+#################################################
+
+20
+Ken
+default
+"The DM is in charge of the story to an extent.  However, the players are the ones who determine how the story plays out through their actions, and the DM can accede to their action if they are promising enough.  Ultimately, roleplaying is a way to create stories in a way unlike any other."
+21
+
+#################################################
+
+21
+Mara
+default
+"I see; it sounds fascinating."
+22
+
+#################################################
+
+22
+Ken
+default
+"If you're ever interested, a friend of mine runs a campaign every Friday at 7.  I can help you make a character sheet and everything."
+23
+
+#################################################
+
+23
+Mara
+default
+"That offer of yours...I will keep it in mind.
+
+At this rate, I will miss dinner.  I bid you goodbye, Ken."
+24
+
+#################################################
+
+24
+Ken
+default
+"Alright then, bye Mara."
+25
+
+#################################################
+
+25
+Ken
+happy
+"YES YES YES SHE'S INTERESTED!!!  (Maybe, just maybe I can get her to join!)
+
+Still, it's pretty late.  I think I'll call it a day and try getting the DM to let me do a practice run or something.  It'll use up one of my last Chronoshifters, but I'll take any advantage I can get.)"
+game
+
+#################################################
+
+26
+Mara
+default
+"Monsters and princesses?  This game seems rather cliche."
+27
+
+#################################################
+
+27
+Ken
+default
+"Oh, um...well that's not the only possible thing that you can do!  There was this one time I killed a Minotaur with his own horns, or the time when I slayed a dragon by cutting my way out of its stomach, or the time that I-"
+28
+
+#################################################
+
+28
+Mara
+default
+"I apologize; however, I must leave.  Any further tardiness on my part will jeopardize my ability to eat dinner.  I will see you tomorrow, Ken."
+29
+
+#################################################
+
+29
+Ken
+sad
+"Ah, right.  Bye, Mara.
+
+(Dammit, I went too overboard.  And did I talk about my stuff too much too?  At any rate, I should get dinner.  After that I can hit up the DM and use one of my Chronoshifters to practice running through the Pits of Eternal Despair.)"
+game
+
+#################################################
+
+<< #Day 2
+<< Early_Shopping #Ken heads to a department store to buy paper and encounters Clark
+>> Early Shopping
+>> Store_interior #The interior of a store, replete with aisles of random merchandise
+>> Clark
+>> default
+>> Ken
+>> default
+
+#################################################
+
+0
+Ken
+default
