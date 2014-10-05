@@ -1,7 +1,5 @@
 AI -> ctor -> controller contructor -> 
 main
-	
-
 
 collisionMaster
 	enemies
@@ -9,15 +7,15 @@ collisionMaster
 	collision()
 
 entity (extends sprite)
-	health
+	health				CHECK
 		healthBar
-	controller
+	controller			CHECK
 		animator
 			delay()
 			play()
 		entity
 		main
-	collision
+	collider			
 		hurtbox
 			getAll()
 			hit()

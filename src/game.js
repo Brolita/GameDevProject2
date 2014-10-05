@@ -469,67 +469,127 @@ var TestScene = cc.Scene.extend({
  */
  
 var rect = function(x,y,w,h) {
-	this._point = new cc.Point(x,y);
-	this._size = new cc.Size(w,h);
-	return this;
+	var n = cc.Node.create();
+	n.x = x;
+	n.y = y;
+	n.w = w;
+	n.w = h;
+	return n;
 };
  
+function rectCollision(r1, r2) {
+	return !(r2.x > r1.x + r1.w || 
+     r2.x + r2.w < r1.x || 
+     r2.y + r2.h > r1.y ||
+     r2.y < r1.y + r1.h);
+}
 
 var myTestScene = cc.Scene.extend({
 	ctor: function() {
 		this._super();
 		var a = createTest();
-		a.x = 300;
+		a.x = 800;
 		a.y = 300;
 		this.addChild(a);
 	}
 })
+ 
+customAction = cc.Node.extend({
+	ctor: function(obj) {
+		this._super();
+		this._run = false;
+		this.frame = 0;
+		this.target = obj.target;
+		this._update = obj.update;
+		this.animate = obj.animate;
+		this.onenable = obj.onenable;
+		this.ondisable = obj.ondisable;
+		this.start = function() {
+			this._run = true;
+			this.target.currentAction = this;
+			this.onenable();
+		}
+		this.stop = function() {
+			this.frame = 0;
+			this._run = false;
+			this.ondisable();
+		}
+		this.scheduleUpdate();
+	},
+	update: function() {
+		if(this._run) {
+			this.frame++;
+			this._update();
+		}
+	}
+});
  
 function createTest() {
 	
 	var testIdle = cc.Animation.create();
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
-	testIdle.setDelayPerUnit( 1 / 24);
+	testIdle.setDelayPerUnit(1 / 24);
 	
 	var testAttack = cc.Animation.create();
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
-	testAttack.setDelayPerUnit( 1 / 24);
+	testAttack.setDelayPerUnit(1 / 24);
 	
 	var testWalk = cc.Animation.create();
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
-	testWalk.setDelayPerUnit( 1 / 24);
+	testWalk.setDelayPerUnit(1 / 24);
 	
 	var testAI = cc.Node.extend({
-		idle: cc.Action.extend({
-			ctor: function() {
-				this._super();
-			},
-			update: function(dt) {
-				
-			}
-		}),
-		walk: cc.Action.extend({
-			ctor: function() {
-				this._super();
-			},
-			update: function(dt) {
-				
-			}
-		}),
-		attack: cc.Action.extend({
-			ctor: function() {
-				this._super();
-			},
-			update: function(dt) {
-				
-			}
-		}),
-		
+		currentAction: null,
+		data:{},
 		ctor: function(animations, entity) {
 			this._super();
+			
+			this.idle = new customAction({
+				update: function() {},
+				onenable: function() {},
+				ondisable: function() {},
+				animate: function() {
+					this.target.animator.play("idle");
+				},
+				target:this
+			});
+			this.walk = new customAction({
+				update: function() {
+					// move forward 3px
+					this.target.entity.x += (this.target.entity.scaleX) * 5;
+				},
+				onenable: function() {
+					// turn them around
+					this.target.entity.scaleX *= -1;
+				},
+				ondisable: function() {},
+				animate: function() {
+					this.target.animator.play("walk");
+				},
+				target:this
+			}),
+			this.attack = new customAction({
+				update: function() {
+					if(this.frame == 1) {
+						this.hitbox = this.target.entity.hitbox.addCollider(0,-30,60,60);
+					}
+				},
+				onenable: function() {},
+				ondisable: function() {
+					this.target.entity.hitbox.removeChild(this.hitbox);
+				},
+				animate: function() {
+					this.target.animator.play("attack");
+				},
+				target:this
+			}),
+			
+			this.addChild(this.idle);
+			this.addChild(this.walk);
+			this.addChild(this.attack);
 			
 			this.entity = entity;
 	
@@ -540,16 +600,32 @@ function createTest() {
 		},
 		
 		main: function() {
+			// this is the base case
+			// callback is called at the end of every animation
 			// this.entity
 			// this.animator
 			// collisionMaster.enemies and collisionMaster.characters 
-			var data = {idlecount: 0}
-			this.animator.play("idle", data);
+			this.data.count = 0;
+			this.idle.start();
+			this.callback()
 		},
 		
-		callback: function(IGNOREME, data) {
-			data.idlecount ++;
-			this.animator.play("idle", data);
+		callback: function() {
+			// this function is called after an animation 
+			// that was called is finished
+			this.currentAction.animate();
+			this.data.count ++;
+			if(this.data.count == 0) {
+				this.currentAction.stop();
+				this.idle.start();
+			} else if (this.data.count == 3) {
+				this.currentAction.stop();
+				this.walk.start();
+			} else if(this.data.count == 25) {
+				this.currentAction.stop();
+				this.attack.start();
+				this.data.count = -1;
+			}
 		}
 	});
 	
@@ -600,7 +676,8 @@ var collisionMaster = {
 var entity = cc.Sprite.extend({
 	health:null,
 	controller:null,
-	collider:null,
+	hitbox:null,
+	hurtbox:null,
 	ctor: function(args) {
 		this._super();
 		
@@ -610,8 +687,11 @@ var entity = cc.Sprite.extend({
 		this.controller = new args.controller(args.animations, this);
 		this.addChild(this.controller);
 		
-		//this.collider = new ColliderConstructor( /*fill in args */ );
+		this.hitbox = new ColliderConstructor("hitbox", this);
+		this.addChild(this.hitbox);
 		
+		this.hurtbox = new ColliderConstructor("hurtbox", this);
+		this.addChild(this.hurtbox);
 	}
 });
 
@@ -678,7 +758,7 @@ var AnimatorConstructor = cc.Sprite.extend({
 		this.controller = controller;
 		this.animations = animations;
 	},
-	play: function(animationName, callbackData) {
+	play: function(animationName) {
 		if(!animationName in this.animations) {
 			console.log("No animation by the name " + animationName);
 			return;
@@ -687,7 +767,7 @@ var AnimatorConstructor = cc.Sprite.extend({
 		var anim = cc.Animate.create(this.animations[animationName]);
 		var seq = cc.sequence(
 			anim,
-			cc.callFunc(this.controller.callback, this.controller, callbackData)
+			cc.callFunc(this.controller.callback, this.controller)
 		);
 		seq.tag = this.__animation_tag;
 		this.runAction(seq);
@@ -702,5 +782,45 @@ var AnimatorConstructor = cc.Sprite.extend({
 	_unsetDelay: function() {
 		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 24);
 	}
+});
+
+var ColliderConstructor = cc.Node.extend({
+	type: null,
+	entity: null,
+	ignored: null,
+	ctor: function(t, entity) {
+		this.entity = entity;
+		if(t == "hitbox") {
+			this.type = false;
+		} else {
+			this.type = true;
+		}
+		this._super();
+		this.ignored = [];
+	},
+	addCollider: function(nodeorx,y,w,h) {
+		if(typeof nodeorx == "number") {
+			var n = rect(nodeorx,y,w,h);
+			this.addChild(n);
+			return n;
+		} else {
+			this.addChild(nodeorx)
+			return nodeonx;
+		}
+	},
+	removeCollider: function(node) {
+		this.removeChild(node);
+		node.cleanup();
+	},
+	getAll: function() {
+		return this._children;
+	},
+	hit: function(collider, damage) {
+		if(collider.__instanceId in this.ignored) return;
+		if(this.type) {
+			this.entitiy.health.damage(damage);
+		}
+		this.ignored.push(collider.__instanceId);
+	},
 });
 
