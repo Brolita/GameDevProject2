@@ -382,14 +382,16 @@ customAction = cc.Node.extend({
 		this._super();
 		this._run = false;
 		this.frame = 0;
-		this.target = obj.target;
-		this._update = obj.update;
-		this.animate = obj.animate;
-		this.onenable = obj.onenable;
-		this.ondisable = obj.ondisable;
+		this.entity = obj.target.entity;
+		this.controller = obj.target;
+		this.animator = obj.target.animator;
+		this._update = obj.update ? obj.update : function () {};
+		this.animate = obj.animate ? obj.animate : function() {};
+		this.onenable = obj.onenable ? obj.onenable : function() {};
+		this.ondisable = obj.ondisable ? obj.ondisable : function() {};
 		this.start = function() {
 			this._run = true;
-			this.target.currentAction = this;
+			this.controller.currentAction = this;
 			this.onenable();
 		}
 		this.stop = function() {
@@ -408,77 +410,106 @@ customAction = cc.Node.extend({
 });
  
 function createTest() {
-	
+	/* Here is an example AI contruction
+	 * First we must create the animations
+	 */
+	 
 	var testIdle = cc.Animation.create();
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
-	testIdle.setDelayPerUnit(1 / 24);
+	testIdle.setDelayPerUnit(1 / 20);
 	
 	var testAttack = cc.Animation.create();
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
 	testAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
-	testAttack.setDelayPerUnit(1 / 24);
+	testAttack.setDelayPerUnit(1 / 20);
 	
 	var testWalk = cc.Animation.create();
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
 	testWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
-	testWalk.setDelayPerUnit(1 / 24);
+	testWalk.setDelayPerUnit(1 / 20);
+	
+	/* now we create an AI constructor
+	 * by extending the node class
+	 */
 	
 	var testAI = cc.Node.extend({
+		/* this first 8 lines must be the same for 
+		 * each AI you create, they are the basic 
+		 * construction principales 
+		 */
 		currentAction: null,
 		data:{},
 		ctor: function(animations, entity) {
 			this._super();
-			
-			this.idle = new customAction({
-				update: function() {},
-				onenable: function() {},
-				ondisable: function() {},
-				animate: function() {
-					this.target.animator.play("idle");
-				},
-				target:this
-			});
-			this.walk = new customAction({
-				update: function() {
-					// move forward 3px
-					this.target.entity.x += (this.target.entity.scaleX) * 5;
-				},
-				onenable: function() {
-					// turn them around
-					this.target.entity.scaleX *= -1;
-				},
-				ondisable: function() {},
-				animate: function() {
-					this.target.animator.play("walk");
-				},
-				target:this
-			}),
-			this.attack = new customAction({
-				update: function() {
-					if(this.frame == 1) {
-						this.hitbox = this.target.entity.hitbox.addCollider(0,-30,60,60);
-					}
-				},
-				onenable: function() {},
-				ondisable: function() {
-					this.target.entity.hitbox.removeChild(this.hitbox);
-				},
-				animate: function() {
-					this.target.animator.play("attack");
-				},
-				target:this
-			}),
-			
-			this.addChild(this.idle);
-			this.addChild(this.walk);
-			this.addChild(this.attack);
-			
 			this.entity = entity;
 	
 			this.animator = new AnimatorConstructor(animations, this);
 			this.addChild( this.animator );
 			
+			/* here you create your AI behaviors
+			 * you have access to this.frame, 
+			 * this.entity, this.animator
+			 */
+			
+			this.idle = new customAction({
+				// pass in the custom action function
+				// an update function to be called on active frames
+				update: function() {},
+				// an onenable function called on this.start()
+				onenable: function() {},
+				// an ondisable function called on this.stop()
+				ondisable: function() {},
+				// an animate function that tells me how to animate
+				animate: function() {
+					this.animator.play("idle");
+				},
+				// and target:this at the end
+				target:this
+			});
+			this.walk = new customAction({
+				update: function() {
+					// move forward 3px
+					this.entity.x += (this.entity.scaleX) * 5;
+				},
+				onenable: function() {
+					// turn them around
+					this.entity.turnaround();
+					this.entity.health.damage(1);
+				},
+				ondisable: function() {},
+				animate: function() {
+					this.animator.play("walk");
+				},
+				target:this
+			}),
+			this.attack = new customAction({
+				update: function() {
+					// on the second frame (frame 1 is first, not 0)
+					// animatons are 20 fps, but frame in update is 
+					// out of 60 (the fps the game runs at)
+					if(this.frame == 4) {
+						// create a hitbox       relative coordinates       x, y, w, h, damage
+						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,60, 1);
+					}
+				},
+				onenable: function() {},
+				ondisable: function() {
+					// remove the hitbox
+					this.entity.hitbox.removeChild(this.hitbox);
+				},
+				animate: function() {
+					this.animator.play("attack");
+				},
+				target:this
+			}),
+			
+			// add all the behaviors as children
+			this.addChild(this.idle);
+			this.addChild(this.walk);
+			this.addChild(this.attack);
+			
+			// at then end, call main
 			this.main();
 		},
 		
@@ -496,7 +527,7 @@ function createTest() {
 		callback: function() {
 			// this function is called after an animation 
 			// that was called is finished
-			this.currentAction.animate();
+			// use that a processing step
 			this.data.count ++;
 			if(this.data.count == 0) {
 				this.currentAction.stop();
@@ -509,8 +540,14 @@ function createTest() {
 				this.attack.start();
 				this.data.count = -1;
 			}
+			
+			// make sure at the end to call this.currentAction.animate at the end
+			this.currentAction.animate();
 		}
 	});
+	
+	// finally, at the end return a new entity, with the health, animations, and
+	// the controller constructor we just made
 	
 	return new entity({
 		health: 10,
@@ -524,9 +561,105 @@ function createTest() {
 	});
 }
  
+function createPreston() {
+
+	var prestonIdle = cc.Animation.create();
+	
+	var prestonRun = cc.Animation.create();
+	
+	var prestonAttack = cc.Animation.create();
+	
+	var prestonFlinch = cc.Animation.create();
+	
+	var prestonAI = cc.Node.extend({
+		currentAction: null,
+		data:{},
+		ctor: function(animations, entity) {
+			this._super();
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.addChild( this.animator );
+			// makes arrow
+			var arrow = function(pres) {
+				var a = rect(-94,-25,94,26);
+				var s = cc.Sprite.create("assets/art/fantasy/Sprites/arrow.png");
+				a.addChild(s);
+				a.scaleX = pres.scaleX;
+				a.update = function() {
+					a.x += a.scaleX * 12;
+					if(a.x < 0 || a.x > cc.winSize.width) 
+						a.cleanup();
+				}
+				a.scheduleUpdate();
+				cc.director.getRunningScene().addChild(a)
+			}
+			// idle behavior
+			this.idle = new customAction({
+				animate: function() {
+					this.animator.play("idle");
+				},
+				target:this
+			});
+			// run behavior
+			this.run = new customAction({
+				update: function() {
+					this.entity.x += this.entity.scaleX * 9;
+				},
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
+			// attack behavior
+			this.attack = new customAction({
+				update: function() {
+					if(this.frame == 7) {
+						arrow(this);
+					}
+				},
+				animate: function() {
+					this.animator.play("attack");
+				},
+				target:this
+			});
+			// flinch behavior
+			this.flinch = new customAction({
+				animate: function() {
+					this.animator.play("flinch");
+				},
+				target:this
+			});
+			
+			this.addChild(this.idle);
+			this.addChild(this.run);
+			this.addChild(this.attack);		
+			this.addChild(this.flinch);
+			
+			this.main()
+		},
+		main: function() {
+			this.data.idlecount =  10 * (5 - master["Preston"]);
+			this.data.count = 0;
+			this.callback()
+		},
+		callback: function() {
+			if(this.data.count = this.data.idlecount) {
+				if(this.data.count == 0) {
+					this.currentAction.stop();
+					this.idle.start();
+				}
+			}
+			
+		}
+	});
+} 
+
 var collisionMaster = {
 	enemies: [],
 	characters: [],
+	p_enemies: [],
+	p_characters: [],
 	collision: function() {
 		//for each i, enemy and j, characters
 		for (var i in enemies) { 
@@ -575,6 +708,13 @@ var entity = cc.Sprite.extend({
 		
 		this.hurtbox = new ColliderConstructor("hurtbox", this);
 		this.addChild(this.hurtbox);
+	},
+	turnaround: function() {
+		this.scaleX *= -1;
+		this.health.scaleX *= -1;
+	},
+	deleteSelf: function() {
+		this.cleanup();
 	}
 });
 
@@ -598,36 +738,39 @@ var HealthConstructor = cc.Node.extend({
 	damage:function(hit) {
 		var oldratio = (this._value / this.maxHealth);
 		this._value -= hit;
+		if(this._value == 0) {
+			this.entity.deleteSelf
+		}
 		var ratio = (this._value / this.maxHealth);
-		this.healthBar.clear();
+		this.healthBar.clear(); 
+		var r = ratio > .5 ? Math.floor((1 - 2*ratio) * 255) : 255;
+		var g = ratio < .5 ? Math.floor((2*ratio) * 255) : 255;
 		this.healthBar.drawRect(
 			new cc.Point(-40,100),
 			new cc.Point(80*ratio - 40, 130),
-			new cc.Color(255*(1 - Math.sqrt(ratio)), 255*Math.sqrt(ratio), 0, 255),
-			4,
-			new cc.Color(0,0,0,255)
+			new cc.Color(r, g, 0, 255),
+			0,
+			new cc.Color(0,0,0,0)
 		);
-		var healthChunk = cc.DrawNode.extend({
-			ctor: function() {
-				this._super();
-				this.cascadeColor = true;
-				this.cascadeOpacity = true;
-			},
-			deleteSelf: cc.callFunc(this._del, this),
-			_del: function() {
-				this.cleanup();
-			}
-		});
-		var h = new healthChunk();
+		
+		
+		/* draw nodes do not extend opacity functionality
+         *		
+		var h = cc.DrawNode.create();
 		h.drawRect(
-			new cc.Point(80*ratio - 40, 102),
-			new cc.Point(80*oldratio - 40, 128),
+			new cc.Point(80*ratio - 40, 100),
+			new cc.Point(80*oldratio - 40, 130),
 			new cc.Color(255, 0, 0, 255),
 			0,
 			new cc.Color(0,0,0,0)
 		);
-		h.runAction( cc.sequence( cc.delayTime(.2), cc.fadeOut(.3), h.deleteSelf ) );
 		this.addChild(h);
+		deleteSelf = cc.callFunc(this._h_del, this);
+		this._h_del = function() {
+				h.cleanup();
+		}
+		h.runAction( cc.fadeOut(.3) );
+		 */
 	}
 });
 
@@ -663,7 +806,7 @@ var AnimatorConstructor = cc.Sprite.extend({
 		}
 	},
 	_unsetDelay: function() {
-		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 24);
+		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 20);
 	}
 });
 
@@ -681,15 +824,19 @@ var ColliderConstructor = cc.Node.extend({
 		this._super();
 		this.ignored = [];
 	},
-	addCollider: function(nodeorx,y,w,h) {
+	addCollider: function(nodeorx,y,w,h,damage) {
 		if(typeof nodeorx == "number") {
 			var n = rect(nodeorx,y,w,h);
 			this.addChild(n);
+			if(!this.type) n.damage = damage;
 			return n;
 		} else {
 			this.addChild(nodeorx)
 			return nodeonx;
 		}
+	},
+	addIgnore: function(id) {
+		this.ignored.push(id.__instanceId);
 	},
 	removeCollider: function(node) {
 		this.removeChild(node);

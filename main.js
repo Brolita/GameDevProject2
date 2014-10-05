@@ -59,6 +59,7 @@ var res = [
 	"Assets/art/fantasy/animations/test/testAttack_1.png",
 	"Assets/art/fantasy/animations/test/testWalk_0.png",
 	"Assets/art/fantasy/animations/test/testWalk_0.png",
+	"assets/art/fantasy/Sprites/arrow.png",
 ];
 
 var master = {"day": [{"firstScene": "scene1", "scene2": {"dialogue": [{"text": [{"value": "next scene", "next": 1}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}, {"text": [{"value": "scene 3", "next": "scene3"}, {"value": "end the day", "next": "game"}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}], "characters": [{"characterName": "you", "sprite": "../assets/art/real/portraits/you_normal.png"}], "background": "../assets/art/real/backgrounds/background.png"}, "scene3": {"dialogue": [{"text": [{"value": "game time", "next": "game"}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}], "characters": [{"characterName": "you", "sprite": "../assets/art/real/portraits/you_normal.png"}], "background": "../assets/art/real/backgrounds/background.png"}, "scene1": {"dialogue": [{"text": [{"value": "ahhh an example make it go away", "next": 1}], "sprite": "../assets/art/real/portraits/Emily_normal.png", "characterName": "Emily"}, {"text": [{"value": "next thing", "next": 2}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}, {"text": [{"action": {"target": "Mara", "value": 1}, "value": "say yes", "next": 3}, {"action": {"target": "Mara", "value": 0}, "value": "say no", "next": 4}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}, {"text": [{"value": "yes", "next": 5}], "sprite": "../assets/art/real/portraits/Emily_happy.png", "characterName": "Emily"}, {"text": [{"value": "no", "next": 5}], "sprite": "../assets/art/real/portraits/Emily_sad.png", "characterName": "Emily"}, {"text": [{"value": "converged", "next": 6}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}, {"text": [{"case": {"target": "Mara", "value": 0, "cmp": ">"}, "value": "said yes", "next": 7}, {"case": {"target": "Mara", "value": 0, "cmp": "="}, "value": "said no", "next": 7}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}, {"text": [{"exit": "Emily", "value": "Emily exits after this", "next": 8}], "sprite": "../assets/art/real/portraits/you_normal.png", "characterName": "you"}, {"text": [{"value": "She's gone", "next": 9}], "sprite": "../assets/art/real/portraits/you_sad.png", "characterName": "you"}, {"text": [{"value": "Emily comes back", "next": "scene2"}], "characterName": "Emily", "sprite": "../assets/art/real/portraits/Emily_happy.png", "enter": "Emily"}], "characters": [{"characterName": "Emily", "sprite": "../assets/art/real/portraits/Emily_normal.png"}, {"characterName": "you", "sprite": "../assets/art/real/portraits/you_normal.png"}], "background": "../assets/art/real/backgrounds/background.png"}}, {"firstScene": ""}]};
@@ -82,8 +83,17 @@ master["currentDay"] = 0;
 			}
 		}
 	}
+	// click sprite
 	for (var i = 0; i < 9; i++) {
 		res.push("assets/art/real/sprites/click_" + i + ".png");
+	}
+	// preston walk cycle
+	for (var i = 0; i < 6; i++) {
+		res.push("assets/art/fantasy/Sprites/Preston_Run_Cycle/Preston_Run_Cycle_000" + i + "_" + (i + 1) + "-copy.png" )
+	}
+	// ken walk cycle 
+	for (var i = 0; i < 6; i++) {
+		res.push("assets/art/fantasy/Sprites/Ken_Run_Cycle/Ken_Run_Cycle_000" + i + "_Group-" + (i + 1) + ".png" );
 	}
 	cc.game.run()
 })();
