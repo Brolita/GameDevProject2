@@ -942,47 +942,49 @@ confused
 "Huh?  
 
 (That's weird, why is Clark interested?  Does he like MythQuest or something?  I doubt it; I mean, he certainly doesn't look the type.  But then again...)"
+12
 
 ################################################
 
-11
+12
 Ken
 default
 "We were talking about a game we both play, called MythQuest."
 Clark + 1
-12
+13
 "We were preparing to storm the Pit of Despairing Souls and slay Malleus, the Demon Lord!"
 Clark + 0
+17
+
+################################################
+
+13
+Clark
+default
+"MythQuest, huh?  That's one of those role-playing games, isn't it?  It doesn't really seem like my style."
+14
+
+################################################
+
+14
+Ken
+default
+"Yeah, it's a table-top RPG.  It's pretty fun, though it takes a few people to really show its true potential."
+15
+
+################################################
+
+15
+Clark
+default
+"Huh, okay.  Ahh, dammit!  I'm super-late; the professor's gonna kill me!  
+
+It was nice talking with you, but I've really gotta go.  Bye!"
 16
 
 ################################################
 
-12
-Clark
-default
-"MythQuest, huh?  That's one of those role-playing games, isn't it?  It doesn't really seem like my style."
-13
-
-################################################
-
-13
-Ken
-default
-"Yeah, it's a table-top RPG.  It's pretty fun, though it takes a few people to really show its true potential."
-14
-
-################################################
-
-14
-Clark
-"Huh, okay.  Ahh, dammit!  I'm super-late; the professor's gonna kill me!  
-
-It was nice talking with you, but I've really gotta go.  Bye!"
-15
-
-################################################
-
-15
+16
 Ken
 default
 "(He left before I could even say goodbye...Clark seems like a decent guy, though.
@@ -1284,7 +1286,7 @@ sad
 
 (Now that I think back, I remember laughing and smiling...but I don't remember anyone else doing so.  Jackie's probably right about this; that's something I need to work on.)
 
-"Ah crap, it's this time already!?  I'm gonna be late to class!"
+Ah crap, it's this time already!?  I'm gonna be late to class!"
 Mara_and_Next_Chance
 
 #################################################
@@ -1438,7 +1440,7 @@ Have you heard of the tabletop role-playing game called MythQuest?"
 15
 Mara
 confused
-"Myth...what?
+"Myth...what?"
 16
 
 #################################################
@@ -2471,7 +2473,7 @@ default
 13
 Mara
 default
-"I have not made any preparations to do so; is it still possible?
+"I have not made any preparations to do so; is it still possible?"
 14
 
 ######################################################
