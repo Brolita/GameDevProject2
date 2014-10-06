@@ -1581,3 +1581,994 @@ game
 0
 Ken
 default
+"(Alright, I've just gotta pick up some supplies for my study date with Mara.)"
+1 
+
+#################################################
+
+1
+Ken
+happy
+"(A date with Mara~ )"
+2 
+
+#################################################
+
+2
+Ken
+default
+"(Snap out of it, Ken!  It's just you helping her study!
+
+Seriously though, how did I run out of paper?  I think it's in this aisle.)"
+3 
+
+#################################################
+
+3 
+Clark
+default
+"So this is what the class's like nowadays?  The defense is alright, but I miss the damage you build on them."
+4
+
+#################################################
+
+4 
+Ken
+default
+"Hey there.  Clark, right?"
+5
+
+#################################################
+
+5
+Clark
+embarrassed
+"GYAAAAH!  What are you doing here?"
+6
+
+#################################################
+
+6
+Ken
+default
+"(Well that was strange.  Though now I've got an idea...)
+
+I'm shopping; you know, what people go to stores for. What about you?"
+7 
+
+#################################################
+
+7 
+Clark
+default
+"I'm buying a new pair of headphones after my old ones broke when I crashed into you.  I think I said it before, but sorry about that."
+8
+
+#################################################
+
+8
+Ken
+default
+"That's alright.  And that sucks about your headphones."
+9
+
+#################################################
+
+9
+Clark
+default
+"Yeah, I know.  I had those for years too, and they still worked fine."
+10
+
+#################################################
+
+10
+Ken
+default
+"That's a real pity.  By the way, I've got one question for you, Clark."
+11
+
+#################################################
+
+11
+Clark
+default
+"And what's that?"
+12
+
+#################################################
+
+12
+Ken
+default
+"If you're looking for headphones, why are you in the books and supplies section with the latest MythQuest Player Guide hastily hidden behind your back?"
+13
+
+#################################################
+
+13
+Clark
+embarrassed
+"Daaaaaaah...uhhhhhh...ummmm..."
+14
+
+#################################################
+
+14
+Ken
+default
+"Do you play MythQuest?"
+15
+
+#################################################
+
+15
+Clark
+sad
+"...yeah, you got me.  I do some online campaigns with anons."
+16
+
+#################################################
+
+16
+Ken
+default
+"Why are you so down about it?  I play MythQuest every Friday with some people on campus."
+17
+
+#################################################
+
+17
+Clark
+sad
+"It doesn't really fit my image, you know?  MythQuest isn't like football or Call of Duty or anything; it's pretty niche."
+18
+
+#################################################
+
+18
+Ken
+default
+"(Clark seems pretty concerned about liking MythQuest.  That attitude he's got of disliking himself for liking something isn't healthy; I should say something.  
+
+But what?)"
+19
+
+#################################################
+
+19
+Ken
+default
+"Even so, you shouldn't feel bad about what you like."
+Clark + 1
+20
+"It's okay to be a nerd.  After all, I'm a nerd too!"
+Clark + 0
+28
+
+#################################################
+
+20
+Clark
+sad
+"I shouldn't feel bad, huh?  I get that, but it just really doesn't suit-"
+21
+
+#################################################
+
+21
+Ken
+angry
+"Doesn't suit you?  How could it not?  If it's what you want to do, then of course it suits you!  You aren't your image, you're you!
+
+So don't feel bad about doing what you want to do!"
+22
+
+#################################################
+
+22
+Clark
+default
+"I'm more important than my image?  Is that what you're trying to say?"
+23
+
+#################################################
+
+23
+Ken
+default
+"Yeah; you need to care about yourself more than what other people think about you.
+
+Besides, just because you like MythQuest doesn't mean you need to wear the T-shirt and juggle D20s.  It just mean you like MythQuest."
+24
+
+#################################################
+
+24
+Clark
+default
+"Huh.  I'll think about it.  See you around, uh..."
+25
+
+#################################################
+
+25
+Ken
+default
+"Ken.  Ken DuBois."
+26
+
+#################################################
+
+26
+Clark
+default
+"Yeah, see you Ken."
+27
+
+#################################################
+
+27
+Ken
+default
+"(I was right; he does play MythQuest, though he's definitely got an issue or two to work through.  Still, I think I can get him to enjoy himself in my campaign.)"
+Campus_Transit
+
+#################################################
+
+28
+Clark
+default
+"But I don't want to be a nerd.  I like having friends."
+29
+
+#################################################
+
+29
+Ken
+default
+"Ah, that was a joke.  I mean, you can enjoy nerdy stuff without being a nerd, or rather-"
+30
+
+#################################################
+
+30
+Clark
+sad
+"Thanks for your concern, but I have shopping to do.  Bye, uhh...what was your name?"
+31
+
+#################################################
+
+31
+Ken
+sad
+"It's Ken.  Ken DuBois."
+32
+
+#################################################
+
+32
+Clark
+sad
+"Got it.  Bye, Ken."
+33
+
+#################################################
+
+33
+Ken
+sad
+"(Damn, I botched that.  It would've been great if he joined the campaign, too.  Maybe I'll see him again.
+
+For now, I'll finish shopping and head back to campus.)"
+Campus_Transit
+
+#################################################
+
+>> Campus_Transit
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+
+#################################################
+
+0
+Ken
+default
+"Supplies?  Check.  Textbooks from last semester?  Check.  Motivation?  Oh so check.  
+
+I'll grab something to eat and then head over to the Library."
+[Preston > 0]
+1
+[Preston == 0]
+2 
+
+#################################################
+
+1
+Ken
+default
+"(Wait, is that Jackie over there?  I should try talking to her and seeing if she'll join the campaign.)"
+Second_Talk_with_Little_Sister
+
+#################################################
+
+2 
+Ken
+default
+"(Wait, is that Jackie over there?  I should try talking to her and seeing if she'll join the campaign.
+
+But Preston's over in that direction!  They're both experienced MythQuest players, so which one do I talk to?)"
+3 
+
+#################################################
+
+3 
+Ken
+default
+"(I'll talk to Jackie.  She's my sister after all, and family help each other out.)"
+Second_Talk_with_Little_Sister
+"(I'll talk to Preston.  He's one of my best friends, and he'll help me out once I apologize.)"
+Preston_Last_Chance
+
+#################################################
+
+>> Second_Talk_with_Little_Sister
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+>> Jackie
+>> default
+
+#################################################
+
+0
+Ken
+default
+"Jackie!  Jackie, wait up!"
+1
+
+##################################################
+
+1 
+Jackie
+default
+"You're up early.  Wouldn't you normally be sleeping right now?"
+2
+
+##################################################
+
+2
+Ken
+default
+"What are you talking about?  It's three in the afternoon."
+3 
+
+##################################################
+
+3 
+Jackie
+default
+"You act like you don't usually sleep until then on your days off.
+
+So what's the special occasion?  A hot date or something?"
+4 
+
+###################################################
+
+4 
+Ken
+embarrassed
+"Wh-what?  N-no, of course not!"
+5
+
+###################################################
+
+5
+Jackie
+surprised
+"Wait, seriously?  I was just joking around, but to think my clueless big brother actually got a girlfriend?"
+6
+
+###################################################
+
+6
+Ken
+embarrassed
+"I'm telling you, it's not like that!"
+7 
+
+###################################################
+
+7 
+Jackie
+happy
+"Hey Ken, look at the sky for me.  Does it happen to be blood-red?  Are there any winged pigs around?"
+8
+
+###################################################
+
+8
+Ken
+embarrassed
+"Look, I'm just helping her study.  Seriously, lay off."
+9
+
+####################################################
+
+9
+Jackie
+default
+"Alright, alright.  But uh, go get her, Tiger.
+
+So why'd you call out to me, anyways?"
+10
+
+####################################################
+
+10
+Ken
+default
+"Well...I wanted to ask you if you'd be up for joining the MythQuest campaign I'm in."
+11
+
+####################################################
+
+11
+Jackie
+default
+"Right to the point, huh?  Well, that's good in its own way.
+
+Anything else you want to say?"
+12
+
+####################################################
+
+12
+Ken
+default
+"(Anything else I want to say?  Do I have something to say?  Now that I think about our last conversation...)"
+13
+
+####################################################
+
+13
+Ken
+default
+"(I'm not sure.  But, I should say something regardless.)"
+Jackie + 0
+14
+"(Yeah, there is.  There's something I still haven't given her.)"
+Jackie + 1
+19
+
+#####################################################
+
+13
+Ken
+default
+"To be honest, I don't know what I need to say to you.  There's something I'm missing that I just don't seem to get.  But you stopped playing because I was getting in the way of everyone else, right?  So all I need to do is let you do what you want."
+14
+
+#####################################################
+
+14
+Jackie
+sad
+"Do you really think that's what I want from you?  Subservience?"
+15
+
+#####################################################
+
+15
+Ken
+sad
+"I botched it again, didn't I?  Just what do I need to do?"
+16
+
+######################################################
+
+16
+Jackie
+angry
+"You colossal idiot!  Figure it out Ken, you're not a little kid!
+
+All I want from you is-!"
+17
+
+######################################################
+
+17
+Jackie
+sad
+"Forget it.  Goodbye, Ken."
+18
+
+######################################################
+
+18
+Ken
+sad
+"(She left...
+
+Though that thing that she wants...there's only one thing it could be.  I really am an idiot.)"
+22
+
+######################################################
+
+19
+Ken
+default
+"Jackie, I'm sorry.  I'm sorry for making you do what only I wanted while we played MythQuest and not listening to your ideas and input.  
+
+I'm sorry for being a clueless big brother.  Do you think you could give me another chance?"
+20
+
+######################################################
+
+20
+Jackie
+happy
+"See, that's all I wanted to hear from you; an apology for the stuff you put me through while we were younger.
+
+As for that campaign of yours, I'll think about it.  Tell me details some other time, alright?"
+21
+
+######################################################
+
+21
+Ken
+default
+"Some other time?  The campaign's tomorrow!  Jackie, wait!
+
+Man, she's troublesome sometimes.  But I'm glad I made up with her some."
+22
+
+######################################################
+
+22
+Ken
+default
+"Still, I talked for longer than I thought.  I'll have to hurry to make it to the Library on time."
+Conflict_Two_Clark_or_Mara
+
+######################################################
+
+>> Preston_Last_Chance
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+>> Preston
+>> default
+
+#######################################################
+
+0
+Ken
+default
+"Preston!  Hey, Preston!"
+1
+
+#######################################################
+
+1 
+Preston
+default
+"Oh, hi Ken.  What's up?"
+2
+
+#######################################################
+
+2
+Ken
+default
+"Ehh, nothing much.  You?"
+3 
+
+#######################################################
+
+3 
+Preston
+default
+"Just the usual.  Boring classwork, ennui toward all my games and an ever-fruitless job search."
+4
+
+#######################################################
+
+4 
+Ken
+default
+"Sounds rough.  Not even your free time is satisfying?"
+5
+
+#######################################################
+
+5
+Preston
+default
+"Triple-W turned boring again, and I'm in a slump of losing.  I already beat, played and replayed every game I own and read and watched everything I cared about."
+6
+
+#######################################################
+
+6
+Ken
+default
+"Sounds like you could use a break from everything.  Something that lets you do what you want to do and stays varied enough to be interesting."
+7
+
+#######################################################
+
+7 
+Preston
+default
+"You mean MythQuest."
+8
+
+#######################################################
+
+8
+Ken
+default
+"It comes to mind, yes."
+9
+
+#######################################################
+
+9
+Preston
+default
+"Normally I'd be all over it.  But I heard from Victor and the others about how you drove them away.  Are you going to do so again?"
+10
+
+#######################################################
+
+10
+Ken
+default
+"What?  Of course not!"
+11
+
+#######################################################
+
+11
+Preston
+default
+"Are you sure of that, Ken?"
+12
+
+#######################################################
+
+12
+Ken
+default
+"(Am I sure?  What kind of question is he asking me!)"
+13
+
+#######################################################
+
+13
+Ken
+default
+"Of course I'm sure!  You think some random people know me better than I do?"
+Preston + 0
+14
+"I don't think I am."
+Preston + 1
+1XXXX
+
+#######################################################
+
+14
+Preston
+sad
+"Yes, I do.  And evidently, they're right."
+15
+
+#######################################################
+
+15
+Ken
+angry
+"What?  Preston, are you bailing on me too?"
+16
+
+#######################################################
+
+16
+Preston
+angry
+"I never even agreed, Ken!  Stop assuming everyone and everything will go your way, you self-centered jerk!"
+17
+
+#######################################################
+
+17
+Ken
+angry
+"Why don't you stop yelling at me, you backstabbing flake!  If I can't depend on you, then get lost!"
+18
+
+#######################################################
+
+18
+Preston
+angry
+"Fine!  Don't bother calling me later when you regret this!"
+19
+
+#######################################################
+
+19
+Ken
+angry
+"I could say the same to you!"
+20
+
+#######################################################
+
+20
+Ken
+default
+"I'm done with him.  
+
+I have a meeting to go to."
+Conflict_Two_Clark_or_Mara
+
+#######################################################
+
+>> Conflict_Two_Clark_or_Mara
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+
+######################################################
+
+0
+Ken
+default
+"Alright, I'm nearly there.  Heck, at this rate I might even be a bit early!
+
+(And then she'll to me, 'I'm sorry, did I make you wait long?', and then I'll say...)"
+1
+
+######################################################
+
+1 
+Ken
+default
+"Oh hey, it's Clark.  I guess he had to do something in the Library.
+
+(Wait, it's Clark!  After that last conversation we had, I think I can convince him to join the campaign!  But I already agreed to meet with Mara...what should I do?)"
+2
+
+######################################################
+
+2 
+Ken
+default
+"I'm staying here to wait for Mara; there's no way in hell I'm standing her up!"
+Study_Session_One
+"I'll convince Clark to join the campaign!  Besides, it won't take that long, right?"
+Conversing_with_Clark
+
+######################################################
+
+>> Study_Session_One
+>> Library #A room with tables and chairs, bookshelves and nondescript people in the background
+>> Ken
+>> default
+>> Mara 
+>> default
+
+######################################################
+
+0
+Ken
+default
+"Okay, now where's a good place to setup?"
+1
+
+######################################################
+
+1 
+Mara
+default
+"Over here, Ken."
+2
+
+######################################################
+
+2 
+Ken
+embarrassed
+"Oh, hi Mara!  You're here already?"
+3 
+
+######################################################
+
+3 
+Mara
+confused
+"Is punctuality not a virtue?  Though given how often you are tardy-"
+4 
+
+######################################################
+
+4 
+Ken
+embarrassed
+"No no no, it is!  You're fine!"
+5
+
+######################################################
+
+5
+Mara
+default
+"Very well then.  Shall we begin?"
+6
+
+######################################################
+
+6
+Ken
+default
+"Right.  Let's start with this problem here..."
+7 
+
+######################################################
+
+7 
+Mara
+default
+"...I see.  Thank you, this is quite useful."
+8
+
+######################################################
+
+8
+Ken
+default
+"No problem!  You pick up on this stuff quickly, so it's been going pretty fast.  Would you like to take a break?"
+9
+
+######################################################
+
+9
+Mara
+default
+"I would like that; I am beginning to lose focus after all."
+10
+
+######################################################
+
+10
+Ken
+default
+"In that case, would you like to try something fun?"
+11
+
+######################################################
+
+11
+Mara
+confused
+"Something...fun...?"
+12
+
+######################################################
+
+12
+Ken
+default
+"I was thinking of having you try out roleplaying for a bit, if that's okay with you."
+13
+
+######################################################
+
+13
+Mara
+default
+"I have not made any preparations to do so; is it still possible?
+14
+
+######################################################
+
+14
+Ken
+default
+"Yeah, it's fine!  Just think of the type of person you want to be, and I'll think of a basic story direction for us to build on."
+15
+
+######################################################
+
+15
+Mara
+default
+"Very well then.  I will try this; give me a few moments please."
+16
+
+######################################################
+
+16
+Ken
+happy
+"You got it!
+
+(Now that I think about it, I don't really know what kind of stories Mara's into.  I hope it's something interesting.)"
+17
+
+######################################################
+
+17
+Mara
+default
+"I am finished.  Could you start the story, please?  I'll fit my way in when the time is right."
+18
+
+######################################################
+
+18
+Ken
+default
+"So I start telling the story, and you tell me when you come in?"
+19
+
+######################################################
+
+19
+Mara
+default
+"That is correct."
+20
+
+######################################################
+
+20
+Ken
+default
+"Alright, then.  
+
+Long ago, the kingdom of Vilaria lived in harmony.  Its people were peaceful and kind, its harvests bountiful, its cities beautiful.  Vilaria was resplendent in all respects, but one in particular more than any other.
+
+The princess of Vilaria was the loveliest maiden the world had ever known.  Her beauty spun tales of magnificent splendor and wove ballads of love that moved even the most icy of men.  
+
+However, a malevolent king discovered the princess, and grew infatuated with her legendary beauty.  His armies invaded Vilaria, razing all in their path, and the evil king personally strode into Vilaria's capital and kidnapped the princess, claiming her as his own.  "
+21
+
+######################################################
+
+21
+Mara
+default
+"There; that's fine for now."
+22
+
+######################################################
+
+22
+Ken
+confused
+"Huh?"
+23
+
+######################################################
+
+23
+Mara
+default
+"The kidnapped princess; that's who I'll be."
+24
+
+######################################################
+
+24
+Ken
+confused
+"Alright then...
+
+The malevolent King Ragnar strode through the magnificently decorated halls of his stronghold.  His outward countenance was an inscrutable mask of intimidating indifference; however, internally he was ecstatic.  
+
+The one who had plagued his thoughts and stirred feeling he hadn't realized he had was finally before him - his Aphrodite, the Princess of Vilaria.
