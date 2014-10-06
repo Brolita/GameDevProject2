@@ -648,19 +648,26 @@ function createMara(parent) {
 				target:this
 			}); //
 			this.stealthAttack = new customAction({
-				update: function() {
-					// move forward 3px
-					this.entity.x = this.entity.target.x;
-					this.entity.y = this.entity.target.y + 100 ;
-					
-					cc.log("attack the target");
+				update: function() { //run away
+					cc.log("running away");
+					if(this.entity.newTarget.x < this.entity.x){
+						this.entity.x += (this.entity.scaleX) * 20;
+					}
+					else{
+						this.entity.x -= (this.entity.scaleX) * 20;
+					}
 				},
 				onenable: function() {
-					// turn them around
-					this.entity.turnaround();
-					this.entity.health.damage(1);
+					// move forward 3px
+					this.entity.attackEnded = false;
+					
+					this.entity.x = this.entity.newTarget.x;
+					this.entity.y = this.entity.newTarget.y + 100;
+					
+					cc.log("attacking the target");
 				},
-				ondisable: function() {},
+				ondisable: function() {
+				},
 				animate: function() {
 					this.animator.play("walk");
 				},
@@ -719,6 +726,7 @@ function createMara(parent) {
 			// this.animator
 			// collisionMaster.enemies and collisionMaster.characters 
 			this.data.count = 0;
+			this.entity.attackEnded = true;
 			this.idle.start();
 			this.callback()
 		},
@@ -729,13 +737,18 @@ function createMara(parent) {
 			// use that a processing step
 			this.data.count++;
 			this.entity.newTarget = this.entity.scene.enemyInRange()
-			if(this.entity.newTarget !=null){
+			if(this.entity.newTarget !=null && this.entity.attackEnded == true){
 				this.currentAction.stop();
 				this.stealthAttack.start();
+			}
+			else if(this.entity.newTarget !=null && this.entity.attackEnded == false){
+				this.currentAction.stop();
+				this.walk.start();
 			}
 			else{
 				if(this.data.count == 0) {
 					this.currentAction.stop();
+					this.entity.attackEnded = true;
 					this.idle.start();
 				} else if (this.data.count == 3) {
 					this.currentAction.stop();
@@ -936,6 +949,7 @@ var entity = cc.Sprite.extend({
 	controller:null,
 	hitbox:null,
 	hurtbox:null,
+	target:null,
 	ctor: function(args) {
 		this._super();
 		
