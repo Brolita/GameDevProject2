@@ -517,7 +517,7 @@ function createTest(parent) {
 					// animatons are 15 fps, but frame in update is 
 					// out of 60 (the fps the game runs at)
 					if(this.frame == 4) {
-						// create a hitbox relative coordinates       x, y, w, h, damage
+						// create a hitbox relative coordinates      x, y, w, h, damage
 						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,60, 1);
 					}
 				},
@@ -820,7 +820,7 @@ function createPreston(parent) {
 			// attack behavior
 			this.attack = new customAction({
 				update: function() {
-					if(this.frame == 7) {
+					if(this.frame == 9) {
 						arrow(this);
 					}
 				},
@@ -893,9 +893,236 @@ function createPreston(parent) {
 			attack: prestonAttack,
 			flinch: prestonFlinch
 		},
-		
+		controller: prestonAI,
+		parent: parent
 	})
 } 
+
+function createJackie(parent) {
+	var jackieIdle = cc.Animation.create();
+	
+	var jackieRun = cc.Animation.create();
+	
+	var jackieAttack = cc.Animation.create();
+	
+	var jackieFlinch = cc.Animation.create();
+	
+	var jackieAI = cc.Node.extend({
+		currentAction: null,
+		data:{},
+		ctor: function(animations, entity) {
+			this._super();
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.addChild( this.animator );
+			
+			// idle behavior
+			this.idle = new customAction({
+				animate: function() {
+					this.animator.play("idle");
+				},
+				target:this
+			});
+			// run behavior
+			this.run = new customAction({
+				update: function() {
+					this.entity.x += this.entity.scaleX * 9;
+				},
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
+			this.attack = new customAction({
+				update: function() {
+					if(this.frame == 13) {
+						this.hitbox = this.entity.hitbox.addCollider(0,-45, 120, 90);
+					}
+				},
+				ondisable: function() {
+					this.entity.hitbox.removeChild(this.hitbox);
+				},
+				animate: function() {
+					this.animator.play("attack");
+				},
+				target:this
+			});
+			this.flinch = new customAction({
+				animate: function() {
+					this.animator.play("flinch");
+				},
+				target:this
+			});
+		},
+		main: function() {
+			this.data.idlecount =  10 * (3 - master["Jackie"]);
+			this.data.count = 0;
+			this.callback()
+		},
+		callback: function() {
+			if(this.data.count < this.data.idlecount) {
+				if(this.data.count == 0) {
+					this.currentAction.stop();
+					this.idle.start();
+				}
+				this.data.count ++;
+			} else {
+				var tooFar = 0;
+				var distance = 200;
+				for( var i in collisionMaster.enemies ) {
+					if (!((this.entity.x + distance) < collidercollisionMaster.enemies[i].x)) {
+						tooFar = -1;
+						distance = collidercollisionMaster.enemies[i].x - this.entity.x;
+					}
+					if (!((this.entity.x - distance) > collidercollisionMaster.enemies[i].x)) {
+						tooFar = 1;
+						distance = this.entity.x - collidercollisionMaster.enemies[i].x;
+					}
+				}
+				if(tooFar == -1) {
+					this.entity.scaleX = -1;
+					this.currentAction.stop();
+					this.run.start();
+				} else if(tooFar == 1) {
+					this.entity.scaleX = 1;
+					this.currentAction.stop();
+					this.run.start();
+				} else {
+					this.currentAction.stop();
+					this.attack.start();
+					this.data.count = 0;
+				}
+			}
+		}
+	});
+	return new entity ({
+		health: 200,
+		animations: {
+			idle: jackieIdle,
+			run: jackieRun,
+			attack: jackieAttack,
+			flinch: jackieFlinch
+		},
+		controller: jackieAI,
+		parent: parent
+	})
+}
+
+function createClark(parent) {
+	var clarkIdle = cc.Animation.create();
+	
+	var clarkRun = cc.Animation.create();
+	
+	var clarkHeal = cc.Animation.create();
+	
+	var clarkFlinch = cc.Animation.create();
+	
+	var clarkAI = cc.Node.extend({
+		currentAction: null,
+		data:{},
+		ctor: function(animations, entity) {
+			this._super();
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.addChild( this.animator );
+			
+			// idle behavior
+			this.idle = new customAction({
+				animate: function() {
+					this.animator.play("idle");
+				},
+				target:this
+			});
+			// run behavior
+			this.run = new customAction({
+				update: function() {
+					this.entity.x += this.entity.scaleX * 9;
+				},
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
+			this.heal = new customAction({
+				update: function() {
+					if(this.frame > 9 && this.frame < 25) 
+						this.playerHealth.damage(-2);
+				},
+				animate: function() {
+					this.animator.play("heal");
+				},
+				target:this
+			});
+			this.flinch = new customAction({
+				animate: function() {
+					this.animator.play("flinch");
+				},
+				target:this
+			});
+		}, 
+		main: function() {
+			this.data.idlecount =  10 * (3 - master["Clark"]);
+			this.data.count = 0;
+			this.callback()
+		},
+		callback: function() {
+			if(this.data.count < this.data.idlecount) {
+				if(this.data.count == 0) {
+					this.currentAction.stop();
+					this.idle.start();
+				}
+				this.data.count ++;
+			} else {
+				var tooClose = 0;
+				var distance = 300;
+				for( var i in collisionMaster.enemies ) {
+					if (!((this.entity.x + distance) < collidercollisionMaster.enemies[i].x)) {
+						tooClose = 1;
+						distance = collidercollisionMaster.enemies[i].x - this.entity.x;
+					}
+					if (!((this.entity.x - distance) > collidercollisionMaster.enemies[i].x)) {
+						tooClose = -1;
+						distance = this.entity.x - collidercollisionMaster.enemies[i].x;
+					}
+				}
+				if(tooClose == -1) {
+					this.entity.scaleX = -1;
+					this.currentAction.stop();
+					this.run.start();
+				} else if(tooClose == 1) {
+					this.entity.scaleX = 1;
+					this.currentAction.stop();
+					this.run.start();
+				} else {
+					var lowest = 10000;
+					var lowestTarget = -1;
+					for( var i in collisionMaster.players ) {
+						if(collisionMaster.players[i].health._value < lowest) {
+							lowest = collisionMaster.players[i].health._value;
+							lowestTarget = i;
+						}
+					}
+					this.heal.playerHealth = collisionMaster.players[i].health;
+					this.currentAction.stop();
+					this.heal.start();
+				}
+			}
+		}
+	});
+	return new entity({
+		health: 75,
+		animations: {
+			idle: clarkIdle,
+			run: clarkRun,
+			attack: clarkAttack,
+			flinch: clarkFlinch
+		},
+		controller: clarkAI,
+		parent: parent
+	})
+}
 
 var collisionMaster = {
 	enemies: [],

@@ -1,5 +1,9 @@
-AI -> ctor -> controller contructor -> 
-main
+AI -> ctor -> controller contructor -> main
+callback
+
+custom action -> step -> if running, update
+
+in the scope of update its this.target.entity
 
 collisionMaster
 	enemies
@@ -15,17 +19,14 @@ entity (extends sprite)
 			play()
 		entity
 		main
-	collider			
-		hurtbox
-			getAll()
-			hit()
-			getIgnore()
-		hitbox
-			addHitbox()
-			getAll()
-			hit()
-			getIgnore()
-		wall
+	hurtbox prototypes collider
+		addCollider()
+		getAll()
+		hit()
+	hitbox prototypes collider
+		addCollider()
+		getAll()
+		hit()
 	physics
 		falling
 	
