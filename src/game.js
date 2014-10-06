@@ -378,11 +378,28 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.mara);
 		
 		this.enemies = [];
-		this.enemies.push(createEnemy(this));
+		this.enemies.push(createTest(this));
 		this.enemies[0].x = 400;
 		this.enemies[0].y = 300;
 		this.addChild(this.enemies[0]);
 		
+		this.enemies.push(createEnemy(this));
+		this.enemies[1].x = 900;
+		this.enemies[1].y = 300;
+		this.addChild(this.enemies[1]);
+		
+		
+		/*this.enemies.push(createEnemy(this));
+		this.enemies[0].x = 900;
+		this.enemies[0].y = 300;
+		this.addChild(this.enemies[0]);
+		
+		
+		this.enemies.push(createEnemy(this));
+		this.enemies[0].x = 1100;
+		this.enemies[0].y = 300;
+		this.addChild(this.enemies[0]);*/
+		cc.log("397");
 		this.constructed = true;
 	},
 	
@@ -784,6 +801,8 @@ function createEnemy(parent) {
 	/* Here is an example AI contruction
 	 * First we must create the animations
 	 */
+	 cc.log("creating enemy");
+	 
 	var enemyIdle = cc.Animation.create();
 	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
@@ -855,19 +874,32 @@ function createEnemy(parent) {
 			}),
 			this.pursue = new customAction({
 				update: function(){
+				
+				
 					this.scene = parent;
 					var target = this.scene.mara;
-					if(target.x < target.x){
-						this.entity.x -= (this.entity.scaleX) * 5;
+					if(target.x < this.entity.x){
+						cc.log("seeking -");
+						this.entity.x += (this.entity.scaleX) * 5;
 					}
-					else if(target.x > target.x){
-						this.entity.x += (this.entity.scaleX) * 5;				
+					else if(target.x > this.entity.x){
+						cc.log("seeking +");
+						this.entity.x -= (this.entity.scaleX) * 5;				
 					}
+					
 				},
 				onenable: function() {
+				
+					//walk code --
+					// turn them around
+					this.entity.turnaround();
+					this.entity.health.damage(1);
 				},
 				ondisable: function() {},
 				animate: function() {
+				
+					//walk code --
+					this.animator.play("walk");
 				},
 				target:this
 			}),
@@ -909,14 +941,42 @@ function createEnemy(parent) {
 			// this.entity
 			// this.animator
 			// collisionMaster.enemies and collisionMaster.characters 
+			this.data.count = 0;
+			
 			this.scene = parent;
 			this.entity.attackEnded = true;
 			this.idle.start();
 			this.callback()
 		},
 		
-		callback: function() {;
-			cc.log("this.scene:" + this.scene);
+		callback: function() {
+			// this function is called after an animation 
+			// that was called is finished
+			// use that a processing step
+			cc.log("941: callback");
+			var target = this.scene.mara;
+			cc.log("target.x:" + target.x);
+			cc.log("this.entity.x:" + this.entity.x);
+			
+			this.data.count ++;
+			if(this.data.count == 0) {
+				cc.log("944: idle");
+				this.currentAction.stop();
+				this.idle.start();
+			} else if (this.data.count == 3) {
+				cc.log("948: walk");
+				this.currentAction.stop();
+				this.pursue.start();
+			} else if(this.data.count == 25) {
+				cc.log("952: attack");
+				this.currentAction.stop();
+				this.attack.start();
+				this.data.count = -1;
+			}
+			
+			// make sure at the end to call this.currentAction.animate at the end
+		
+			/*cc.log("this.scene:" + this.scene);
 			var target = this.scene.mara;
 			cc.log("target.x:" + target.x);
 			cc.log("this.entity.x:" + this.entity.x);
@@ -929,6 +989,7 @@ function createEnemy(parent) {
 				this.currentAction.stop();
 				this.pursue.start();
 			}
+			this.currentAction.animate();*/
 			this.currentAction.animate();
 		}
 	});
