@@ -562,9 +562,6 @@ function createTest(parent) {
 }
  
 function createPreston(parent) {
-
-	//WIP
-	
 	var prestonIdle = cc.Animation.create();
 	
 	var prestonRun = cc.Animation.create();
@@ -654,12 +651,15 @@ function createPreston(parent) {
 				this.data.count ++;
 			} else {
 				var tooClose = 0;
+				var distance = 500;
 				for( var i in collisionMaster.enemies ) {
-					if (!((this.entity.x + 500) < collidercollisionMaster.enemies[i].x)) {
+					if (!((this.entity.x + distance) < collidercollisionMaster.enemies[i].x)) {
 						tooClose = 1;
+						distance = collidercollisionMaster.enemies[i].x - this.entity.x;
 					}
-					if (!((this.entity.x - 500) > collidercollisionMaster.enemies[i].x)) {
+					if (!((this.entity.x - distance) > collidercollisionMaster.enemies[i].x)) {
 						tooClose = -1;
+						distance = this.entity.x - collidercollisionMaster.enemies[i].x;
 					}
 				}
 				if(tooClose == -1) {
@@ -678,6 +678,16 @@ function createPreston(parent) {
 			}
 		}
 	});
+	return new entity({
+		health: 50,
+		animations: {
+			idle: prestonIdle,
+			run: prestonRun,
+			attack: prestonAttack,
+			flinch: prestonFlinch
+		},
+		
+	})
 } 
 
 var collisionMaster = {
