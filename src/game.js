@@ -378,7 +378,7 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.mara);
 		
 		this.enemies = [];
-		this.enemies.push(createTest(this));
+		this.enemies.push(createEnemy(this));
 		this.enemies[0].x = 400;
 		this.enemies[0].y = 300;
 		this.addChild(this.enemies[0]);
@@ -661,8 +661,8 @@ function createMara(parent) {
 					// move forward 3px
 					this.entity.attackEnded = false;
 					
-					this.entity.x = this.entity.newTarget.x;
-					this.entity.y = this.entity.newTarget.y + 100;
+					this.entity.x = this.entity.newTarget.x-100;
+					this.entity.y = this.entity.newTarget.y;
 					
 					cc.log("attacking the target");
 				},
@@ -780,7 +780,173 @@ function createMara(parent) {
 	});
 }
 
-
+function createEnemy(parent) {
+	/* Here is an example AI contruction
+	 * First we must create the animations
+	 */
+	var enemyIdle = cc.Animation.create();
+	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	enemyIdle.setDelayPerUnit(1 / 15);
+	
+	var enemyAttack = cc.Animation.create();
+	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
+	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+	enemyAttack.setDelayPerUnit(1 / 15);
+	
+	var enemyWalk = cc.Animation.create();
+	enemyWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
+	enemyWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
+	enemyWalk.setDelayPerUnit(1 / 15);
+	
+	/* now we create an AI constructor
+	 * by extending the node class
+	 */
+	
+	var enemyAI = cc.Node.extend({
+		/* this first 8 lines must be the same for 
+		 * each AI you create, they are the basic 
+		 * construction principales 
+		 */
+		currentAction: null,
+		data:{},
+		ctor: function(animations, entity) {
+			this._super();
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.addChild( this.animator );
+			
+			/* here you create your AI behaviors
+			 * you have access to this.frame, 
+			 * this.entity, this.animator
+			 */
+			
+			this.idle = new customAction({
+				// pass in the custom action function
+				// an update function to be called on active frames
+				update: function() {},
+				// an onenable function called on this.start()
+				onenable: function() {},
+				// an ondisable function called on this.stop()
+				ondisable: function() {},
+				// an animate function that tells me how to animate
+				animate: function() {
+					this.animator.play("idle");
+				},
+				// and target:this at the end
+				target:this
+			}); //
+			this.walk = new customAction({
+				update: function() {
+					// move forward 3px
+					this.entity.x += (this.entity.scaleX) * 5;
+				},
+				onenable: function() {
+					// turn them around
+					this.entity.turnaround();
+					this.entity.health.damage(1);
+				},
+				ondisable: function() {},
+				animate: function() {
+					this.animator.play("walk");
+				},
+				target:this
+			}),
+			this.pursue = new customAction({
+				update: function(){
+					this.scene = parent;
+					var target = this.scene.mara;
+					if(target.x < target.x){
+						this.entity.x -= (this.entity.scaleX) * 5;
+					}
+					else if(target.x > target.x){
+						this.entity.x += (this.entity.scaleX) * 5;				
+					}
+				},
+				onenable: function() {
+				},
+				ondisable: function() {},
+				animate: function() {
+				},
+				target:this
+			}),
+			
+			this.attack = new customAction({
+				update: function() {
+					// on the second frame (frame 1 is first, not 0)
+					// animatons are 15 fps, but frame in update is 
+					// out of 60 (the fps the game runs at)
+					if(this.frame == 4) {
+						// create a hitbox relative coordinates       x, y, w, h, damage
+						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,60, 1);
+					}
+				},
+				onenable: function() {},
+				ondisable: function() {
+					// remove the hitbox
+					this.entity.hitbox.removeChild(this.hitbox);
+				},
+				animate: function() {
+					this.animator.play("attack");
+				},
+				target:this
+			}),
+			
+			// add all the behaviors as children
+			this.addChild(this.idle);
+			this.addChild(this.pursue);
+			this.addChild(this.walk);
+			this.addChild(this.attack);
+			
+			// at then end, call main
+			this.main();
+		},
+		
+		main: function() {
+			// this is the base case
+			// callback is called at the end of every animation
+			// this.entity
+			// this.animator
+			// collisionMaster.enemies and collisionMaster.characters 
+			this.scene = parent;
+			this.entity.attackEnded = true;
+			this.idle.start();
+			this.callback()
+		},
+		
+		callback: function() {;
+			cc.log("this.scene:" + this.scene);
+			var target = this.scene.mara;
+			cc.log("target.x:" + target.x);
+			cc.log("this.entity.x:" + this.entity.x);
+			
+			if(target.x - 10 < this.entity.x && target.x + 10 > this.entity.x){
+				this.currentAction.stop();
+				this.attack.start();
+			}
+			else{
+				this.currentAction.stop();
+				this.pursue.start();
+			}
+			this.currentAction.animate();
+		}
+	});
+	
+	// finally, at the end return a new entity, with the health, animations, and
+	// the controller constructor we just made
+	
+	return new entity({
+		health: 10,
+		animations: {
+			idle: enemyIdle,
+			walk: enemyWalk,
+			attack: enemyAttack,
+		}, 
+		controller: enemyAI,
+		parent: parent
+	});
+}
 function createPreston(parent) {
 	var prestonIdle = cc.Animation.create();
 	
