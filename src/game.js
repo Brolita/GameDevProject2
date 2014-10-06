@@ -904,6 +904,38 @@ function createEnemy(parent) {
 				target:this
 			}),
 			
+			this.flee = new customAction({
+				update: function(){
+				
+				
+					this.scene = parent;
+					var target = this.scene.mara;
+					if(target.x < this.entity.x){
+						cc.log("seeking -");
+						this.entity.x -= (this.entity.scaleX) * 5;
+					}
+					else if(target.x > this.entity.x){
+						cc.log("seeking +");
+						this.entity.x += (this.entity.scaleX) * 5;				
+					}
+					
+				},
+				onenable: function() {
+				
+					//walk code --
+					// turn them around
+					this.entity.turnaround();
+					this.entity.health.damage(1);
+				},
+				ondisable: function() {},
+				animate: function() {
+				
+					//walk code --
+					this.animator.play("walk");
+				},
+				target:this
+			}),
+			
 			this.attack = new customAction({
 				update: function() {
 					// on the second frame (frame 1 is first, not 0)
@@ -928,6 +960,7 @@ function createEnemy(parent) {
 			// add all the behaviors as children
 			this.addChild(this.idle);
 			this.addChild(this.pursue);
+			this.addChild(this.flee);
 			this.addChild(this.walk);
 			this.addChild(this.attack);
 			
@@ -960,11 +993,12 @@ function createEnemy(parent) {
 			
 			this.data.count ++;
 			if(this.data.count == 0) {
-				cc.log("944: idle");
+				cc.log("944: flee");
 				this.currentAction.stop();
-				this.idle.start();
-			} else if (this.data.count == 3) {
-				cc.log("948: walk");
+				
+				this.flee.start();//this.idle.start();
+			} else if (this.data.count == 5) {
+				cc.log("948: purse");
 				this.currentAction.stop();
 				this.pursue.start();
 			} else if(this.data.count == 25) {
