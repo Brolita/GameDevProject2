@@ -353,11 +353,14 @@ var FantasyBackgroundLayer = cc.Layer.extend({
  */
  
 var rect = function(x,y,w,h) {
-	var n = cc.Node.create();
+	var n = cc.DrawNode.create();
 	n.x = x;
 	n.y = y;
 	n.w = w;
 	n.w = h;
+	if(true) {
+		n.drawRect(new cc.Point(x,y),new cc.Point(x+w, y+h),new cc.Color(255,255,0,50), 0,new cc.Color(0,0,0,0));
+	}
 	return n;
 };
  
@@ -389,6 +392,7 @@ var myTestScene = cc.Scene.extend({
 							if(rectCollision(hitbox, hurtbox) ) {
 								hitbox.hit();
 								hurtbox.hit(hitbox);
+								character.flinch();
 							}
 						}
 					}
@@ -401,6 +405,7 @@ var myTestScene = cc.Scene.extend({
 							if(rectCollision(hitbox, hurtbox) ) {
 								hitbox.hit();
 								hurtbox.hit(hitbox);
+								enemy.flinch();
 							}
 						}
 					}
@@ -443,6 +448,11 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.mara);
 		this.collisionMaster.characters.push(this.mara);
 		
+		this.player = createKen(this);
+		this.player.x = 300;
+		this.player.y = 300;
+		this.addChild(this.player);
+		
 		//this.collisionMaster.enemies.push(createEnemy(this));
 		//this.collisionMaster.enemies[0].x = 400;
 		//this.collisionMaster.enemies[0].y = 300;
@@ -453,35 +463,37 @@ var myTestScene = cc.Scene.extend({
 		//this.collisionMaster.enemies[1].y = 300;
 		//this.addChild(this.collisionMaster.enemies[1]);
 		
+		this.lastClick = Date.now() - 100; //get time of last click used to determine if the player
+        
+        var parent = this;
+        cc.eventManager.addListener ({ 
+        
+            //mouse event listener, key method of player interaction. One click means move to 
+            //click location. Two clicks means jump
+            event: cc.EventListener.MOUSE,
+            onMouseDown: function(event) {
+                var now = Date.now();
+                
+                if(this.lastJump == null){
+                    this.lastJump = now;
+                }
+                
+                if ((now - this.lastClick) < 1000 && (now - this.lastJump) > 1000){
+                    this.lastJump = now;
+                    cc.log("attack (on jump code) this.parent:" + parent + " this.player:" + parent.player);
+                    parent.player.controller.attackIt(event.getLocation());
+                    //event.getCurrentTarget().jumpIt(event.getLocation());
+                }
+                else{
+                    cc.log("movement this.parent:" + parent + " this.player:" + parent.player + "parent.player.moveIt:" + parent.player.moveIt);
+                    parent.player.controller.moveIt(event.getLocation());
+                    //event.getCurrentTarget().moveIt(event.getLocation());
+                }
+                this.lastClick = now;
+            }
+        },this);
 		
-		/*this.enemies.push(createEnemy(this));
-		this.enemies[0].x = 900;
-		this.enemies[0].y = 300;
-		this.addChild(this.enemies[0]);
-		
-		
-		this.enemies.push(createEnemy(this));
-		this.enemies[0].x = 1100;
-		this.enemies[0].y = 300;
-		this.addChild(this.enemies[0]);*/
-		cc.log("397");
 		this.constructed = true;
-	},
-	
-	enemyInRange: function(){
-		if(this.constructed == true){
-			var enemySize = this.collisionMaster.enemies.length;
-			for(i = 0; i < enemySize; i++){
-				var x = (this.collisionMaster.enemies[i].x ^2 + this.collisionMaster.enemies[i].y ^2 );
-				if(x < 100){
-					return this.collisionMaster.enemies[i];
-				}
-			}
-		}
-		else {
-			cc.log("396: error caught");
-		}
-		return null;
 	}
 })
  
@@ -912,6 +924,103 @@ function createEnemy(parent) {
 }
 
 
+function createKen(parent){ //ken is the player character and is controlled by tapping
+    cc.log("creating ken");
+     
+    //load in the animations
+    var kenIdle = cc.Animation.create();
+    kenIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+    kenIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+    kenIdle.setDelayPerUnit(1 / 15);
+    
+    var kenAttack = cc.Animation.create();
+    kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
+    kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+    kenAttack.setDelayPerUnit(1 / 15);
+    
+    var kenRun = cc.Animation.create();
+    for (var i = 0; i < 6; i++) {
+		kenRun.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Ken_Run_Cycle/Ken_Run_Cycle_000" + i + "_Group-" + (i + 1) + ".png" );
+	}
+    kenRun.setDelayPerUnit(1 / 15);
+    
+    var kenFlinch = cc.Animation.create();
+	kenFlinch.setLoops(5);
+    
+    this.attackReady = false;
+    var kenAI = cc.Node.extend({
+        currentAction: null,
+        data:{},
+		flinch: function() {
+			this.animator.stop();
+			this.animator.play("flinch");
+		},
+        ctor: function(animations, entity) {
+            this._super();
+            this.entity = entity;
+    
+            this.animator = new AnimatorConstructor(animations, this);
+            this.addChild( this.animator );
+            
+        },
+        attackIt: function(p){
+            this.attackReady = true;
+			this.entity.stopAllActions();
+			this.animator.play("attack");
+			this.hitbox = this.entity.hitbox.addCollider(0,-30, 75, 120, 3);
+        },
+        
+        moveIt: function(p){
+            this.walkReady = true;
+            this.entity.stopAllActions();
+            this.entity.fixedHeight = this.entity.y;
+            p.y = this.entity.fixedHeight;
+			this.t = true;
+			
+            var jumps = (Math.abs(this.entity.x - p.x))/1000;
+			if(Math.abs(this.entity.x - p.x) > 30) 
+				this.entity.scaleX = this.entity.x < p.x ? 1 : -1;
+            var action = cc.MoveTo.create(3*jumps,p);
+            this.entity.runAction( cc.sequence(action, cc.callFunc(this.landed, this) ) );
+			this.animator.play("run");
+        },
+		
+		landed: function() {
+			this.t = false;
+			this.animator.stop();
+			this.callback();
+		},
+		callback: function() {
+			console.log(this.entity.hitbox.getAll());
+			if(this.hitbox) {
+				this.entity.hitbox.removeChild(this.hitbox);
+				this.hitbox = null;
+			}
+			if(this.t) {
+				this.animator.play("run");
+			} else {
+				this.animator.play("idle");
+			}
+		}
+    });
+    
+    // finally, at the end return a new entity, with the health, animations, and
+    // the controller constructor we just made
+    
+    return new entity({
+        health: 10,
+        animations: {
+            idle: kenIdle,
+            run: kenRun,
+            attack: kenAttack,
+			flinch: kenFlinch
+        }, 
+        controller: kenAI,
+        parent: parent
+    });
+    
+}
+
 function createMara(parent) {
 	 
 	var maraIdle = cc.Animation.create();
@@ -1045,7 +1154,7 @@ function createMara(parent) {
 						this.lowestHealth = null;
 					} else {
 						this.currentAction.stop();
-						this.entity.scaleX = this.lowestHealth.x < this.entity ? -1 : 1;
+						this.entity.scaleX = this.lowestHealth.x < this.entity ? 1 : -1;
 						this.run.start();
 					}
 				} else {
@@ -1427,7 +1536,7 @@ function createClark(parent) {
 			});
 			this.heal = new customAction({
 				update: function() {
-					this.scaleX = this.entity.x < this.playerHealth.entity.x ? -1 : 1;
+					this.scaleX = this.entity.x < this.playerHealth.entity.x ? 1 : -1;
 					if(this.frame > 9 && this.frame < 25) {
 						this.playerHealth.damage(-1);
 						if(this.playerHealth._value == this.playerHealth.maxHealth) {
