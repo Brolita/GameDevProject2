@@ -962,6 +962,7 @@ function createKen(parent){ //ken is the player character and is controlled by t
             this.animator = new AnimatorConstructor(animations, this);
             this.addChild( this.animator );
             
+			this.animator.play("idle");
         },
         attackIt: function(p){
             this.attackReady = true;
