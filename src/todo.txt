@@ -1,0 +1,9 @@
+TODO:
+
+Will: 
+bring back screen transitions, just reinitalize all the characters in each frame
+put walls that don't allow backtracking and prohibit going forward until all enemies are dead
+
+Corey:
+Figure out why hitboxes and hurtboxes arent working (other than visually)
+Boss fight
