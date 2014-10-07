@@ -636,14 +636,16 @@ var myTestScene = cc.Scene.extend({
 			}
 		}
 		
-		if(this.player.x > 1200){
-			cc.log("GOING RIGHT");
-			this.increaseLevel();
-			this.initFrame("right");
-		}
-		else if(this.player.x < 50){
-			this.decreaseLevel();
-			this.initFrame("left");
+		if(this.collisionMaster.enemies.length == 0){
+			if(this.player.x > 1200){
+				cc.log("GOING RIGHT");
+				this.increaseLevel();
+				this.initFrame("right");
+			}
+			else if(this.player.x < 50){
+				this.decreaseLevel();
+				this.initFrame("left");
+			}
 		}
 	
 		this.collisionMaster.collision();
