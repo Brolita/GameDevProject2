@@ -512,8 +512,43 @@ var myTestScene = cc.Scene.extend({
 		
 		this.constructed = true;
 	},
-
+	
+	initFrame:function(dirFrom){		
+		//set background with this.level
+		
+		//add the enemies
+		
+		//set the player and companion positions
+		switch(dirFrom){
+			case "right":
+				this.player.setPosition(110,this.player.y); //put him in the corner
+				break;
+			case "left":
+				this.player.setPosition(900,this.player.y); //put him in the corner
+				break;
+		}
+		this.player.canMove = true //whether or not the player can move, prevents double movement	
+	},
+	
+	increaseLevel:function(){
+		this.level++; //increment level value
+	},
+	
+	//go to the previous level
+	decreaseLevel:function(){
+		this.level--; //decrement level value
+	},
+	
 	update: function() {
+		if(this.player.x > 1000){
+			this.increaseLevel();
+			this.initFrame("right");
+		}
+		else if(this.player.x < 100){
+			this.decreaseLevel();
+			this.initFrame("left");
+		}
+	
 		this.collisionMaster.collision();
 	}
 })
