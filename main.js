@@ -95,6 +95,14 @@ master["currentDay"] = 0;
 	for (var i = 0; i < 6; i++) {
 		res.push("assets/art/fantasy/Sprites/Ken_Run_Cycle/Ken_Run_Cycle_000" + i + "_Group-" + (i + 1) + ".png" );
 	}
+	// mara walk cycle
+	for (var i = 0; i < 6; i++) {
+		res.push("assets/art/fantasy/Sprites/Mara_Run_Cycle/Mara_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
+	}
+	// jackie walk cycle
+	for (var i = 0; i < 6; i++) {
+		res.push("assets/art/fantasy/Sprites/Jackie_Run_Cycle/Mara_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
+	}
 	cc.game.run()
 })();
  

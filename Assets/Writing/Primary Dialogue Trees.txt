@@ -1354,9 +1354,9 @@ default
 Mara
 default
 "Well, you certainly appear as if you know what you are doing."
-[Mara > 0]
+case: Mara > 0
 "I take it this is preparation for tomorrow?"
-[Mara = 0]
+case: Mara = 0
 "Though I must say, it is slightly offputting that you have gone so far without my request."
 7
 
@@ -1365,9 +1365,9 @@ default
 7 
 Ken
 embarrassed
-[Mara > 0]
+case: Mara > 0
 "Yeah, I wanted to make sure I was prepared to help you as much as I could."
-[Mara = 0]
+case: Mara = 0
 "Ahaha...ha...ha...
 
 Sorry.  I wanted to make it up to you after offending you this morning, but I guess I screwed up again."
@@ -1379,7 +1379,7 @@ Sorry.  I wanted to make it up to you after offending you this morning, but I gu
 Mara
 default
 "Well, I thank you for your concern."
-[Emily = 0]
+case: Mara = 0
 "If you are willing to aid me in my studies, would you consider doing so at 5:30 p.m. at the Library tomorrow?  It may make an adequate supplement at the least."
 9
 
@@ -1878,12 +1878,15 @@ Campus_Transit
 0
 Ken
 default
+case: Preston > 0
 "Supplies?  Check.  Textbooks from last semester?  Check.  Motivation?  Oh so check.  
 
 I'll grab something to eat and then head over to the Library."
-[Preston > 0]
 1
-[Preston == 0]
+"Supplies?  Check.  Textbooks from last semester?  Check.  Motivation?  Oh so check.  
+
+I'll grab something to eat and then head over to the Library."
+case: Preston == 0
 2 
 
 #################################################

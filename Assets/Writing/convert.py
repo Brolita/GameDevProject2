@@ -58,6 +58,7 @@ while line != '':
 		line = clean(line)
 		currentScene["characters"] = []
 		while '>>' in line:
+			i+= 1;
 			if currentCharacter:
 				currentCharacter["sprite"] = "../assets/art/real/portraits/" + currentCharacter["characterName"] + '_' + line[2:] + ".png"
 				currentScene["characters"].append(currentCharacter)
@@ -71,7 +72,8 @@ while line != '':
 		try:
 			int(line)
 		except ValueError:
-			print "Error: Line " + i + ": Expected dialogue number, read " + line
+			print "Error: Line " + str(i) + ": Expected dialogue number, read " + line
+			
 			sys.exit(0)
 		dialogueNumber = int(line)
 		currentDialogue["text"] = []
@@ -86,6 +88,7 @@ while line != '':
 		if '"' in line:
 			if line.count('"') == 2:
 				currentText["value"] = line.strip().strip('"')
+				
 			elif not reading:
 				reading = True
 				quote = line[line.find('"') + 1:]
@@ -141,7 +144,7 @@ while line != '':
 				print "Error: Line " + str(i) + ": Expected comparator in case, read " + line
 				sys.exit(0)
 			
-		elif "Mara" in line or "Clark" in line or "Jackie" in line or "Preston" in line or "Emily" in line:
+		elif ("Mara" in line or "Clark" in line or "Jackie" in line or "Preston" in line or "Emily" in line) and '+' in line:
 			currentText["action"] = {}
 			if "Mara" in line:
 				currentText["action"]["target"] = "Mara"
@@ -153,16 +156,13 @@ while line != '':
 				currentText["action"]["target"] = "Preston"
 			elif "Emily" in line:
 				currentText["action"]["target"] = "Emily"
-			if '+' not in line:
-				print "Error: Line " + str(i) + ": Epected + in action, read " + line
+			
+			try:
+				int(line[line.find('+')+1:])
+			except ValueError:
+				print "Error: Line " + i + ": Epected number after +, read " + line
 				sys.exit(0)
-			else:
-				try:
-					int(line[line.find('+')+1:])
-				except ValueError:
-					print "Error: Line " + i + ": Epected number after +, read " + line
-					sys.exit(0)
-				currentText["action"]["value"] = int(line[line.find('+')+1:])
+			currentText["action"]["value"] = int(line[line.find('+')+1:])
 		
 		else:
 			try:
