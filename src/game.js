@@ -371,9 +371,11 @@ function rectCollision(r1, r2) {
 	var x1 = r1.convertToWorldSpace(r1).x;
 	var x2 = r1.convertToWorldSpace(r2).x;
 	
-	console.log( x2 + " < " + x1 + r1.w + " && " + x2 + r2.w + " > " + x1 );
+	console.log(x2, (x1 + r1.w));
 	
-	return (x2 < x1 + r1.w && x2 + r2.w > x1)
+	//console.log(x2 < x1 + r1.w, x2 > x1, x1 < x2 + r2.w, x1 > x2);
+	
+	return ( (x2 < (x1 + r1.w) && x2 > x1) || (x1 < (x2 + r2.w) && x1 > x2));
 }
 
 var myTestScene = cc.Scene.extend({
@@ -389,11 +391,7 @@ var myTestScene = cc.Scene.extend({
 					var enemy = this.enemies[i];
 					var character = this.characters[j];
 					
-					//console.log("1: " + character.hitbox.getAll());
-					//console.log("2: " + enemy.hitbox.getAll());
-					//console.log("3: " + character.hurtbox.getAll());
-					//console.log("4: " + enemy.hurtbox.getAll());
-					for(var k = 0; k < enemy.hitbox.getAll(); k++) { 
+					for(var k = 0; k < enemy.hitbox.getAll().length; k++) { 
 						for( var l = 0; l < character.hurtbox.getAll().length; l++) {
 							var hitbox = enemy.hitbox.getAll()[k];
 							var hurtbox = character.hurtbox.getAll()[l];
@@ -451,6 +449,8 @@ var myTestScene = cc.Scene.extend({
 		this._super();
 		this.constructed =false;
 		
+		this.frame = 0;
+		
 		this.scheduleUpdate();
 		
 		this.mara = createJackie(this);
@@ -479,6 +479,11 @@ var myTestScene = cc.Scene.extend({
 		//this.collisionMaster.enemies[1].x = 900;
 		//this.collisionMaster.enemies[1].y = 300;
 		//this.addChild(this.collisionMaster.enemies[1]);
+		
+		console.log("Ken: " + this.player.__instanceId);
+		console.log("Jackie: " + this.mara.__instanceId);
+		console.log("Enemy 0: " + this.collisionMaster.enemies[0].__instanceId);
+		console.log("Enemy 1: " + this.collisionMaster.enemies[1].__instanceId);
 		
 		this.lastClick = Date.now() - 100; //get time of last click used to determine if the player
         
@@ -744,6 +749,7 @@ function createEnemyA(parent) {
 			this.animator.stop();
 			this.currentAction.stop();
 			this.flinch.start();
+			this.callback();
 			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
@@ -819,7 +825,7 @@ function createEnemyA(parent) {
 			if(this.currentAction == this.flinch) {
 				if(!this.data.flinch) {
 					this.data.flinch = 1;
-				} else if(this.data.flinch < 15) {
+				} else if(this.data.flinch < 3) {
 					this.data.flinch ++;
 				} else {
 					this.data.flinch = 0;
@@ -846,7 +852,7 @@ function createEnemyA(parent) {
 				}
 				var closest = this.entity.scene.collisionMaster.characters[j];
 				
-				if(this.entity.health.value < 6) {
+				if(this.entity.health._value < 6) {
 					this.entity.scaleX = closest.x < this.entity.x ? 1 : -1;
 					this.currentAction.stop();
 					this.run.start();
@@ -1182,6 +1188,7 @@ function createMara(parent) {
 			this.animator.stop();
 			this.currentAction.stop();
 			this.flinch.start();
+			this.callback();
 			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
@@ -1370,6 +1377,7 @@ function createPreston(parent) {
 			this.animator.stop();
 			this.currentAction.stop();
 			this.flinch.start();
+			this.callback();
 			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
@@ -1549,6 +1557,7 @@ function createJackie(parent) {
 				this.animator.stop();
 				this.currentAction.stop();
 				this.flinch.start();
+				this.callback();
 			}
 			//this.animator.delay();
 		},
@@ -1707,6 +1716,7 @@ function createClark(parent) {
 			this.animator.stop();
 			this.currentAction.stop();
 			this.flinch.start();
+			this.callback();
 		},
 		ctor: function(animations, entity) {
 			this._super();
@@ -2013,7 +2023,8 @@ var ColliderConstructor = cc.Node.extend({
 	removeCollider: function(node) {
 		this.removeChild(node);
 		this.all.splice(this.all.indexOf(node), 1);
-		node.cleanup();
+		if(node)
+			node.cleanup();
 	},
 	getAll: function() {
 		return this.all;
