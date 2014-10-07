@@ -369,7 +369,7 @@ var rect = function(x,y,w,h, hit) {
  
 function rectCollision(r1, r2) {
 	var x1 = r1.convertToWorldSpace(r1).x;
-	var x2 = r1.convertToWorldSpace(r2).x;
+	var x2 = r2.convertToWorldSpace(r2).x;
 	
 	console.log(x2, (x1 + r1.w));
 	
@@ -479,11 +479,6 @@ var myTestScene = cc.Scene.extend({
 		//this.collisionMaster.enemies[1].x = 900;
 		//this.collisionMaster.enemies[1].y = 300;
 		//this.addChild(this.collisionMaster.enemies[1]);
-		
-		console.log("Ken: " + this.player.__instanceId);
-		console.log("Jackie: " + this.mara.__instanceId);
-		console.log("Enemy 0: " + this.collisionMaster.enemies[0].__instanceId);
-		console.log("Enemy 1: " + this.collisionMaster.enemies[1].__instanceId);
 		
 		this.lastClick = Date.now() - 100; //get time of last click used to determine if the player
         
@@ -1270,7 +1265,7 @@ function createMara(parent) {
 		},
 		
 		main: function() {
-			this.data.idlecount =  3 * (5 - master["Mara"]);
+			this.data.idlecount =  2 * (5 - master["Mara"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback();
@@ -1465,7 +1460,7 @@ function createPreston(parent) {
 			this.main()
 		},
 		main: function() {
-			this.data.idlecount =  3 * (5 - master["Preston"]);
+			this.data.idlecount =  2 * (5 - master["Preston"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback()
@@ -1581,10 +1576,9 @@ function createJackie(parent) {
 			this.run = new customAction({
 				update: function() {
 					this.entity.x += this.entity.scaleX * 5;
-					var closest = 10000;
 					var distance = 100;
 					for( var i in this.entity.scene.collisionMaster.enemies ) {
-						if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest ) {
+						if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < distance) {
 							closest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
 							this.animator.stop();
 							this.entity.controller.callback();
@@ -1627,7 +1621,7 @@ function createJackie(parent) {
 			this.main();
 		},
 		main: function() {
-			this.data.idlecount =  3 * (3 - master["Jackie"]);
+			this.data.idlecount =  2 * (3 - master["Jackie"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback();
@@ -1775,7 +1769,7 @@ function createClark(parent) {
 			this.main();
 		}, 
 		main: function() {
-			this.data.idlecount =  3 * (3 - master["Clark"]);
+			this.data.idlecount =  2 * (3 - master["Clark"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback();
