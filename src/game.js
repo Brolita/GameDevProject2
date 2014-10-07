@@ -465,16 +465,9 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.player);
 		this.collisionMaster.characters.push(this.player);
 		
-		this.collisionMaster.enemies.push(createEnemyA(this));
-		this.collisionMaster.enemies[0].x = 400;
-		this.collisionMaster.enemies[0].y = 300;
-		this.addChild(this.collisionMaster.enemies[0]);
-		
-		this.collisionMaster.enemies.push(createEnemyA(this));
-		this.collisionMaster.enemies[1].x = 800;
-		this.collisionMaster.enemies[1].y = 300;
-		this.addChild(this.collisionMaster.enemies[1]);
-		
+		this.level = 0;
+		this.initFrame("right");
+		this.addEnemies();
 		//this.collisionMaster.enemies.push(createEnemy(this));
 		//this.collisionMaster.enemies[1].x = 900;
 		//this.collisionMaster.enemies[1].y = 300;
@@ -513,18 +506,107 @@ var myTestScene = cc.Scene.extend({
 		this.constructed = true;
 	},
 	
+	addEnemies:function(){
+		//remove all the enemies
+		
+		
+		cc.log("511: adding enemies");
+		switch(this.level){
+			case 0: //empty
+				break;
+			case 1: //A
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[0].x = 800;
+				this.collisionMaster.enemies[0].y = 300;
+				this.addChild(this.collisionMaster.enemies[0]);
+				break;
+			case 2: //AA
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[0].x = 800;
+				this.collisionMaster.enemies[0].y = 300;
+				this.addChild(this.collisionMaster.enemies[0]);
+				
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[1].x = 900;
+				this.collisionMaster.enemies[1].y = 300;
+				this.addChild(this.collisionMaster.enemies[1]);
+				
+				break;
+			case 3: //B
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[0].x = 800;
+				this.collisionMaster.enemies[0].y = 300;
+				this.addChild(this.collisionMaster.enemies[0]);
+				break;
+			case 4: //AB
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[0].x = 800;
+				this.collisionMaster.enemies[0].y = 300;
+				this.addChild(this.collisionMaster.enemies[0]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[1].x = 900;
+				this.collisionMaster.enemies[1].y = 300;
+				this.addChild(this.collisionMaster.enemies[1]);
+				break;
+			case 5:  //AAB
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[0].x = 800;
+				this.collisionMaster.enemies[0].y = 300;
+				this.addChild(this.collisionMaster.enemies[0]);
+				
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[1].x = 900;
+				this.collisionMaster.enemies[1].y = 300;
+				this.addChild(this.collisionMaster.enemies[1]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[2].x = 1000;
+				this.collisionMaster.enemies[2].y = 300;
+				this.addChild(this.collisionMaster.enemies[2]);
+				break;
+			case 6: // ABB
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[0].x = 800;
+				this.collisionMaster.enemies[0].y = 300;
+				this.addChild(this.collisionMaster.enemies[0]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[1].x = 900;
+				this.collisionMaster.enemies[1].y = 300;
+				this.addChild(this.collisionMaster.enemies[1]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[2].x = 1000;
+				this.collisionMaster.enemies[2].y = 300;
+				this.addChild(this.collisionMaster.enemies[2]);
+				break;
+			case 7: //empty
+				break;
+			case 8: //boss
+				cc.log("Make the boss");
+				break;
+			
+			
+		}
+	},
+	
 	initFrame:function(dirFrom){		
 		//set background with this.level
 		
 		//add the enemies
+		this.addEnemies();
+		
 		
 		//set the player and companion positions
 		switch(dirFrom){
 			case "right":
 				this.player.setPosition(110,this.player.y); //put him in the corner
+				this.mara.setPosition(20,this.player.y);
 				break;
 			case "left":
 				this.player.setPosition(900,this.player.y); //put him in the corner
+				this.mara.setPosition(1000,this.player.y);
 				break;
 		}
 		this.player.canMove = true //whether or not the player can move, prevents double movement	
