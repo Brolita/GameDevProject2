@@ -144,7 +144,6 @@ var ActionsgameplayLayer = cc.Layer.extend ({
 				var now = Date.now();
 				
 				if(this.lastJump == null){
-					cc.log("setting lastjump");
 					this.lastJump = now;
 				}
 				
@@ -399,7 +398,6 @@ var myTestScene = cc.Scene.extend({
 		this.enemies[0].x = 1100;
 		this.enemies[0].y = 300;
 		this.addChild(this.enemies[0]);*/
-		cc.log("397");
 		this.constructed = true;
 	},
 	
@@ -414,7 +412,6 @@ var myTestScene = cc.Scene.extend({
 			}
 		}
 		else {
-			cc.log("396: error caught");
 		}
 		return null;
 	}
@@ -457,7 +454,6 @@ function createTest(parent) {
 	 * First we must create the animations
 	 */
 	 
-	cc.log("creating test");
 	 
 	var testIdle = cc.Animation.create();
 	testIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
@@ -666,7 +662,6 @@ function createMara(parent) {
 			}); //
 			this.stealthAttack = new customAction({
 				update: function() { //run away
-					cc.log("running away");
 					if(this.entity.newTarget.x < this.entity.x){
 						this.entity.x += (this.entity.scaleX) * 20;
 					}
@@ -681,7 +676,6 @@ function createMara(parent) {
 					this.entity.x = this.entity.newTarget.x-100;
 					this.entity.y = this.entity.newTarget.y;
 					
-					cc.log("attacking the target");
 				},
 				ondisable: function() {
 				},
@@ -801,7 +795,6 @@ function createEnemy(parent) {
 	/* Here is an example AI contruction
 	 * First we must create the animations
 	 */
-	 cc.log("creating enemy");
 	 
 	var enemyIdle = cc.Animation.create();
 	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
@@ -879,11 +872,9 @@ function createEnemy(parent) {
 					this.scene = parent;
 					var target = this.scene.mara;
 					if(target.x < this.entity.x){
-						cc.log("seeking -");
 						this.entity.x += (this.entity.scaleX) * 5;
 					}
 					else if(target.x > this.entity.x){
-						cc.log("seeking +");
 						this.entity.x -= (this.entity.scaleX) * 5;				
 					}
 					
@@ -911,11 +902,9 @@ function createEnemy(parent) {
 					this.scene = parent;
 					var target = this.scene.mara;
 					if(target.x < this.entity.x){
-						cc.log("seeking -");
 						this.entity.x -= (this.entity.scaleX) * 5;
 					}
 					else if(target.x > this.entity.x){
-						cc.log("seeking +");
 						this.entity.x += (this.entity.scaleX) * 5;				
 					}
 					
@@ -986,23 +975,17 @@ function createEnemy(parent) {
 			// this function is called after an animation 
 			// that was called is finished
 			// use that a processing step
-			cc.log("941: callback");
 			var target = this.scene.mara;
-			cc.log("target.x:" + target.x);
-			cc.log("this.entity.x:" + this.entity.x);
 			
 			this.data.count ++;
 			if(this.data.count == 0) {
-				cc.log("944: flee");
 				this.currentAction.stop();
 				
 				this.flee.start();//this.idle.start();
 			} else if (this.data.count == 5) {
-				cc.log("948: purse");
 				this.currentAction.stop();
 				this.pursue.start();
 			} else if(this.data.count == 25) {
-				cc.log("952: attack");
 				this.currentAction.stop();
 				this.attack.start();
 				this.data.count = -1;
