@@ -371,10 +371,6 @@ function rectCollision(r1, r2) {
 	var x1 = r1.convertToWorldSpace(r1).x;
 	var x2 = r2.convertToWorldSpace(r2).x;
 	
-	console.log(x2, (x1 + r1.w));
-	
-	//console.log(x2 < x1 + r1.w, x2 > x1, x1 < x2 + r2.w, x1 > x2);
-	
 	return ( (x2 < (x1 + r1.w) && x2 > x1) || (x1 < (x2 + r2.w) && x1 > x2));
 }
 
@@ -706,6 +702,10 @@ function createTest(parent) {
 	});
 }
 
+function createBoss(parent) {
+
+}
+
 function createEnemyA(parent) {
 	/* Here is an example AI contruction
 	 * First we must create the animations
@@ -812,7 +812,7 @@ function createEnemyA(parent) {
 		
 		main: function() {
 			this.data.idlecount =  10;
-			this.data.count = 0;
+			this.data.count = this.data.idlecount;
 			this.idle.start();
 			this.callback()
 		},
@@ -872,7 +872,7 @@ function createEnemyA(parent) {
 	// the controller constructor we just made
 	
 	return new entity({
-		health: 10,
+		health: 50,
 		animations: {
 			idle: enemyIdle,
 			run: enemyRun,
@@ -953,7 +953,7 @@ function createEnemyB(parent) {
 				update: function() {
 					if(this.frame == 3) {
 						// create a hitbox relative coordinates       x, y, w, h, damage
-						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 1);
+						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 5);
 					}
 				},
 				ondisable: function() {
@@ -987,7 +987,7 @@ function createEnemyB(parent) {
 		
 		main: function() {
 			this.data.idlecount =  10;
-			this.data.count = 0;
+			this.data.count = this.data.idlecount;
 			this.idle.start();
 			this.callback()
 		},
@@ -1222,7 +1222,7 @@ function createMara(parent) {
 			this.attack = new customAction({
 				update: function() { 
 					if(this.frame == 9) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 120, 2);
+						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 120, 7);
 					}
 				},
 				ondisable: function() {
@@ -1461,7 +1461,7 @@ function createPreston(parent) {
 		},
 		main: function() {
 			this.data.idlecount =  2 * (5 - master["Preston"]);
-			this.data.count = 0;
+			this.data.count = this.data.idlecount;
 			this.idle.start();
 			this.callback()
 		},
@@ -1593,7 +1593,7 @@ function createJackie(parent) {
 			this.attack = new customAction({
 				update: function() {
 					if(this.frame == 13) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 120, 120, 5);
+						this.hitbox = this.entity.hitbox.addCollider(0,-30, 120, 120, 10);
 					}
 				},
 				ondisable: function() {
@@ -1622,7 +1622,7 @@ function createJackie(parent) {
 		},
 		main: function() {
 			this.data.idlecount =  2 * (3 - master["Jackie"]);
-			this.data.count = 0;
+			this.data.count = this.data.idlecount;
 			this.idle.start();
 			this.callback();
 		},
@@ -1770,7 +1770,7 @@ function createClark(parent) {
 		}, 
 		main: function() {
 			this.data.idlecount =  2 * (3 - master["Clark"]);
-			this.data.count = 0;
+			this.data.count = this.data.idlecount;
 			this.idle.start();
 			this.callback();
 		},
