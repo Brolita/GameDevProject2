@@ -352,23 +352,28 @@ var FantasyBackgroundLayer = cc.Layer.extend({
  *
  */
  
-var rect = function(x,y,w,h) {
+var rect = function(x,y,w,h, hit) {
 	var n = cc.DrawNode.create();
+	n.test = true;
 	n.x = x;
 	n.y = y;
 	n.w = w;
-	n.w = h;
-	if(true) {
+	n.h = h;
+	if(hit) {
+		n.drawRect(new cc.Point(x,y),new cc.Point(x+w, y+h),new cc.Color(255,0,0,50), 0,new cc.Color(0,0,0,0));
+	} else {
 		n.drawRect(new cc.Point(x,y),new cc.Point(x+w, y+h),new cc.Color(255,255,0,50), 0,new cc.Color(0,0,0,0));
 	}
 	return n;
 };
  
 function rectCollision(r1, r2) {
-	return !(r2.x > r1.x + r1.w || 
-     r2.x + r2.w < r1.x || 
-     r2.y + r2.h > r1.y ||
-     r2.y < r1.y + r1.h);
+	var x1 = r1.convertToWorldSpace(r1).x;
+	var x2 = r1.convertToWorldSpace(r2).x;
+	
+	console.log( x2 + " < " + x1 + r1.w + " && " + x2 + r2.w + " > " + x1 );
+	
+	return (x2 < x1 + r1.w && x2 + r2.w > x1)
 }
 
 var myTestScene = cc.Scene.extend({
@@ -379,35 +384,40 @@ var myTestScene = cc.Scene.extend({
 		p_characters: [],
 		collision: function() {
 			//for each i, enemy and j, characters
-			for (var i in this.enemies) { 
-				for (var j in this.characters) {
+			for (var i = 0; i < this.enemies.length; i++) { 
+				for (var j = 0; j < this.characters.length; j++) {
 					var enemy = this.enemies[i];
-					var characters = this.characters[j];
-					for(var k in enemy.hitbox.getAll()) { 
-						for( var l in character.hurtbox.getAll()) {
+					var character = this.characters[j];
+					
+					//console.log("1: " + character.hitbox.getAll());
+					//console.log("2: " + enemy.hitbox.getAll());
+					//console.log("3: " + character.hurtbox.getAll());
+					//console.log("4: " + enemy.hurtbox.getAll());
+					for(var k = 0; k < enemy.hitbox.getAll(); k++) { 
+						for( var l = 0; l < character.hurtbox.getAll().length; l++) {
 							var hitbox = enemy.hitbox.getAll()[k];
 							var hurtbox = character.hurtbox.getAll()[l];
 							// here check if hitbox hits hurtbox, and if
 							// so, call hit on both of them
 							if(rectCollision(hitbox, hurtbox) ) {
-								hitbox.hit();
-								hurtbox.hit(hitbox);
-								character.flinch();
-								enemy.controller.animator.delay();
+								enemy.hitbox.hit(hurtbox);
+								character.hurtbox.hit(hitbox);
+								character.controller.Flinch();
+								//enemy.controller.animator.delay();
 							}
 						}
 					}
-					for(var k in enemy.hurtbox.getAll()) { 
-						for( var l in character.hitbox.getAll()) {
+					for(var k = 0; k < enemy.hurtbox.getAll().length; k++) { 
+						for( var l = 0; l < character.hitbox.getAll().length; l++) {
 							var hitbox = character.hitbox.getAll()[k];
 							var hurtbox = enemy.hurtbox.getAll()[l];
 							// here check if hitbox hits hurtbox, and if
 							// so, call hit on both of them
-							if(rectCollision(hitbox, hurtbox) ) {
-								hitbox.hit();
-								hurtbox.hit(hitbox);
-								enemy.flinch();
-								character.controller.animator.delay();
+							if( rectCollision(hitbox, hurtbox) ) {
+								character.hitbox.hit(hurtbox);
+								enemy.hurtbox.hit(hitbox);
+								enemy.controller.Flinch();
+								//character.controller.animator.delay();
 							}
 						}
 					}
@@ -415,6 +425,7 @@ var myTestScene = cc.Scene.extend({
 			}
 		},
 		removeRefereces: function(hitbox) {
+			if(!hitbox) return;
 			for( var i in this.characters) { 
 				var character = this.characters[i];
 				for( var j in character.hurtbox.ignored) {
@@ -440,7 +451,9 @@ var myTestScene = cc.Scene.extend({
 		this._super();
 		this.constructed =false;
 		
-		this.mara = createPreston(this);
+		this.scheduleUpdate();
+		
+		this.mara = createJackie(this);
 		this.mara.x = 900;
 		this.mara.y = 300;
 		this.addChild(this.mara);
@@ -452,10 +465,15 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.player);
 		this.collisionMaster.characters.push(this.player);
 		
-		this.collisionMaster.enemies.push(createEnemyB(this));
+		this.collisionMaster.enemies.push(createEnemyA(this));
 		this.collisionMaster.enemies[0].x = 400;
 		this.collisionMaster.enemies[0].y = 300;
 		this.addChild(this.collisionMaster.enemies[0]);
+		
+		this.collisionMaster.enemies.push(createEnemyA(this));
+		this.collisionMaster.enemies[1].x = 800;
+		this.collisionMaster.enemies[1].y = 300;
+		this.addChild(this.collisionMaster.enemies[1]);
 		
 		//this.collisionMaster.enemies.push(createEnemy(this));
 		//this.collisionMaster.enemies[1].x = 900;
@@ -472,8 +490,6 @@ var myTestScene = cc.Scene.extend({
             event: cc.EventListener.MOUSE,
             onMouseDown: function(event) {
                 var now = Date.now();
-				
-				parent.player.health.damage(3);
                 
                 if(this.lastJump == null){
                     this.lastJump = now;
@@ -495,6 +511,10 @@ var myTestScene = cc.Scene.extend({
         },this);
 		
 		this.constructed = true;
+	},
+
+	update: function() {
+		this.collisionMaster.collision();
 	}
 })
  
@@ -605,7 +625,7 @@ function createTest(parent) {
 					this.animator.play("walk");
 				},
 				target:this
-			}),
+			});
 			this.attack = new customAction({
 				update: function() {
 					// on the second frame (frame 1 is first, not 0)
@@ -619,7 +639,7 @@ function createTest(parent) {
 				onenable: function() {},
 				ondisable: function() {
 					// remove the hitbox
-					this.entity.hitbox.removeChild(this.hitbox);
+					this.entity.hitbox.removeCollider(this.hitbox);
 					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					this.hitbox = null;
 				},
@@ -720,8 +740,11 @@ function createEnemyA(parent) {
 		 */
 		currentAction: null,
 		data:{},
-		flinch:function() {
-			this.animator.delay();
+		Flinch:function() {
+			this.animator.stop();
+			this.currentAction.stop();
+			this.flinch.start();
+			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
 			this._super();
@@ -729,6 +752,8 @@ function createEnemyA(parent) {
 	
 			this.animator = new AnimatorConstructor(animations, this);
 			this.addChild( this.animator );
+			
+			this.entity.hurtbox.addCollider(-15,-30,60,120, false);
 			
 			this.idle = new customAction({
 				animate: function() {
@@ -749,14 +774,15 @@ function createEnemyA(parent) {
 			});
 			this.attack = new customAction({
 				update: function() {
-					if(this.frame == 9) {
+					if(this.frame == 1) {
 						// create a hitbox relative coordinates       x, y, w, h, damage
-						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 1);
+						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 3);
+						console.log(this.entity.hitbox._children);
 					}
 				},
 				ondisable: function() {
 					// remove the hitbox
-					this.entity.hitbox.removeChild(this.hitbox);
+					this.entity.hitbox.removeCollider(this.hitbox);
 					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					this.hitbox = null;
 				},
@@ -813,7 +839,6 @@ function createEnemyA(parent) {
 				var close = 100000;
 				var j = 0;
 				for( i in this.entity.scene.collisionMaster.characters ) {
-					console.log(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x));
 					if(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x) < close) {
 						close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
 						j = i;
@@ -821,13 +846,11 @@ function createEnemyA(parent) {
 				}
 				var closest = this.entity.scene.collisionMaster.characters[j];
 				
-				console.log(closest == this.entity.scene.player);
-				
 				if(this.entity.health.value < 6) {
 					this.entity.scaleX = closest.x < this.entity.x ? 1 : -1;
 					this.currentAction.stop();
 					this.run.start();
-				} else if (Math.abs(closest.x - this.entity.x) < 50){
+				} else if (Math.abs(closest.x - this.entity.x) < 75){
 					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
 					this.currentAction.stop();
 					this.attack.start();
@@ -848,11 +871,12 @@ function createEnemyA(parent) {
 	// the controller constructor we just made
 	
 	return new entity({
-		health: 30,
+		health: 10,
 		animations: {
 			idle: enemyIdle,
 			run: enemyRun,
 			attack: enemyAttack,
+			flinch: enemyFlinch,
 		}, 
 		controller: enemyAI,
 		parent: parent
@@ -893,11 +917,8 @@ function createEnemyB(parent) {
 		 */
 		currentAction: null,
 		data:{},
-		flinch:function() {
-			this.animator.stop();
-			this.currentAction.stop();
-			this.flinch.start();
-			this.animator.delay();
+		Flinch:function() {
+			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
 			this._super();
@@ -907,6 +928,8 @@ function createEnemyB(parent) {
 			this.animator.scaleX = .58;
 			this.animator.scaleY = .58;
 			this.addChild( this.animator );
+			
+			this.entity.hurtbox.addCollider(-21,-42,85,170);
 			
 			this.idle = new customAction({
 				animate: function() {
@@ -934,7 +957,7 @@ function createEnemyB(parent) {
 				},
 				ondisable: function() {
 					// remove the hitbox
-					this.entity.hitbox.removeChild(this.hitbox);
+					this.entity.hitbox.removeCollider(this.hitbox);
 					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					this.hitbox = null;
 				},
@@ -1001,7 +1024,7 @@ function createEnemyB(parent) {
 				
 				console.log(closest == this.entity.scene.player);
 				
-				if (Math.abs(closest.x - this.entity.x) < 50){
+				if (Math.abs(closest.x - this.entity.x) < 100){
 					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
 					this.currentAction.stop();
 					this.attack.start();
@@ -1026,6 +1049,7 @@ function createEnemyB(parent) {
 			idle: enemyIdle,
 			run: enemyRun,
 			attack: enemyAttack,
+			flinch: enemyFlinch,
 		}, 
 		controller: enemyAI,
 		parent: parent
@@ -1059,7 +1083,7 @@ function createKen(parent){ //ken is the player character and is controlled by t
     var kenAI = cc.Node.extend({
         currentAction: null,
         data:{},
-		flinch: function() {
+		Flinch: function() {
 			this.animator.stop();
 			this.animator.play("flinch");
 		},
@@ -1070,13 +1094,15 @@ function createKen(parent){ //ken is the player character and is controlled by t
             this.animator = new AnimatorConstructor(animations, this);
             this.addChild( this.animator );
             
+			this.entity.hurtbox.addCollider(-15,-30,60,120);
+			
 			this.animator.play("idle");
         },
         attackIt: function(p){
             this.attackReady = true;
 			this.entity.stopAllActions();
 			this.animator.play("attack");
-			this.hitbox = this.entity.hitbox.addCollider(0,-30, 75, 120, 3);
+			this.hitbox = this.entity.hitbox.addCollider(0,-30, 75, 120, 5);
         },
         
         moveIt: function(p){
@@ -1101,7 +1127,7 @@ function createKen(parent){ //ken is the player character and is controlled by t
 		},
 		callback: function() {
 			if(this.hitbox) {
-				this.entity.hitbox.removeChild(this.hitbox);
+				this.entity.hitbox.removeCollider(this.hitbox);
 				this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 				this.hitbox = null;
 			}
@@ -1152,11 +1178,11 @@ function createMara(parent) {
 	var maraAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
-		flinch:function() {
+		Flinch:function() {
 			this.animator.stop();
 			this.currentAction.stop();
 			this.flinch.start();
-			this.animator.delay();
+			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
 			var smoke = function(scene) {
@@ -1170,6 +1196,8 @@ function createMara(parent) {
 	
 			this.animator = new AnimatorConstructor(animations, this);
 			this.addChild( this.animator );
+			
+			this.entity.hurtbox.addCollider(-15,-30,60,120);
 			
 			this.idle = new customAction({
 				animate: function() {
@@ -1196,7 +1224,7 @@ function createMara(parent) {
 					}
 				},
 				ondisable: function() {
-					this.entity.hitbox.removeChild(this.hitbox);
+					this.entity.hitbox.removeCollider(this.hitbox);
 					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					this.hitbox = null;
 				},
@@ -1338,11 +1366,11 @@ function createPreston(parent) {
 	var prestonAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
-		flinch:function() {
+		Flinch:function() {
 			this.animator.stop();
 			this.currentAction.stop();
 			this.flinch.start();
-			this.animator.delay();
+			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
 			this._super();
@@ -1350,11 +1378,14 @@ function createPreston(parent) {
 	
 			this.animator = new AnimatorConstructor(animations, this);
 			this.addChild( this.animator );
+			
+			this.entity.hurtbox.addCollider(-15,-30,60,120);
 			// makes arrow
 			var arrow = function(pres) {
-				var a = rect(-30,-10,64,26, 3);
+				var a = rect(-30,-10,64,26, true);
 				var s = cc.Sprite.create("assets/art/fantasy/Sprites/arrow.png");
 				a.addChild(s);
+				a.damage = 3;
 				a.x = pres.x;
 				a.y = pres.y;
 				a.scaleX = pres.scaleX;
@@ -1513,13 +1544,13 @@ function createJackie(parent) {
 	var jackieAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
-		flinch:function() {
+		Flinch:function() {
 			if(this.currentAction != this.attack) {
 				this.animator.stop();
 				this.currentAction.stop();
 				this.flinch.start();
 			}
-			this.animator.delay();
+			//this.animator.delay();
 		},
 		ctor: function(animations, entity) {
 			this._super();
@@ -1527,6 +1558,8 @@ function createJackie(parent) {
 	
 			this.animator = new AnimatorConstructor(animations, this);
 			this.addChild( this.animator );
+			
+			this.entity.hurtbox.addCollider(-15,-30,60,120);
 			
 			// idle behavior
 			this.idle = new customAction({
@@ -1539,6 +1572,15 @@ function createJackie(parent) {
 			this.run = new customAction({
 				update: function() {
 					this.entity.x += this.entity.scaleX * 5;
+					var closest = 10000;
+					var distance = 100;
+					for( var i in this.entity.scene.collisionMaster.enemies ) {
+						if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest ) {
+							closest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
+							this.animator.stop();
+							this.entity.controller.callback();
+						}
+					}
 				},
 				animate: function() {
 					this.animator.play("run");
@@ -1548,11 +1590,11 @@ function createJackie(parent) {
 			this.attack = new customAction({
 				update: function() {
 					if(this.frame == 13) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 120, 120);
+						this.hitbox = this.entity.hitbox.addCollider(0,-30, 120, 120, 5);
 					}
 				},
 				ondisable: function() {
-					this.entity.hitbox.removeChild(this.hitbox);
+					this.entity.hitbox.removeCollider(this.hitbox);
 					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					this.hitbox = null;
 				},
@@ -1576,7 +1618,7 @@ function createJackie(parent) {
 			this.main();
 		},
 		main: function() {
-			this.data.idlecount =  0 * (3 - master["Jackie"]);
+			this.data.idlecount =  3 * (3 - master["Jackie"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback();
@@ -1603,16 +1645,15 @@ function createJackie(parent) {
 				var tooFar = 0;
 				var distance = 100;
 				var closest = 100000;
-				var j;
 				for( var i in this.entity.scene.collisionMaster.enemies ) {
-					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) > distance ) {
-						tooFar = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
-						distance = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
-					}
 					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest ) {
 						closest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
-						j = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
+						tooFar = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
 					}
+				}
+				var j = tooFar;
+				if(closest < distance) {
+					tooFar = 0; 
 				}
 				
 				if(tooFar == -1) {
@@ -1639,7 +1680,7 @@ function createJackie(parent) {
 			idle: jackieIdle,
 			run: jackieRun,
 			attack: jackieAttack,
-			flinch: jackieFlinch
+			Flinch: jackieFlinch
 		},
 		controller: jackieAI,
 		parent: parent
@@ -1662,7 +1703,7 @@ function createClark(parent) {
 	var clarkAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
-		flinch:function() {
+		Flinch:function() {
 			this.animator.stop();
 			this.currentAction.stop();
 			this.flinch.start();
@@ -1673,6 +1714,8 @@ function createClark(parent) {
 	
 			this.animator = new AnimatorConstructor(animations, this);
 			this.addChild( this.animator );
+			
+			this.entity.hurtbox.addCollider(-15,-30,60,120);
 			
 			// idle behavior
 			this.idle = new customAction({
@@ -1816,14 +1859,14 @@ var entity = cc.Sprite.extend({
 		this.health = new HealthConstructor(args.health, this);
 		this.addChild(this.health);
 		
-		this.controller = new args.controller(args.animations, this);
-		this.addChild(this.controller);
-		
 		this.hitbox = new ColliderConstructor("hitbox", this);
 		this.addChild(this.hitbox);
 		
 		this.hurtbox = new ColliderConstructor("hurtbox", this);
 		this.addChild(this.hurtbox);
+		
+		this.controller = new args.controller(args.animations, this);
+		this.addChild(this.controller);
 	},
 	turnaround: function() {
 		this.scaleX *= -1;
@@ -1919,18 +1962,20 @@ var AnimatorConstructor = cc.Sprite.extend({
 	},
 	delay: function() {
 		if(this.getActionByTag(this.__animation_tag)) {
-			this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1);
+			this.getActionByTag(this.__animation_tag)._actions[0]._animation._delayPerUnit = 1;
 			this.runAction ( cc.sequence( cc.delayTime(.05), cc.callFunc(this._unsetDelay, this) ) );
-			this.controller.currentAction._run = false;
+			if(this.controller.currentAction)
+				this.controller.currentAction._run = true;
 		}
 	},
 	_unsetDelay: function() {
-		this.getActionByTag(this.__animation_tag)._actions[0].setDelayPerUnit(1 / 15);
+		console.log("_unset called");
+		this.getActionByTag(this.__animation_tag)._actions[0]._animation._delayPerUnit = 1 / 15;
+		if(this.controller.currentAction)
+			this.controller.currentAction._run = true;
 	},
 	stop: function() {
 		this.stopActionByTag(this.__animation_tag);
-		if(this.controller.currentAction)
-			this.controller.currentAction._run = true;
 	}
 });
 
@@ -1938,6 +1983,7 @@ var ColliderConstructor = cc.Node.extend({
 	type: null,
 	entity: null,
 	ignored: null,
+	all: null,
 	ctor: function(t, entity) {
 		this.entity = entity;
 		if(t == "hitbox") {
@@ -1947,12 +1993,14 @@ var ColliderConstructor = cc.Node.extend({
 		}
 		this._super();
 		this.ignored = [];
+		this.all = [];
 	},
 	addCollider: function(nodeorx,y,w,h,damage) {
 		if(typeof nodeorx == "number") {
-			var n = rect(nodeorx,y,w,h);
+			var n = rect(nodeorx,y,w,h, !this.type);
 			this.addChild(n);
-			if(!this.type) n.damage = damage;
+			this.all.push(n);
+			if(damage) n.damage = damage;
 			return n;
 		} else {
 			this.addChild(nodeorx)
@@ -1964,17 +2012,19 @@ var ColliderConstructor = cc.Node.extend({
 	},
 	removeCollider: function(node) {
 		this.removeChild(node);
+		this.all.splice(this.all.indexOf(node), 1);
 		node.cleanup();
 	},
 	getAll: function() {
-		return this._children;
+		return this.all;
 	},
 	hit: function(collider) {
-		if(collider.__instanceId in this.ignored) return;
-		if(this.type) {
-			this.entity.health.damage(collider.damage);
+		if(this.ignored.indexOf(collider.__instanceId) == -1) {
+			if(collider.damage) {
+				this.entity.health.damage(collider.damage);
+			}
+			this.ignored.push(collider.__instanceId);
 		}
-		this.ignored.push(collider.__instanceId);
 	},
 });
 
