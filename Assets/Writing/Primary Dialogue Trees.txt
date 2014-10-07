@@ -174,7 +174,7 @@ confused
 19
 Cellphone
 on
-"It's 11:47 p.m.  Of course I'm in the middle of something.  It's called sleeping.  You know I have a 6 a.m. tomorrow, so why are you calling me?"
+"It's 11:47:00 p.m.  Of course I'm in the middle of something.  It's called sleeping.  You know I have a 6 a.m. tomorrow, so why are you calling me?"
 20
 
 ##############################################
@@ -291,11 +291,11 @@ sad
 "Ugh...
 
 I'll figure this out in the morning."
-Meeting_with_Preston
+Meeting_with_P
 
 ###############################################
 
->> Meeting_with_Preston
+>> Meeting_with_P
 >> Campus #A field with paths, trees and nondescript people in the background
 >> Ken
 >> default
@@ -574,13 +574,13 @@ Aaaagh, what do I do?)"
 Ken
 default
 "(I've gotta chase after Mara; sorry Clark, but this is my chance!)"
-Meeting_with_Mara
+Meeting_with_M
 "(Ughhh...I'll track down Clark.  These headphones are probably expensive.)"
-Chasing_after_Clark
+Chasing_after_C
 
 ################################################
 
->> Meeting_with_Mara
+>> Meeting_with_M
 >> Campus #A field with paths, trees and nondescript people in the background
 >> Mara
 >> default
@@ -837,7 +837,7 @@ Lunchtime_with_Little_Sister
 
 ################################################
 
->> Chasing_after_Clark
+>> Chasing_after_C
 >> Campus #A field with paths, trees and nondescript people in the background
 >> Clark
 >> default
@@ -946,7 +946,7 @@ confused
 
 ################################################
 
-12
+11
 Ken
 default
 "We were talking about a game we both play, called MythQuest."
@@ -976,7 +976,6 @@ default
 
 15
 Clark
-default
 "Huh, okay.  Ahh, dammit!  I'm super-late; the professor's gonna kill me!  
 
 It was nice talking with you, but I've really gotta go.  Bye!"
@@ -994,17 +993,17 @@ Lunchtime_with_Little_Sister
 
 ################################################
 
-16
+17
 Clark
 default
 "The Pit of What-now?  That sounds...fascinating...
 
 Look, I've got to go; I'm incredibly late for class.  Bye now!"
-17
+18
 
 ################################################
 
-17
+18
 Ken
 sad
 "(Ah crap, I think I scared him off.  Well, I may as well go to lunch.)"
@@ -1233,7 +1232,7 @@ sad
 (Ugh, she's gone.  I really screwed up there; but what does she mean?  It's not like I don't want others to have fun, but they just keep getting in the way of the story and breaking rules.
 
 It's nearly time for writing class, so I should head out.)"
-Mara_and_Next_Chance
+M_and_Next_Chance
 
 ################################################
 
@@ -1286,12 +1285,12 @@ sad
 
 (Now that I think back, I remember laughing and smiling...but I don't remember anyone else doing so.  Jackie's probably right about this; that's something I need to work on.)
 
-Ah crap, it's this time already!?  I'm gonna be late to class!"
-Mara_and_Next_Chance
+"Ah crap, it's this time already!?  I'm gonna be late to class!"
+M_and_Next_Chance
 
 #################################################
 
->> Mara_and_Next_Chance
+>> M_and_Next_Chance
 >> Classroom #A classroom filled with empty seats
 >> Mara
 >> default
@@ -1354,9 +1353,9 @@ default
 Mara
 default
 "Well, you certainly appear as if you know what you are doing."
-case: Mara > 0
+[Mara > 0]
 "I take it this is preparation for tomorrow?"
-case: Mara = 0
+[Mara = 0]
 "Though I must say, it is slightly offputting that you have gone so far without my request."
 7
 
@@ -1365,9 +1364,9 @@ case: Mara = 0
 7 
 Ken
 embarrassed
-case: Mara > 0
+[Mara > 0]
 "Yeah, I wanted to make sure I was prepared to help you as much as I could."
-case: Mara = 0
+[Mara = 0]
 "Ahaha...ha...ha...
 
 Sorry.  I wanted to make it up to you after offending you this morning, but I guess I screwed up again."
@@ -1379,7 +1378,7 @@ Sorry.  I wanted to make it up to you after offending you this morning, but I gu
 Mara
 default
 "Well, I thank you for your concern."
-case: Mara = 0
+[Emily = 0]
 "If you are willing to aid me in my studies, would you consider doing so at 5:30 p.m. at the Library tomorrow?  It may make an adequate supplement at the least."
 9
 
@@ -1440,7 +1439,7 @@ Have you heard of the tabletop role-playing game called MythQuest?"
 15
 Mara
 confused
-"Myth...what?"
+"Myth...what?
 16
 
 #################################################
@@ -1538,7 +1537,7 @@ game
 26
 Mara
 default
-"Monsters and princesses?  This game seems rather cliche."
+"Monsters and princesses?  This game seems rather cliché."
 27
 
 #################################################
@@ -1571,7 +1570,7 @@ game
 
 << #Day 2
 << Early_Shopping #Ken heads to a department store to buy paper and encounters Clark
->> Early Shopping
+>> Early_Shopping
 >> Store_interior #The interior of a store, replete with aisles of random merchandise
 >> Clark
 >> default
@@ -1878,15 +1877,12 @@ Campus_Transit
 0
 Ken
 default
-case: Preston > 0
 "Supplies?  Check.  Textbooks from last semester?  Check.  Motivation?  Oh so check.  
 
 I'll grab something to eat and then head over to the Library."
+[Preston > 0]
 1
-"Supplies?  Check.  Textbooks from last semester?  Check.  Motivation?  Oh so check.  
-
-I'll grab something to eat and then head over to the Library."
-case: Preston == 0
+[Preston == 0]
 2 
 
 #################################################
@@ -1915,7 +1911,7 @@ default
 "(I'll talk to Jackie.  She's my sister after all, and family help each other out.)"
 Second_Talk_with_Little_Sister
 "(I'll talk to Preston.  He's one of my best friends, and he'll help me out once I apologize.)"
-Preston_Last_Chance
+P_Last_Chance
 
 #################################################
 
@@ -2136,11 +2132,11 @@ Man, she's troublesome sometimes.  But I'm glad I made up with her some."
 Ken
 default
 "Still, I talked for longer than I thought.  I'll have to hurry to make it to the Library on time."
-Conflict_Two_Clark_or_Mara
+Conflict_Two_C_or_M
 
 ######################################################
 
->> Preston_Last_Chance
+>> P_Last_Chance
 >> Campus #A field with paths, trees and nondescript people in the background
 >> Ken
 >> default
@@ -2261,7 +2257,7 @@ Preston + 0
 14
 "I don't think I am."
 Preston + 1
-1XXXX
+21
 
 #######################################################
 
@@ -2319,11 +2315,62 @@ default
 "I'm done with him.  
 
 I have a meeting to go to."
-Conflict_Two_Clark_or_Mara
+Conflict_Two_C_or_M
 
 #######################################################
 
->> Conflict_Two_Clark_or_Mara
+21
+Preston
+default
+"So you acknowledge you've got a problem?"
+22
+
+#######################################################
+
+22
+Ken
+sad
+"Yeah...I go overboard sometimes.  I stifle other people, even when I don't mean to, and for that, I'm sorry."
+23
+
+#######################################################
+
+23
+Preston
+happy
+"Apology accepted, Ken.  For a mere matter such as this, Tatsumi, Sniper of the Gods will deign to offer his aid!"
+24
+
+#######################################################
+
+24
+Ken
+"Thanks, Preston!  I'll see you on Friday at 7, alright?"
+25
+
+#######################################################
+
+25
+Preston
+happy
+"Got it.  See you tomorrow then, Ken."
+26
+
+#######################################################
+
+26
+Ken
+happy
+"Yeah, see you tomorrow.
+
+(Yes!  That's another party member!  I'm glad I made up with Preston; I'd have hated to have an argument over something I was wrong about.)
+
+Ah, it's nearly time for my meeting with Mara!  Time to go!"
+Conflict_Two_C_or_M
+
+#######################################################
+
+>> Conflict_Two_C_or_M
 >> Campus #A field with paths, trees and nondescript people in the background
 >> Ken
 >> default
@@ -2356,7 +2403,7 @@ default
 "I'm staying here to wait for Mara; there's no way in hell I'm standing her up!"
 Study_Session_One
 "I'll convince Clark to join the campaign!  Besides, it won't take that long, right?"
-Conversing_with_Clark
+Conversing_with_C
 
 ######################################################
 
@@ -2476,7 +2523,7 @@ default
 13
 Mara
 default
-"I have not made any preparations to do so; is it still possible?"
+"I have not made any preparations to do so; is it still possible?
 14
 
 ######################################################
@@ -2538,9 +2585,9 @@ default
 
 Long ago, the kingdom of Vilaria lived in harmony.  Its people were peaceful and kind, its harvests bountiful, its cities beautiful.  Vilaria was resplendent in all respects, but one in particular more than any other.
 
-The princess of Vilaria was the loveliest maiden the world had ever known.  Her beauty spun tales of magnificent splendor and wove ballads of love that moved even the most icy of men.  
+The Princess of Vilaria was the loveliest maiden the world had ever known.  Her beauty spun tales of magnificent splendor and wove ballads of love that moved even the most icy of men.  
 
-However, a malevolent king discovered the princess, and grew infatuated with her legendary beauty.  His armies invaded Vilaria, razing all in their path, and the evil king personally strode into Vilaria's capital and kidnapped the princess, claiming her as his own.  "
+However, a malevolent king discovered the Princess, and grew infatuated with her legendary beauty.  His armies invaded Vilaria, razing all in their path, and the evil king personally strode into Vilaria's capital and kidnapped the Princess, claiming her as his own.  "
 21
 
 ######################################################
@@ -2577,3 +2624,1349 @@ confused
 The malevolent King Ragnar strode through the magnificently decorated halls of his stronghold.  His outward countenance was an inscrutable mask of intimidating indifference; however, internally he was ecstatic.  
 
 The one who had plagued his thoughts and stirred feeling he hadn't realized he had was finally before him - his Aphrodite, the Princess of Vilaria.
+
+He walked to her room in his castle and opened the door."
+25
+
+######################################################
+
+25
+Mara
+default
+"So you are the man who kidnapped me.  With that intimidating helm of yours gone, you have quite the attractive face; like a wolf prepared to enjoy his slaughter."
+26
+
+######################################################
+
+26
+Ken
+default
+"Uhh...thank you.  It seems your tongue is as beautiful as your visage."
+27
+
+######################################################
+
+27
+Mara
+default
+"Such words are unexpectedly kind, coming from a man such as yourself.  I feel obligated to reward you in some fashion, but...oh, I couldn't possibly say how."
+28
+
+######################################################
+
+28
+Ken
+embarrassed
+"There's nothing to be afraid of, Princess.  No one can hear us here."
+29
+
+######################################################
+
+29
+Mara
+default
+"Still, it's ever so embarrassing.  To say such a thing over a whisper would be mortifying."
+30
+
+######################################################
+
+30
+Ken
+embarrassed
+"T-then I'll come over at once!  What is this embarrassing thing you wish to say?"
+31
+
+######################################################
+
+31
+Mara
+default
+"Lean in a little closer so I can speak right to you.  Just like that; perfect.  Now...
+
+Please die for me."
+32
+
+######################################################
+
+32
+Ken
+confused
+"W-what?"
+33
+
+######################################################
+
+33
+Mara
+default
+"I kill him with the poisoned knife in my hair, disguised as a barrette."
+34
+
+######################################################
+
+34
+Ken
+confused
+"I'm sorry?"
+35
+
+######################################################
+
+35
+Mara
+default
+"My character is an assassin; she masquerades as the Princess in preparation for situations such as this one.
+
+Originally, I was going to be a mercenary for hire, but this situation seemed more appealing as a story."
+36
+
+######################################################
+
+36
+Ken
+confused
+"Wait a second here."
+37
+
+######################################################
+
+37
+Mara
+confused
+"Is this not acceptable?  I was under the impression that it was, but..."
+38
+
+######################################################
+
+38
+Ken
+default
+"(Man, she just tried to kill my final boss!  That's ridiculous, and it's not how the story goes at all!  
+
+Then again, this isn't exactly formal, and it is her first time.  So in this case, I guess I'll...)"
+39
+
+######################################################
+
+39
+Ken
+default
+"(Let it go.  It was kind of cool, after all.)"
+Mara + 1
+40
+"(Stop this here and now.  That's not how these stories are supposed to go.)"
+Mara + 0
+47
+
+######################################################
+
+40
+Ken
+default
+"It's fine.  I said it earlier, didn't I?  Roleplaying with others means making a story made by multiple people."
+41
+
+######################################################
+
+41
+Mara
+happy
+"That's quite the relief!  To be honest, I dislike cliché stories such as those where the dashing hero saves the princess."
+42
+
+######################################################
+
+42
+Ken
+default
+"I should've asked you want kind of story you wanted, then.  Sorry about that, Mara."
+43
+
+######################################################
+
+43
+Mara
+default
+"I accept your apology.  Now, shall we continue?"
+44
+
+######################################################
+
+44
+Ken
+default
+"Yeah, let's!  Give me a minute to think of where to go, though...alright, got it.
+
+The poisoned blade planted itself into Ragnar's meaty neck.  His eyes bulged with shock as he gurgled in agony, but the assassin would have no mercy.  She clung to him like an iron vise as the blade tore from his nape to his throat, and his hysteric cries petered into weakening gurgles.  
+
+He thrashed and spun, staggered, and fell still.  The assassin had completed her task, but was stranded in a hostile castle filled with foes.  What would be her first step..."
+45
+
+######################################################
+
+45
+Mara
+happy
+"That was quite entertaining; I may be amenable to roleplaying again on a different occasion.  We should continue with my studies, though."
+46
+
+######################################################
+
+46
+Ken
+default
+"Yeah, that's true.  Let's pick up from page 253..."
+50
+
+######################################################
+
+47
+Ken
+default
+"It's not okay.  You have a certain degree of control as the player, but ultimately I tell the story as the DM."
+48
+
+######################################################
+
+48
+Mara
+sad
+"I see.  How unamusing.
+
+I seem to have lost my motivation.  I am ready to study again, so shall we begin once more?"
+49
+
+######################################################
+
+49
+Ken
+sad
+"Oh...okay then.  Let's pick up from page 253..."
+50
+
+######################################################
+
+50
+Ken
+default
+"...and that's how you solve that type of problem.  Do you understand?"
+51
+
+######################################################
+
+51
+Mara
+default
+"Quite well.  Thank you for you assistance."
+52
+
+######################################################
+
+52
+Ken
+happy
+"I-it's no problem at all!"
+Love_Interest_or_Little_Sister
+
+######################################################
+
+>> Conversing_with_C
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+>> Clark
+>> default
+
+#######################################################
+
+0
+Ken
+default
+"Hey Clark, how's it going?"
+1
+
+#######################################################
+
+1 
+Clark
+sad
+"Oh, hi Ken.  Alright, I guess."
+2 
+
+#######################################################
+
+2
+Ken
+default
+"You don't sound alright.  Something wrong?"
+3 
+
+#######################################################
+
+3 
+Clark
+sad
+"Yeah.  Remember how I told you how I play MythQuest online?"
+4 
+
+#######################################################
+
+4 
+Ken
+default
+"Yeah.  What about it?"
+5 
+
+#######################################################
+
+5 
+Clark
+angry
+"Well, the site I used got hacked, and the jerkwads who did it posted a bunch of people's info and pictures - including mine."
+6
+
+#######################################################
+
+6 
+Ken
+default
+"Wow, that really sucks.  Did you manage to get rid of it and change all your passwords and stuff?"
+7
+
+#######################################################
+
+7 
+Clark
+sad
+"Yeah, but most of my friends found about it.  Most of them were alright...but I lost a few."
+8
+
+#######################################################
+
+8
+Ken
+default
+"Jesus...I hope things go better for you later."
+9
+
+#######################################################
+
+9
+Clark
+sad
+"Thanks, but...I think I'm gonna quit MythQuest."
+10
+
+#######################################################
+
+10
+Ken
+surprised
+"What?  Why?"
+11
+
+#######################################################
+
+11
+Clark
+sad
+"I think this was a sign or something, you know?  A 'get out before it's too late' kind of thing."
+12
+
+#######################################################
+
+12
+Ken
+angry
+"No, that's crazy!  A couple of jerks don't mean you should give up something you enjoy!"
+13
+
+#######################################################
+
+13
+Clark
+angry
+"Look, you don't understand!  I already lost three friends over this, and I'm not losing any more!"
+14
+
+#######################################################
+
+14
+Ken
+angry
+"You're the one who doesn't understand!  If you do this now, you'll regret it for the rest of your life!  You'll keep throwing things away you think you shouldn't have until there's nothing left!
+
+Seriously, man!"
+15
+
+#######################################################
+
+15
+Ken
+angry
+"Are a few people more important than you?"
+Clark + 0
+16
+"Is this really what you want to do?"
+Clark + 1
+20
+
+#######################################################
+
+16
+Clark
+angry
+"Yes, dammit!  Yes it is!  Now get out of my face and walk away!"
+17
+
+#######################################################
+
+17
+Ken
+angry
+"Liar!  You know that's not true!"
+18
+
+#######################################################
+
+18
+Clark
+angry
+"Don't act like you care, Ken.  You're only doing this to get me to join your stupid little campaign.
+
+Well guess what.  I'm not going to.  I'm never going to.  So find some other stooge, because I'm out."
+19
+
+#######################################################
+
+19
+Ken
+angry
+"Goddammit!
+
+(Ugh, now my throat hurts.  And I'm late for the study session. Forget it; let's go.)"
+Love_Interest_or_Little_Sister
+
+#######################################################
+
+20
+Clark
+sad
+"No."
+21
+
+#######################################################
+
+21
+Ken
+default
+"Then why are you acting like you should do it?"
+22
+
+#######################################################
+
+22
+Clark
+sad
+"My friends-"
+23
+
+#######################################################
+
+23
+Ken
+default
+"Shouldn't care in the slightest.  And the ones that do aren't true friends at all."
+24
+
+#######################################################
+
+24
+Clark
+sad
+"Aren't true friends? But-"
+25
+
+#######################################################
+
+25
+Ken
+default
+"Who judges someone based on what games they like to play?  MythQuest isn't child murder and it's not even some celebrity pay-to-win cash grab.  It's a single game in a relatively mainstream category.
+
+So calm down; don't be too hasty. Now, what do you want to do?"
+26
+
+#######################################################
+
+26
+Clark
+sad
+"I...I want to keep playing MythQuest..."
+27
+
+#######################################################
+
+27
+Clark
+happy
+"...and I'm not letting this stop me!"
+28
+
+#######################################################
+
+28
+Ken
+happy
+"I'm glad for you.  See you around, Clark."
+29
+
+#######################################################
+
+29
+Clark
+happy
+"Hey, wait up a sec!
+
+You've been running around campus like a headless chicken looking for people to join your campaign, right?"
+30
+
+#######################################################
+
+30
+Ken
+default
+"(A headless chicken?  Seriously?)
+
+Guilty as charged, I guess."
+31
+
+#######################################################
+
+31
+Clark
+default
+"Fridays are normally Wings Night, but that campaign of yours...I'll consider it.  See you around, Ken."
+32
+
+#######################################################
+
+32
+Ken
+happy
+"Thanks.  See you.
+
+(Jesus, that was intensive.  It seems like Clark is a lot happier about MythQuest now, though.  Ah crap, I'm late for the meeting with Mara!)"
+Love_Interest_or_Little_Sister
+
+#######################################################
+
+>> Love_Interest_or_Little_Sister
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+>> Cellphone
+>> on
+
+######################################################
+
+0
+Cellphone
+on
+"Bada-bada-ring, bada-bring-bring-ding!  Bada-bada-bri-"
+1
+
+######################################################
+
+1
+Ken
+embarrassed
+"Ugh, I really need to change that ringtone.  Who is it, anyways?
+
+Hello?"
+2
+
+######################################################
+
+2
+Cellphone
+on
+"Ken, honey, is that you?"
+3
+
+######################################################
+
+3 
+Ken
+default
+"Hi, Mom.  What's up?"
+4 
+
+######################################################
+
+58
+Cellphone
+on
+"I've been trying to reach your sister, but she hasn't been picking up her phone.  Do you think you could get in contact with her?"
+5
+
+######################################################
+
+5
+Ken
+default
+"Her phone probably died; you know how bad she is with charging it.  She's probably at rugby practice now, but I'll try calling one of her teammates and passing a message."
+6
+
+######################################################
+
+6
+Cellphone
+on
+"Thanks, Ken.  I'm sure you're busy, but thanks for taking the time to do this."
+7 
+
+######################################################
+
+7 
+Ken
+default
+"No problem, Mom.  Love you."
+8
+
+######################################################
+
+8
+Cellphone
+on
+"Love you too, dear."
+9
+
+######################################################
+
+9
+Ken
+default
+"Now to pass a message.  Hey, Keira; it's Ken.  Can you pass me to Jackie?  Thanks."
+10
+
+######################################################
+
+10
+Cellphone
+on
+"Ken?  What's up?"
+11
+
+######################################################
+
+11
+Ken
+default
+"You should really charge your phone; Mom was trying to call you."
+12
+
+######################################################
+
+12
+Cellphone
+on
+"Dammit, I knew I forgot something.  Alright, I'll call her once I'm done with practice.  Anything else?"
+13
+
+######################################################
+
+13
+Ken
+default
+"(Anything else?  Now that I think about it, this is a chance for me to convince Jackie to join the campaign; it's Thursday night and I'm running out of time.
+
+Then again, Mara's already waiting for me, and I really shouldn't leave her hanging.  Alright, I've made up my mind.)"
+14
+
+######################################################
+
+15
+Ken
+default
+"Yeah actually, there's one more thing I had to talk to you about..."
+Phoning_Little_Sister
+"Nope.  Have fun grazing!"
+Second_Study_Session
+
+######################################################
+
+>> Phoning_Little_Sister
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+>> Cellphone
+>> on
+
+######################################################
+
+0
+Cellphone
+on
+"What is it, Ken?"
+1 
+
+######################################################
+
+1 
+Ken
+default
+"Do you have any good ideas for an informal campaign?"
+2 
+
+#######################################################
+
+2 
+Cellphone
+on
+"An informal campaign?  Really?"
+3 
+
+#######################################################
+
+3 
+Ken
+default
+"Yeah, I found someone who might be interested in them, so I wanted to see if you had any ideas."
+4
+
+#######################################################
+
+4 
+Cellphone
+on
+"Oh?  Not coming up with our own?  How lazy of you, brother."
+5 
+
+#######################################################
+
+5 
+Ken 
+default
+"I'm laughing.  Really.  I swear.
+
+But seriously, I'm afraid the ideas I have are a little too...um, what's the word..."
+6
+
+#######################################################
+
+6
+Cellphone
+on
+"Cliche?  Trite?  Unimaginative?  The work of a talentless hack?"
+7
+
+#######################################################
+
+7 
+Ken
+default
+"I think I got it, thanks.  But yeah, do you have any ideas?  I really want to give her a fun time."
+8
+
+#######################################################
+
+8
+Cellphone
+on
+"Her?"
+9
+
+#######################################################
+
+9
+Ken
+default
+"(Oh God, what have I done?)"
+10
+
+#######################################################
+
+10
+Cellphone
+on
+"Oh, so that's what this is about!  You want a good idea for your date, and you're roleplaying?  Wow, if she actually likes this she's one hell of a keeper."
+11
+
+#######################################################
+
+11
+Ken
+embarrassed
+"It's not a- forget it, just help me out, please."
+12
+
+#######################################################
+
+12
+Cellphone
+on
+"Alright, alright.  Listen up, because I'm only going to say this once."
+13
+
+#######################################################
+
+13
+Ken
+default
+"Got it.  Thanks, sis."
+14
+
+#######################################################
+
+14
+Cellphone
+on
+"Yeah, yeah, flattery will get you everywhere.  Alright, here goes.
+
+You're an ordinary person without a name; no one of note, no one of glory.  Your appearance is worth no words and a footnote in history would be a waste.  
+
+Well, that is what you intend to be, however.  Such a status befits one of your profession - assassination.  Kings, wizards, damsels, merchants; none are safe from your shadowed blade.  Your latest task is a routine one: the elimination of a popular king in an idyllic country.
+
+And then you make the whole story go to pieces with political intrigue and civil turmoil!  It's a great idea, isn't it?"
+15
+
+#######################################################
+
+15
+Ken
+default
+"(That sounds like a pain in the ass to DM...)
+
+I don't know...that seems pretty complex; she might not be up for it."
+16
+
+#######################################################
+
+16
+Cellphone
+on
+"Speaking as someone who shares a gender with her, I'll assure you she'll like it more than some damsel in distress story."
+17
+
+#######################################################
+
+17
+Ken
+default
+"(I really don't want to do this kind of story...
+
+But it's not a bad idea, albeit an annoying one.  Should I trust Jackie on this?)"
+18
+
+#######################################################
+
+18
+Ken
+default
+"I really don't think she'll be up for it."
+Jackie + 0
+19
+"Alright then.  I'll give it a shot."
+Jackie + 1
+32
+
+#######################################################
+
+19
+Cellphone
+on
+"Really, Ken?  Really?
+
+You're doing this?"
+20
+
+#######################################################
+
+20
+Ken
+confused
+"Doing what?"
+21
+
+#######################################################
+
+21
+Cellphone
+on
+"Lying to me.  That quaver in your voice you get is a dead giveaway."
+22
+
+#######################################################
+
+22
+Ken
+default
+"Quaver?  I don't know what you're-"
+23
+
+#######################################################
+
+23
+Cellphone
+on
+"Cut the crap, Ken."
+24
+
+#######################################################
+
+24
+Ken
+angry
+"It's just not my kind of story, okay?"
+25
+
+#######################################################
+
+25
+Cellphone
+on
+"There we go!  That's the heart of the matter!
+
+It's not your type of story.  It doesn't fit in with your idea."
+26
+
+######################################################
+
+26
+Ken
+angry
+"Don't try to make this about me!"
+27
+
+######################################################
+
+27
+Cellphone
+on
+"It's entirely about you, Ken.  Just like before, you still can't believe that I have good ideas sometimes."
+28
+
+######################################################
+
+28
+Ken
+angry
+"Look, just because I don't like one idea-"
+29
+
+######################################################
+
+29
+Cellphone
+on
+"It's not just one idea.  It's every idea that didn't fit into your view of what was right.  I didn't like you disdaining me when we were younger, and I despise it even more now.  
+
+I need to get back to practice; bye, Ken."
+30
+
+######################################################
+
+30
+Ken
+angry
+"Don't hang up on- dammit!"
+31
+
+######################################################
+
+31
+Ken
+default
+"Ugh, I can't believe it.  When did she get so angry at me?"
+4XXXXX
+
+######################################################
+
+32
+Cellphone
+on
+"Thanks for listening to me.  I was worried you were going to blow off my advice after making me spend my time working on it."
+33
+
+######################################################
+
+33
+Ken
+default
+"You're welcome.  It's not my usual kind of idea, but I think I can make it work.  And I'm sorry."
+34
+
+######################################################
+
+34
+Cellphone
+on
+"Sorry for what?"
+35
+
+######################################################
+
+35
+Ken
+default
+"I'm sorry for not listening to you all of those times.  I'm sure it hurt, and it wasn't fair for me to ignore you."
+36
+
+######################################################
+
+36
+Cellphone
+on
+"Wow, that's...uh, thanks.  Yeah, thanks a lot!  Look, I've gotta get back to practice, but I'll talk to you Friday, alright?"
+37
+
+######################################################
+
+37
+Ken
+happy
+"Yeah, see you tomorrow.
+
+(That was...nice.  I'm glad I made up with Jackie some.)"
+38
+
+######################################################
+
+38
+enter Mara
+Mara
+"Goodbye, Ken.  It is time for me to leave."
+39
+
+
+######################################################
+
+39
+Ken
+sad
+"Time for you to leave?
+
+(Goddammit, I forgot all about the study session! I can't believe I left Mara hanging like that!)
+
+I'm so, so sorry for leaving you there like that.  The call just took longer than I though, and-"
+40
+
+######################################################
+
+40
+Mara
+default
+"I'm sure you had your own troubles.  Goodbye, Ken."
+41
+
+######################################################
+
+41
+Ken
+sad
+"Goodbye, Mara.
+
+Ah dammit, I screwed up there.  It's getting pretty late; I should gather up the party members and get some practice in."
+game
+
+######################################################
+
+>> Second_Study_Session
+>> Library #A room with tables and chairs, bookshelves and nondescript people in the background
+>> Ken
+>> default
+>> Mara
+>> default
+
+######################################################
+
+0
+Mara
+default
+"You are here."
+1 
+
+######################################################
+
+1 
+Ken
+default
+"Sorry I took so long."
+2 
+
+######################################################
+
+2 
+Mara
+default
+"It is alright.  Shall we begin?"
+3 
+
+######################################################
+
+3 
+Ken
+default
+"Yeah.  Umm...let's go from page 286..."
+4 
+
+######################################################
+
+4 
+Mara
+default
+"So this is how you solve that style of problem?"
+5 
+
+######################################################
+
+5 
+Ken
+default
+"That's exactly right!  Good job!"
+6
+
+######################################################
+
+6
+Mara
+default
+"Thank you.  It is quite late; perhaps we should end our studying for the day?"
+7
+
+######################################################
+
+7 
+Ken
+default
+"Yeah, that's true.  See you some other time, then?"
+8
+
+######################################################
+
+8
+Mara
+default
+"Until our next meeting."
+9
+
+######################################################
+
+9
+Ken
+default
+"(I guess that's it for now...
+
+Wait.  Are you really letting it end like this?  Come on, man!  Hurry up and say it!)"
+10
+
+######################################################
+
+10
+Ken
+default
+"Wait a sec, Mara!"
+11
+
+######################################################
+
+11
+Mara
+default
+"What is it?"
+12
+
+######################################################
+
+12
+Ken
+embarrassed
+"I uh...I'm part of a role-playing campaign for a game called MythQuest.  It meets every Friday at 7:00 p.m., and I think it would be fun for you."
+13
+
+######################################################
+
+13
+Mara
+default
+"I have study sessions for Chemistry during that time."
+14
+
+######################################################
+
+14
+Ken
+default
+"Even so, I think it's a good idea.  MythQuest makes a fun way to relax and destress, and I can tutor you in anything you miss from the sessions."
+15
+
+######################################################
+
+15
+Mara
+default
+"Role-playing seems to be an interesting activity; one that I may even be interested in, perhaps.  However, I have one important question."
+16
+
+######################################################
+
+16
+Ken
+confused
+"And what's that?"
+17
+
+######################################################
+
+17
+Mara
+default
+"Why do you want me to play this game with you?"
+18
+
+######################################################
+
+18
+Ken
+embarrassed
+"Uhhh...
+
+(Systems failing!  SYSTEMS FAILING!  ABORT ABORT ABORT!!!)"
+19
+
+######################################################
+
+19
+Ken
+embarrassed
+"(Get a hold of yourself, Ken!  She's waiting for you to answer the question!
+
+But what the hell do I say?  I've liked you from the moment I saw you?  Hell no!  Ughhh, I wish life had save points...
+
+Okay.  This is what I'll say...)"
+20
+
+######################################################
+
+20
+Ken
+embarrassed
+"Because I'd like your point of view in whatever story we make with the campaign."
+Mara + 0
+21
+"Because you're someone I like spending time with."
+Mara + 1 
+2XXXX
+
+######################################################
+
+21
+Mara
+default
+"I see.  So it is for my input, then?"
+22
+
+######################################################
+
+22
+Ken
+default
+"Y-yeah.  I think you'd bring a fresh mind to the table."
+23
+
+######################################################
+
+23
+Mara
+default
+"I understand.  But what benefit does going to this event have for me?  What is the story of this campaign?"
+24
+
+######################################################
+
+24
+Ken
+default
+"The story of the campaign?  Well, a party of heroes set off to defeat a demon king ravaging a fair and innocent kingdom, and-"
+25
+
+######################################################
+
+25
+Mara
+default
+"I apologize for interrupting you.  However, to be frank, this seems terribly unamusing.
+
+Thank you for your services, Ken.  I must go."
+26
+
+######################################################
+
+26
+Ken
+sad
+"Goodbye, Mara.  
+
+(Well that went badly.  I'm gonna call it a day and get some practice in with the DM.)"
+game
+
+######################################################
+
+26
+Mara
+embarrassed
+"Well, that's...umm..."
+27
+
+######################################################
+
+27
+Ken
+embarrassed
+"(Oh God, I can't believe I said that!)"
+28 
+
+######################################################
+
+28
+Mara
+embarrassed
+"Hmm...thanks, I guess?"
+29
+
+######################################################
+
+29
+Ken
+embarrassed
+"Yeah, no problem.  But yeah, I'd like you to be there; I think you'd have fun, and I know I would."
+30
+
+######################################################
+
+30
+Mara
+embarrassed
+"Well, I guess I'll think about it- I mean, I suppose I will consider it.
+
+At any rate, I must leave.  Goodbye, Ken, and thank you for your aid."
+31
+
+######################################################
+
+31
+Ken
+embarrassed
+"I was glad to help."
+32
+
+######################################################
+
+32
+Ken
+embarrassed
+"(I'm not even sure if that went well or not.  I guess I'll go to the DM and get more practice in.)"
+game
+
+######################################################
