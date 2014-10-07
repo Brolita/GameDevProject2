@@ -440,7 +440,7 @@ var myTestScene = cc.Scene.extend({
 		this._super();
 		this.constructed =false;
 		
-		this.mara = createClark(this);
+		this.mara = createPreston(this);
 		this.mara.x = 900;
 		this.mara.y = 300;
 		this.addChild(this.mara);
@@ -452,7 +452,7 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.player);
 		this.collisionMaster.characters.push(this.player);
 		
-		this.collisionMaster.enemies.push(createEnemyA(this));
+		this.collisionMaster.enemies.push(createEnemyB(this));
 		this.collisionMaster.enemies[0].x = 400;
 		this.collisionMaster.enemies[0].y = 300;
 		this.addChild(this.collisionMaster.enemies[0]);
@@ -721,9 +721,6 @@ function createEnemyA(parent) {
 		currentAction: null,
 		data:{},
 		flinch:function() {
-			this.animator.stop();
-			this.currentAction.stop();
-			this.flinch.start();
 			this.animator.delay();
 		},
 		ctor: function(animations, entity) {
@@ -742,7 +739,7 @@ function createEnemyA(parent) {
 			}); //
 			this.run = new customAction({
 				update: function() {
-					// move forward 3px
+					// move forward
 					this.entity.x += (this.entity.scaleX) * 5;
 				},
 				animate: function() {
@@ -767,55 +764,79 @@ function createEnemyA(parent) {
 					this.animator.play("run");
 				},
 				target:this
-			}),
+			});
+			// flinch behavior
+			this.flinch = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
 			
 			// add all the behaviors as children
 			this.addChild(this.idle);
 			this.addChild(this.run);
 			this.addChild(this.attack);
+			this.addChild(this.flinch);
 			
 			// at then end, call main
 			this.main();
 		},
 		
 		main: function() {
-			// this is the base case
-			// callback is called at the end of every animation
-			// this.entity
-			// this.animator
-			// collisionMaster.enemies and collisionMaster.characters 
+			this.data.idlecount =  10;
 			this.data.count = 0;
 			this.idle.start();
 			this.callback()
 		},
-		
 		callback: function() {
-			// this function is called after an animation 
-			// that was called is finished
-			// use that as a processing step
-			
-			var close = 100000;
-			var j = 0;
-			for( i in this.entity.scene.collisionMaster.characters ) {
-				if(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x) < close) {
-					close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
-					j = i;
+			if(this.currentAction == this.flinch) {
+				if(!this.data.flinch) {
+					this.data.flinch = 1;
+				} else if(this.data.flinch < 15) {
+					this.data.flinch ++;
+				} else {
+					this.data.flinch = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
 				}
 			}
-			var closest = this.entity.scene.collisionMaster.characters[j];
-			
-			if(this.entity.health.value < 3) {
-				this.scaleX = closest.x < this.x ? -1 : 1;
-				this.currentAction.stop();
-				this.run.start();
-			} else if (Math.abs(closest.x - this.x) < 50){
-				this.scaleX = closest.x < this.x ? 1 : -1;
-				this.currentAction.stop();
-				this.attack.start();
+		
+			else if(this.data.count < this.data.idlecount) {
+				if(this.data.count == 0) {
+					this.currentAction.stop();
+					this.idle.start();
+				}
+				this.data.count ++;
 			} else {
-				this.scaleX = closest.x < this.x ? 1 : -1;
-				this.currentAction.stop();
-				this.attack.start();
+				var close = 100000;
+				var j = 0;
+				for( i in this.entity.scene.collisionMaster.characters ) {
+					console.log(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x));
+					if(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x) < close) {
+						close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
+						j = i;
+					}
+				}
+				var closest = this.entity.scene.collisionMaster.characters[j];
+				
+				console.log(closest == this.entity.scene.player);
+				
+				if(this.entity.health.value < 6) {
+					this.entity.scaleX = closest.x < this.entity.x ? 1 : -1;
+					this.currentAction.stop();
+					this.run.start();
+				} else if (Math.abs(closest.x - this.entity.x) < 50){
+					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
+					this.currentAction.stop();
+					this.attack.start();
+					this.data.count = 0;
+				} else {
+					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
+					this.currentAction.stop();
+					this.run.start();
+				}
 			}
 			
 		
@@ -827,7 +848,7 @@ function createEnemyA(parent) {
 	// the controller constructor we just made
 	
 	return new entity({
-		health: 10,
+		health: 30,
 		animations: {
 			idle: enemyIdle,
 			run: enemyRun,
@@ -838,6 +859,178 @@ function createEnemyA(parent) {
 	});
 }
 
+function createEnemyB(parent) {
+	/* Here is an example AI contruction
+	 * First we must create the animations
+	 */
+	 
+	var enemyIdle = cc.Animation.create();
+	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	enemyIdle.setDelayPerUnit(1 / 15);
+	
+	var enemyAttack = cc.Animation.create();
+	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
+	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+	enemyAttack.setDelayPerUnit(1 / 15);
+	
+	var enemyRun = cc.Animation.create();
+	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
+	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
+	enemyRun.setDelayPerUnit(1 / 15);
+	
+	var enemyFlinch = cc.Animation.create();
+	enemyFlinch.setDelayPerUnit(1 / 15);
+	
+	/* now we create an AI constructor
+	 * by extending the node class
+	 */
+	
+	var enemyAI = cc.Node.extend({
+		/* this first 8 lines must be the same for 
+		 * each AI you create, they are the basic 
+		 * construction principales 
+		 */
+		currentAction: null,
+		data:{},
+		flinch:function() {
+			this.animator.stop();
+			this.currentAction.stop();
+			this.flinch.start();
+			this.animator.delay();
+		},
+		ctor: function(animations, entity) {
+			this._super();
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.animator.scaleX = .58;
+			this.animator.scaleY = .58;
+			this.addChild( this.animator );
+			
+			this.idle = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				// and target:this at the end
+				target:this
+			}); //
+			this.run = new customAction({
+				update: function() {
+					// move forward
+					this.entity.x += (this.entity.scaleX) * 5;
+				},
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
+			this.attack = new customAction({
+				update: function() {
+					if(this.frame == 3) {
+						// create a hitbox relative coordinates       x, y, w, h, damage
+						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 1);
+					}
+				},
+				ondisable: function() {
+					// remove the hitbox
+					this.entity.hitbox.removeChild(this.hitbox);
+					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
+					this.hitbox = null;
+				},
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
+			// flinch behavior
+			this.flinch = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
+			
+			// add all the behaviors as children
+			this.addChild(this.idle);
+			this.addChild(this.run);
+			this.addChild(this.attack);
+			this.addChild(this.flinch);
+			
+			// at then end, call main
+			this.main();
+		},
+		
+		main: function() {
+			this.data.idlecount =  10;
+			this.data.count = 0;
+			this.idle.start();
+			this.callback()
+		},
+		callback: function() {
+			if(this.currentAction == this.flinch) {
+				if(!this.data.flinch) {
+					this.data.flinch = 1;
+				} else if(this.data.flinch < 15) {
+					this.data.flinch ++;
+				} else {
+					this.data.flinch = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			}
+		
+			else if(this.data.count < this.data.idlecount) {
+				if(this.data.count == 0) {
+					this.currentAction.stop();
+					this.idle.start();
+				}
+				this.data.count ++;
+			} else {
+				var close = 100000;
+				var j = 0;
+				for( i in this.entity.scene.collisionMaster.characters ) {
+					console.log(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x));
+					if(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x) < close) {
+						close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
+						j = i;
+					}
+				}
+				var closest = this.entity.scene.collisionMaster.characters[j];
+				
+				console.log(closest == this.entity.scene.player);
+				
+				if (Math.abs(closest.x - this.entity.x) < 50){
+					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
+					this.currentAction.stop();
+					this.attack.start();
+					this.data.count = 0;
+				} else {
+					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
+					this.currentAction.stop();
+					this.run.start();
+				}
+			}
+		
+			this.currentAction.animate();
+		}
+	});
+	
+	// finally, at the end return a new entity, with the health, animations, and
+	// the controller constructor we just made
+	
+	return new entity({
+		health: 100,
+		animations: {
+			idle: enemyIdle,
+			run: enemyRun,
+			attack: enemyAttack,
+		}, 
+		controller: enemyAI,
+		parent: parent
+	});
+}
 
 function createKen(parent){ //ken is the player character and is controlled by tapping
     cc.log("creating ken");
@@ -1011,7 +1204,7 @@ function createMara(parent) {
 					this.animator.play("run");
 				},
 				target:this
-			}),
+			});
 			this.run = new customAction({
 				update: function() {
 					// move forward 3px
@@ -1021,13 +1214,21 @@ function createMara(parent) {
 					this.animator.play("run");
 				},
 				target:this
-			}),
+			});
+			// flinch behavior
+			this.flinch = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
 			
 			// add all the behaviors as children
 			this.addChild(this.idle);
 			this.addChild(this.run);
 			this.addChild(this.smokescreen);
 			this.addChild(this.attack);
+			this.addChild(this.flinch);
 			
 			// at then end, call main
 			this.main();
@@ -1151,26 +1352,31 @@ function createPreston(parent) {
 			this.addChild( this.animator );
 			// makes arrow
 			var arrow = function(pres) {
-				var a = rect(-94,-25,94,26);
+				var a = rect(-30,-10,64,26, 3);
 				var s = cc.Sprite.create("assets/art/fantasy/Sprites/arrow.png");
 				a.addChild(s);
 				a.x = pres.x;
 				a.y = pres.y;
-				a.scaleX = .25* pres.scaleX;
-				a.scaleY = .25;
+				a.scaleX = pres.scaleX;
+				s.scaleX = .25;
+				s.scaleY = .25;
 				a.update = function() {
 					a.x += a.scaleX * 17;
 					if(a.x < 0 || a.x > cc.winSize.width) {
 						s.opacity = 0;
+						a.removeChild(s);
 						s.cleanup()
+						a.parent.removeChild(this);
 						a.cleanup();
 					}
 				}
 				a.scheduleUpdate();
 				a.hit = function() {
 					s.opacity = 0;
+					a.removeChild(s);
 					s.cleanup()
-					a.cleanup();
+					a.parent.removeChild(this);
+					a.cleanup();					
 				}
 				pres.scene.collisionMaster.p_characters.push(a);
 				pres.parent.addChild(a)
