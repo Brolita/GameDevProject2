@@ -625,11 +625,23 @@ var myTestScene = cc.Scene.extend({
 	},
 	
 	update: function() {
-		if(this.player.x > 1000){
+		cc.log("628: update");
+		//code for checking if enemies are offscreen, similar code can be implemented for allies
+		for( i =0; i < this.collisionMaster.enemies.length; i++){
+			if(this.collisionMaster.enemies[i].x <150){
+				this.collisionMaster.enemies[i].x = 150;
+			}
+			else if(this.collisionMaster.enemies[i].x > 1000){
+				this.collisionMaster.enemies[i].x = 1000;
+			}
+		}
+		
+		if(this.player.x > 1200){
+			cc.log("GOING RIGHT");
 			this.increaseLevel();
 			this.initFrame("right");
 		}
-		else if(this.player.x < 100){
+		else if(this.player.x < 50){
 			this.decreaseLevel();
 			this.initFrame("left");
 		}
