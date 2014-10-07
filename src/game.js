@@ -823,6 +823,18 @@ function createEnemyA(parent) {
 		},
 		callback: function() {
 			if(this.currentAction == this.flinch) {
+				if(this.entity.health._value < 0){//kill this enemy
+					//<<CODING HERE>>
+					//remove from collisionMaster
+					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
+					//place dead sprite at enemy location
+					//remove instance from scene
+					var indexToScrap = this.entity.scene.collisionMaster.enemies.indexOf(this);
+					this.entity.scene.collisionMaster.enemies.splice(indexToScrap,1);
+					cc.log("**enemy removed");
+
+				}
+			
 				if(!this.data.flinch) {
 					this.data.flinch = 1;
 				} else if(this.data.flinch < 3) {
