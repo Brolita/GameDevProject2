@@ -376,6 +376,11 @@ var myTestScene = cc.Scene.extend({
 		this.mara.y = 300;
 		this.addChild(this.mara);
 		
+		this.player = createKen(this);
+		this.player.x = 1200;
+		this.player.y = 300;
+		this.addChild(this.player);
+		
 		this.enemies = [];
 		this.enemies.push(createTest(this));
 		this.enemies[0].x = 400;
@@ -388,16 +393,39 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.enemies[1]);
 		
 		
-		/*this.enemies.push(createEnemy(this));
-		this.enemies[0].x = 900;
-		this.enemies[0].y = 300;
-		this.addChild(this.enemies[0]);
 		
+		//add the event listeners
 		
-		this.enemies.push(createEnemy(this));
-		this.enemies[0].x = 1100;
-		this.enemies[0].y = 300;
-		this.addChild(this.enemies[0]);*/
+		this.lastClick = Date.now() - 100; //get time of last click used to determine if the player
+		
+		var parent = this;
+		cc.eventManager.addListener ({ 
+		
+			//mouse event listener, key method of player interaction. One click means move to 
+			//click location. Two clicks means jump
+			event: cc.EventListener.MOUSE,
+			onMouseDown: function(event) {
+				var now = Date.now();
+				
+				if(this.lastJump == null){
+					this.lastJump = now;
+				}
+				
+				if ((now - this.lastClick) < 1000 && (now - this.lastJump) > 1000){
+					this.lastJump = now;
+					cc.log("attack (on jump code) this.parent:" + parent + " this.player:" + parent.player);
+					parent.player.controller.attackIt(event.getLocation());
+					//event.getCurrentTarget().jumpIt(event.getLocation());
+				}
+				else{
+					cc.log("movement this.parent:" + parent + " this.player:" + parent.player + "parent.player.moveIt:" + parent.player.moveIt);
+					parent.player.controller.moveIt(event.getLocation());
+					//event.getCurrentTarget().moveIt(event.getLocation());
+				}
+				this.lastClick = now;
+			}
+		},this);
+		
 		this.constructed = true;
 	},
 	
@@ -1025,6 +1053,161 @@ function createEnemy(parent) {
 		parent: parent
 	});
 }
+
+function createKen(parent){ //ken is the player character and is controlled by tapping
+	cc.log("creating ken");
+	 
+	//load in the animations
+	var kenIdle = cc.Animation.create();
+	kenIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	kenIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	kenIdle.setDelayPerUnit(1 / 15);
+	
+	var kenAttack = cc.Animation.create();
+	kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
+	kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+	kenAttack.setDelayPerUnit(1 / 15);
+	
+	var kenWalk = cc.Animation.create();
+	kenWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
+	kenWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
+	kenWalk.setDelayPerUnit(1 / 15);
+	
+	
+	
+	this.attackReady = false;
+		var kenAI = cc.Node.extend({
+		/* this first 8 lines must be the same for 
+		 * each AI you create, they are the basic 
+		 * construction principales 
+		 */
+		currentAction: null,
+		data:{},
+		ctor: function(animations, entity) {
+			this._super();
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.addChild( this.animator );
+			
+			/* here you create your AI behaviors
+			 * you have access to this.frame, 
+			 * this.entity, this.animator
+			 */
+			
+			this.idle = new customAction({
+				// pass in the custom action function
+				// an update function to be called on active frames
+				update: function() {},
+				// an onenable function called on this.start()
+				onenable: function() {},
+				// an ondisable function called on this.stop()
+				ondisable: function() {},
+				// an animate function that tells me how to animate
+				animate: function() {
+					this.animator.play("idle");
+				},
+				// and target:this at the end
+				target:this
+			});
+			this.walk = new customAction({
+				update: function() {
+					// move forward 3px
+					this.entity.x += (this.entity.scaleX) * 1;
+				},
+				onenable: function() {
+					// turn them around
+					this.entity.turnaround();
+					this.entity.health.damage(1);
+				},
+				ondisable: function() {},
+				animate: function() {
+					this.animator.play("walk");
+				},
+				target:this
+			}),
+			this.attack = new customAction({
+				update: function() {
+					// on the second frame (frame 1 is first, not 0)
+					// animatons are 15 fps, but frame in update is 
+					// out of 60 (the fps the game runs at)
+					if(this.frame == 4) {
+						// create a hitbox relative coordinates      x, y, w, h, damage
+						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,60, 1);
+					}
+				},
+				onenable: function() {},
+				ondisable: function() {
+					// remove the hitbox
+					this.entity.hitbox.removeChild(this.hitbox);
+				},
+				animate: function() {
+					this.animator.play("attack");
+				},
+				target:this
+			}),
+			
+			// at then end, call main
+			this.main();
+		},
+		
+		main: function() {
+			// this is the base case
+			// callback is called at the end of every animation
+			// this.entity
+			// this.animator
+			// collisionMaster.enemies and collisionMaster.characters 
+			this.data.count = 0;
+			this.idle.start();
+			this.callback()
+		},
+		attackIt: function(p){
+			this.attackReady = true;
+			cc.log("In the attack function inside create ken");
+		},
+		
+		moveIt: function(p){
+			this.walkReady = true;
+			this.entity.stopAllActions();
+			this.entity.fixedHeight = this.entity.y;
+			p.y = this.entity.fixedHeight;
+			
+			var jumps = (Math.abs(this.entity.x - p.x))/1000;
+			var action = cc.MoveTo.create(2*jumps,p);
+			this.entity.runAction(action);
+		
+		},
+		
+		
+		
+		callback: function() {
+			// this function is called after an animation 
+			// that was called is finished
+			// use that a processing step
+			this.data.count ++;
+			
+			
+			// make sure at the end to call this.currentAction.animate at the end
+			this.currentAction.animate();
+		}
+	});
+	
+	// finally, at the end return a new entity, with the health, animations, and
+	// the controller constructor we just made
+	
+	return new entity({
+		health: 10,
+		animations: {
+			idle: kenIdle,
+			walk: kenWalk,
+			attack: kenAttack,
+		}, 
+		controller: kenAI,
+		parent: parent
+	});
+	
+}
+
 function createPreston(parent) {
 	var prestonIdle = cc.Animation.create();
 	
