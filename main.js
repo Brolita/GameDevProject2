@@ -101,7 +101,11 @@ master["currentDay"] = 0;
 	}
 	// jackie walk cycle
 	for (var i = 0; i < 6; i++) {
-		res.push("assets/art/fantasy/Sprites/Jackie_Run_Cycle/Mara_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
+		res.push("assets/art/fantasy/Sprites/Jackie_Run_Cycle/Jackie_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
+	}
+	// clark walk cycle
+	for (var i = 0; i < 6; i++) {
+		res.push("assets/art/fantasy/Sprites/Clark_Run_Cycle/Clark_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
 	}
 	cc.game.run()
 })();

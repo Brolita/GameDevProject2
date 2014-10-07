@@ -368,7 +368,6 @@ function rectCollision(r1, r2) {
      r2.y < r1.y + r1.h);
 }
 
-
 var myTestScene = cc.Scene.extend({
 	collisionMaster: {
 		enemies: [],
@@ -387,7 +386,10 @@ var myTestScene = cc.Scene.extend({
 							var hurtbox = character.hurtbox.getAll()[l];
 							// here check if hitbox hits hurtbox, and if
 							// so, call hit on both of them
-							
+							if(rectCollision(hitbox, hurtbox) ) {
+								hitbox.hit();
+								hurtbox.hit(hitbox);
+							}
 						}
 					}
 					for(var k in enemy.hurtbox.getAll()) { 
@@ -396,7 +398,10 @@ var myTestScene = cc.Scene.extend({
 							var hurtbox = enemy.hurtbox.getAll()[l];
 							// here check if hitbox hits hurtbox, and if
 							// so, call hit on both of them
-							
+							if(rectCollision(hitbox, hurtbox) ) {
+								hitbox.hit();
+								hurtbox.hit(hitbox);
+							}
 						}
 					}
 				}
@@ -408,16 +413,16 @@ var myTestScene = cc.Scene.extend({
 				for( var j in character.hurtbox.ignored) {
 					if (character.hurtbox.ignored[i] == hitbox.__instanceId) {
 						character.hurtbox.ignored.splice(i, 1);
-						continue;
+						break;
 					}
 				}
 			}
 			for( var i in this.enemies) { 
 				var enemy = this.enemies[i];
-				for( var j in enemies.hurtbox.ignored) {
+				for( var j in enemy.hurtbox.ignored) {
 					if (character.hurtbox.ignored[i] == hitbox.__instanceId) {
 						character.hurtbox.ignored.splice(i, 1);
-						continue;
+						break;
 					}
 				}
 			}
@@ -428,17 +433,38 @@ var myTestScene = cc.Scene.extend({
 		this._super();
 		this.constructed =false;
 		
+		this.preston = createPreston();
+		this.jackie = createJackie();
+		this.clark = createClark();
+		
 		this.mara = createMara(this);
 		this.mara.x = 800;
 		this.mara.y = 300;
 		this.addChild(this.mara);
 		this.collisionMaster.characters.push(this.mara);
 		
-		this.collisionMaster.enemies.push(createEnemy(this));
-		this.collisionMaster.enemies[0].x = 400;
-		this.collisionMaster.enemies[0].y = 300;
-		this.addChild(this.collisionMaster.enemies[0]);
+		//this.collisionMaster.enemies.push(createEnemy(this));
+		//this.collisionMaster.enemies[0].x = 400;
+		//this.collisionMaster.enemies[0].y = 300;
+		//this.addChild(this.collisionMaster.enemies[0]);
 		
+		//this.collisionMaster.enemies.push(createEnemy(this));
+		//this.collisionMaster.enemies[1].x = 900;
+		//this.collisionMaster.enemies[1].y = 300;
+		//this.addChild(this.collisionMaster.enemies[1]);
+		
+		
+		/*this.enemies.push(createEnemy(this));
+		this.enemies[0].x = 900;
+		this.enemies[0].y = 300;
+		this.addChild(this.enemies[0]);
+		
+		
+		this.enemies.push(createEnemy(this));
+		this.enemies[0].x = 1100;
+		this.enemies[0].y = 300;
+		this.addChild(this.enemies[0]);*/
+		cc.log("397");
 		this.constructed = true;
 	},
 	
@@ -546,7 +572,7 @@ function createTest(parent) {
 				ondisable: function() {},
 				// an animate function that tells me how to animate
 				animate: function() {
-					this.animator.play("idle");
+					this.animator.play("run");
 				},
 				// and target:this at the end
 				target:this
@@ -570,7 +596,7 @@ function createTest(parent) {
 			this.attack = new customAction({
 				update: function() {
 					// on the second frame (frame 1 is first, not 0)
-					// animatons are 15 fps, but frame in update is 
+					// animations are 15 fps, but frame in update is 
 					// out of 60 (the fps the game runs at)
 					if(this.frame == 4) {
 						// create a hitbox relative coordinates      x, y, w, h, damage
@@ -581,9 +607,11 @@ function createTest(parent) {
 				ondisable: function() {
 					// remove the hitbox
 					this.entity.hitbox.removeChild(this.hitbox);
+					this.scene.collisionMaster.removeRefereces(this.hitbox);
+					this.hitbox = null;
 				},
 				animate: function() {
-					this.animator.play("attack");
+					this.animator.play("run");
 				},
 				target:this
 			}),
@@ -645,151 +673,12 @@ function createTest(parent) {
 	});
 }
 
-function createMara(parent) {
-	 
-	var maraIdle = cc.Animation.create();
-	
-	var maraAttack = cc.Animation.create();
-	
-	var maraSmoke = cc.Animation.create();
-	
-	var maraRun = cc.Animation.create();
-	
-	var maraFlinch = cc.Animation.create();
-	
-	var smoke = function() {
-		
-	}
-	
-	var maraAI = cc.Node.extend({
-		currentAction: null,
-		data:{},
-		ctor: function(animations, entity) {
-			this._super();
-			this.entity = entity;
-	
-			this.animator = new AnimatorConstructor(animations, this);
-			this.addChild( this.animator );
-			
-			this.idle = new customAction({
-				animate: function() {
-					this.animator.play("idle");
-				},
-				// and target:this at the end
-				target:this
-			}); 
-			this.smokescreen  = new customAction({
-				animate: function() {
-					this.animator.play("smoke");
-				},
-				ondisable: function() {
-					smoke();
-					this.entity.x = this.target.x + (this.target.scaleX) * -30;
-					this.entity.scaleX = this.target.scaleX;
-				}
-			});
-			this.attack = new customAction({
-				update: function() { 
-					if(frame == 9) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 60);
-					}
-					
-				},
-				onenable: function() {
-					cc.log("attacking the target");
-				},
-				ondisable: function() {
-				
-				}
-				animate: function() {
-					this.animator.play("attack");
-				},
-				target:this
-			}),
-			this.run = new customAction({
-				update: function() {
-					// move forward 3px
-					this.entity.x += (this.entity.scaleX) * 5;
-				},
-				animate: function() {
-					this.animator.play("run");
-				},
-				target:this
-			}),
-			
-			// add all the behaviors as children
-			this.addChild(this.idle);
-			this.addChild(this.run);
-			this.addChild(this.smoke);
-			this.addChild(this.attack);
-			
-			// at then end, call main
-			this.main();
-		},
-		
-		main: function() {
-			this.data.idlecount =  10 * (5 - master["Preston"]);
-			this.data.count = 0;
-			this.callback()
-		},
-		callback: function() {
-			if(this.data.count < this.data.idlecount) {
-				if(this.data.count == 0) {
-					this.currentAction.stop();
-					this.idle.start();
-				}
-				this.data.count ++;
-			} else {
-			
-				this.entity.newTarget = this.entity.scene.enemyInRange()
-				if(this.entity.newTarget !=null && this.entity.attackEnded == true){
-					this.currentAction.stop();
-					this.stealthAttack.start();
-				}
-				else if(this.entity.newTarget !=null && this.entity.attackEnded == false){
-					this.currentAction.stop();
-					this.walk.start();
-				}
-				else{
-					if(this.data.count == 0) {
-						this.currentAction.stop();
-						this.entity.attackEnded = true;
-						this.idle.start();
-					} else if (this.data.count == 3) {
-						this.currentAction.stop();
-						this.walk.start();
-					} else if(this.data.count == 25) {
-						this.currentAction.stop();
-						this.attack.start();
-						this.data.count = -1;
-					}
-				}
-			}
-			
-			// make sure at the end to call this.currentAction.animate at the end
-			this.currentAction.animate();
-		}
-	});
-	
-	// finally, at the end return a new entity, with the health, animations, and
-	// the controller constructor we just made
-	
-	return new entity({
-		health: 10,
-		animations: {
-			idle: maraIdle,
-			walk: maraWalk,
-			attack: maraAttack,
-		}, 
-		controller: maraAI,
-		parent: parent
-	});
-}
-
 function createEnemy(parent) {
 	/* Here is an example AI contruction
 	 * First we must create the animations
 	 */
+	 cc.log("creating enemy");
+	 
 	var enemyIdle = cc.Animation.create();
 	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
@@ -800,10 +689,10 @@ function createEnemy(parent) {
 	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
 	enemyAttack.setDelayPerUnit(1 / 15);
 	
-	var enemyWalk = cc.Animation.create();
-	enemyWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
-	enemyWalk.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
-	enemyWalk.setDelayPerUnit(1 / 15);
+	var enemyRun = cc.Animation.create();
+	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
+	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
+	enemyRun.setDelayPerUnit(1 / 15);
 	
 	/* now we create an AI constructor
 	 * by extending the node class
@@ -830,7 +719,7 @@ function createEnemy(parent) {
 			
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("idle");
+					this.animator.play("run");
 				},
 				// and target:this at the end
 				target:this
@@ -852,17 +741,64 @@ function createEnemy(parent) {
 			}),
 			this.pursue = new customAction({
 				update: function(){
+				
+				
 					this.scene = parent;
 					var target = this.scene.mara;
-					if(target.x < target.x){
+					if(target.x < this.entity.x){
+						cc.log("seeking -");
+						this.entity.x += (this.entity.scaleX) * 5;
+					}
+					else if(target.x > this.entity.x){
+						cc.log("seeking +");
+						this.entity.x -= (this.entity.scaleX) * 5;				
+					}
+					
+				},
+				onenable: function() {
+				
+					//walk code --
+					// turn them around
+					this.entity.turnaround();
+					this.entity.health.damage(1);
+				},
+				ondisable: function() {},
+				animate: function() {
+				
+					//walk code --
+					this.animator.play("run");
+				},
+				target:this
+			}),
+			
+			this.flee = new customAction({
+				update: function(){
+				
+				
+					this.scene = parent;
+					var target = this.scene.mara;
+					if(target.x < this.entity.x){
+						cc.log("seeking -");
 						this.entity.x -= (this.entity.scaleX) * 5;
 					}
-					else if(target.x > target.x){
+					else if(target.x > this.entity.x){
+						cc.log("seeking +");
 						this.entity.x += (this.entity.scaleX) * 5;				
 					}
-				},
-				animate: function() {
 					
+				},
+				onenable: function() {
+				
+					//walk code --
+					// turn them around
+					this.entity.turnaround();
+					this.entity.health.damage(1);
+				},
+				ondisable: function() {},
+				animate: function() {
+				
+					//walk code --
+					this.animator.play("run");
 				},
 				target:this
 			}),
@@ -870,7 +806,7 @@ function createEnemy(parent) {
 			this.attack = new customAction({
 				update: function() {
 					// on the second frame (frame 1 is first, not 0)
-					// animatons are 15 fps, but frame in update is 
+					// animations are 15 fps, but frame in update is 
 					// out of 60 (the fps the game runs at)
 					if(this.frame == 4) {
 						// create a hitbox relative coordinates       x, y, w, h, damage
@@ -880,11 +816,11 @@ function createEnemy(parent) {
 				ondisable: function() {
 					// remove the hitbox
 					this.entity.hitbox.removeChild(this.hitbox);
-					this.scene.collisionMaster.removeRefereces(this.hitbox);
+					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					this.hitbox = null;
 				},
 				animate: function() {
-					this.animator.play("attack");
+					this.animator.play("run");
 				},
 				target:this
 			}),
@@ -892,6 +828,7 @@ function createEnemy(parent) {
 			// add all the behaviors as children
 			this.addChild(this.idle);
 			this.addChild(this.pursue);
+			this.addChild(this.flee);
 			this.addChild(this.walk);
 			this.addChild(this.attack);
 			
@@ -905,14 +842,43 @@ function createEnemy(parent) {
 			// this.entity
 			// this.animator
 			// collisionMaster.enemies and collisionMaster.characters 
+			this.data.count = 0;
+			
 			this.scene = parent;
 			this.entity.attackEnded = true;
 			this.idle.start();
 			this.callback()
 		},
 		
-		callback: function() {;
-			cc.log("this.scene:" + this.scene);
+		callback: function() {
+			// this function is called after an animation 
+			// that was called is finished
+			// use that a processing step
+			cc.log("941: callback");
+			var target = this.scene.mara;
+			cc.log("target.x:" + target.x);
+			cc.log("this.entity.x:" + this.entity.x);
+			
+			this.data.count ++;
+			if(this.data.count == 0) {
+				cc.log("944: flee");
+				this.currentAction.stop();
+				
+				this.flee.start();//this.idle.start();
+			} else if (this.data.count == 5) {
+				cc.log("948: purse");
+				this.currentAction.stop();
+				this.pursue.start();
+			} else if(this.data.count == 25) {
+				cc.log("952: attack");
+				this.currentAction.stop();
+				this.attack.start();
+				this.data.count = -1;
+			}
+			
+			// make sure at the end to call this.currentAction.animate at the end
+		
+			/*cc.log("this.scene:" + this.scene);
 			var target = this.scene.mara;
 			cc.log("target.x:" + target.x);
 			cc.log("this.entity.x:" + this.entity.x);
@@ -925,6 +891,7 @@ function createEnemy(parent) {
 				this.currentAction.stop();
 				this.pursue.start();
 			}
+			this.currentAction.animate();*/
 			this.currentAction.animate();
 		}
 	});
@@ -936,10 +903,184 @@ function createEnemy(parent) {
 		health: 10,
 		animations: {
 			idle: enemyIdle,
-			walk: enemyWalk,
+			walk: enemyRun,
 			attack: enemyAttack,
 		}, 
 		controller: enemyAI,
+		parent: parent
+	});
+}
+
+
+function createMara(parent) {
+	 
+	var maraIdle = cc.Animation.create();
+	
+	var maraAttack = cc.Animation.create();
+	
+	var maraSmoke = cc.Animation.create();
+	
+	var maraRun = cc.Animation.create();
+	for (var i = 0; i < 6; i++) {
+		maraRun.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Mara_Run_Cycle/Mara_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
+	}
+	maraRun.setDelayPerUnit(1 / 15);
+	
+	var maraFlinch = cc.Animation.create();
+	
+	var maraAI = cc.Node.extend({
+		currentAction: null,
+		data:{},
+		flinch:function() {
+			this.animator.stop();
+			this.currentAction.stop();
+			this.flinch.start();
+		},
+		ctor: function(animations, entity) {
+			var smoke = function() {
+				var smokeAnim = cc.Animation.create();
+				var s = sprite.create();
+				s.runAction ( cc.Animate.create(smokeAnim) );
+				this.addChild(s);
+			}
+			this._super();
+			this.entity = entity;
+	
+			this.animator = new AnimatorConstructor(animations, this);
+			this.addChild( this.animator );
+			
+			this.idle = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				// and target:this at the end
+				target:this
+			}); 
+			this.smokescreen  = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				ondisable: function() {
+					smoke();
+					this.entity.x = this.target.x + (this.target.scaleX) * -30;
+					this.entity.scaleX = this.target.scaleX;
+				},
+				target:this
+			});
+			this.attack = new customAction({
+				update: function() { 
+					if(frame == 9) {
+						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 60);
+					}
+				},
+				ondisable: function() {
+					this.entity.hitbox.removeChild(this.hitbox);
+					this.scene.collisionMaster.removeRefereces(this.hitbox);
+					this.hitbox = null;
+				},
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			}),
+			this.run = new customAction({
+				update: function() {
+					// move forward 3px
+					this.entity.x += (this.entity.scaleX) * 9;
+				},
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			}),
+			
+			// add all the behaviors as children
+			this.addChild(this.idle);
+			this.addChild(this.run);
+			this.addChild(this.smokescreen);
+			this.addChild(this.attack);
+			
+			// at then end, call main
+			this.main();
+		},
+		
+		main: function() {
+			this.data.idlecount =  10 * (5 - master["Preston"]);
+			this.data.count = 0;
+			this.idle.start();
+			this.callback();
+		},
+		callback: function() {
+			if(this.currentAction == this.flinch) {
+				if(!this.data.flinch) {
+					this.data.flinch = 1;
+				} else if(this.data.flinch < 15) {
+					this.data.flinch ++;
+				} else {
+					this.data.flinch = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			}
+		
+			else if(this.data.count < this.data.idlecount) {
+				if(this.data.count == 0) {
+					this.currentAction.stop();
+					this.idle.start();
+				}
+				this.data.count ++;
+			} else {
+				if(this.lowestHealth) {
+					this.smokescreen.target = (function(d) {
+						var x = Math.abs(d.lowestHealth.x - d.entity.x);
+						if(x < 200){
+							return d.lowestHealth;
+						}
+						return null;
+					})(this);
+					if(this.smokescreen.target != null){
+						this.currentAction.stop();
+						this.smokescreen.start();
+						this.lowestHealth = null;
+					} else {
+						this.currentAction.stop();
+						this.entity.scaleX = this.lowestHealth.x < this.entity ? -1 : 1;
+						this.run.start();
+					}
+				} else {
+					var lowest = 100000;
+					var i;
+					for(var j in this.entity.scene.collisionMaster.enemies) {
+						if(this.entity.scene.collisionMaster.enemies[j].health._value < lowest) {
+							lowest = this.entity.scene.collisionMaster.enemies[j].health._value
+							i = j;
+						}
+					}
+					this.lowestHealth = this.entity.scene.collisionMaster.enemies[i];
+					this.currentAction.stop();
+					this.idle.start();
+				}
+			}
+			
+			// make sure at the end to call this.currentAction.animate at the end
+			this.currentAction.animate();
+		}
+	});
+	
+	// finally, at the end return a new entity, with the health, animations, and
+	// the controller constructor we just made
+	
+	return new entity({
+		health: 10,
+		animations: {
+			idle: maraIdle,
+			run: maraRun,
+			smoke: maraSmoke,
+			attack: maraAttack,
+			flinch: maraFlinch
+		}, 
+		controller: maraAI,
 		parent: parent
 	});
 }
@@ -960,6 +1101,11 @@ function createPreston(parent) {
 	var prestonAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
+		flinch:function() {
+			this.animator.stop();
+			this.currentAction.stop();
+			this.flinch.start();
+		},
 		ctor: function(animations, entity) {
 			this._super();
 			this.entity = entity;
@@ -987,7 +1133,7 @@ function createPreston(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("idle");
+					this.animator.play("run");
 				},
 				target:this
 			});
@@ -1009,14 +1155,14 @@ function createPreston(parent) {
 					}
 				},
 				animate: function() {
-					this.animator.play("attack");
+					this.animator.play("run");
 				},
 				target:this
 			});
 			// flinch behavior
 			this.flinch = new customAction({
 				animate: function() {
-					this.animator.play("flinch");
+					this.animator.play("run");
 				},
 				target:this
 			});
@@ -1031,10 +1177,24 @@ function createPreston(parent) {
 		main: function() {
 			this.data.idlecount =  10 * (5 - master["Preston"]);
 			this.data.count = 0;
+			this.idle.start();
 			this.callback()
 		},
 		callback: function() {
-			if(this.data.count < this.data.idlecount) {
+			if(this.currentAction == this.flinch) {
+				if(!this.data.flinch) {
+					this.data.flinch = 1;
+				} else if(this.data.flinch < 15) {
+					this.data.flinch ++;
+				} else {
+					this.data.flinch = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			}
+		
+			else if(this.data.count < this.data.idlecount) {
 				if(this.data.count == 0) {
 					this.currentAction.stop();
 					this.idle.start();
@@ -1042,7 +1202,7 @@ function createPreston(parent) {
 				this.data.count ++;
 			} else {
 				var tooClose = 0;
-				var distance = 500;
+				var distance = 250;
 				for( var i in this.scene.collisionMaster.enemies ) {
 					if (!((this.entity.x + distance) < this.scene.collisionMaster.enemies[i].x)) {
 						tooClose = 1;
@@ -1067,6 +1227,7 @@ function createPreston(parent) {
 					this.data.count = 0;
 				}
 			}
+			this.currentAction.animate();
 		}
 	});
 	return new entity({
@@ -1086,6 +1247,10 @@ function createJackie(parent) {
 	var jackieIdle = cc.Animation.create();
 	
 	var jackieRun = cc.Animation.create();
+	for (var i = 0; i < 6; i++) {
+		jackieRun.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Jackie_Run_Cycle/Jackie_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
+	}
+	jackieRun.setDelayPerUnit(1 / 15);
 	
 	var jackieAttack = cc.Animation.create();
 	
@@ -1094,6 +1259,11 @@ function createJackie(parent) {
 	var jackieAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
+		flinch:function() {
+			this.animator.stop();
+			this.currentAction.stop();
+			this.flinch.start();
+		},
 		ctor: function(animations, entity) {
 			this._super();
 			this.entity = entity;
@@ -1104,7 +1274,7 @@ function createJackie(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("idle");
+					this.animator.play("run");
 				},
 				target:this
 			});
@@ -1126,15 +1296,17 @@ function createJackie(parent) {
 				},
 				ondisable: function() {
 					this.entity.hitbox.removeChild(this.hitbox);
+					this.scene.collisionMaster.removeRefereces(this.hitbox);
+					this.hitbox = null;
 				},
 				animate: function() {
-					this.animator.play("attack");
+					this.animator.play("run");
 				},
 				target:this
 			});
 			this.flinch = new customAction({
 				animate: function() {
-					this.animator.play("flinch");
+					this.animator.play("run");
 				},
 				target:this
 			});
@@ -1142,10 +1314,24 @@ function createJackie(parent) {
 		main: function() {
 			this.data.idlecount =  10 * (3 - master["Jackie"]);
 			this.data.count = 0;
-			this.callback()
+			this.idle.start();
+			this.callback();
 		},
 		callback: function() {
-			if(this.data.count < this.data.idlecount) {
+			if(this.currentAction == this.flinch) {
+				if(!this.data.flinch) {
+					this.data.flinch = 1;
+				} else if(this.data.flinch < 15) {
+					this.data.flinch ++;
+				} else {
+					this.data.flinch = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			}
+		
+			else if(this.data.count < this.data.idlecount) {
 				if(this.data.count == 0) {
 					this.currentAction.stop();
 					this.idle.start();
@@ -1153,7 +1339,7 @@ function createJackie(parent) {
 				this.data.count ++;
 			} else {
 				var tooFar = 0;
-				var distance = 200;
+				var distance = 50;
 				for( var i in this.scene.collisionMaster.enemies ) {
 					if (!((this.entity.x + distance) < this.scene.collisionMaster.enemies[i].x)) {
 						tooFar = -1;
@@ -1178,6 +1364,7 @@ function createJackie(parent) {
 					this.data.count = 0;
 				}
 			}
+			this.currentAction.animate();
 		}
 	});
 	return new entity ({
@@ -1197,6 +1384,10 @@ function createClark(parent) {
 	var clarkIdle = cc.Animation.create();
 	
 	var clarkRun = cc.Animation.create();
+	for (var i = 0; i < 6; i++) {
+		clarkRun.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Clark_Run_Cycle/Clark_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
+	}
+	clarkRun.setDelayPerUnit(1 / 15);
 	
 	var clarkHeal = cc.Animation.create();
 	
@@ -1205,6 +1396,11 @@ function createClark(parent) {
 	var clarkAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
+		flinch:function() {
+			this.animator.stop();
+			this.currentAction.stop();
+			this.flinch.start();
+		},
 		ctor: function(animations, entity) {
 			this._super();
 			this.entity = entity;
@@ -1215,7 +1411,7 @@ function createClark(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("idle");
+					this.animator.play("run");
 				},
 				target:this
 			});
@@ -1236,17 +1432,18 @@ function createClark(parent) {
 						this.playerHealth.damage(-1);
 						if(this.playerHealth._value == this.playerHealth.maxHealth) {
 							this.animator.stop();
+							this.entity.controller.callback();
 						}
 					}
 				},
 				animate: function() {
-					this.animator.play("heal");
+					this.animator.play("run");
 				},
 				target:this
 			});
 			this.flinch = new customAction({
 				animate: function() {
-					this.animator.play("flinch");
+					this.animator.play("run");
 				},
 				target:this
 			});
@@ -1254,10 +1451,24 @@ function createClark(parent) {
 		main: function() {
 			this.data.idlecount =  10 * (3 - master["Clark"]);
 			this.data.count = 0;
-			this.callback()
+			this.idle.start();
+			this.callback();
 		},
 		callback: function() {
-			if(this.data.count < this.data.idlecount) {
+			if(this.currentAction == this.flinch) {
+				if(!this.data.flinch) {
+					this.data.flinch = 1;
+				} else if(this.data.flinch < 15) {
+					this.data.flinch ++;
+				} else {
+					this.data.flinch = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			}
+		
+			else if(this.data.count < this.data.idlecount) {
 				if(this.data.count == 0) {
 					this.currentAction.stop();
 					this.idle.start();
@@ -1298,6 +1509,7 @@ function createClark(parent) {
 					this.heal.start();
 				}
 			}
+			this.currentAction.animate();
 		}
 	});
 	return new entity({
@@ -1305,7 +1517,7 @@ function createClark(parent) {
 		animations: {
 			idle: clarkIdle,
 			run: clarkRun,
-			attack: clarkAttack,
+			heal: clarkHeal,
 			flinch: clarkFlinch
 		},
 		controller: clarkAI,
@@ -1410,6 +1622,8 @@ var AnimatorConstructor = cc.Sprite.extend({
 		this.__animation_tag = Math.floor(Math.random() * 1000000);
 		this.controller = controller;
 		this.animations = animations;
+		this.scaleX = .5;
+		this.scaleY = .5;
 	},
 	play: function(animationName) {
 		if(!animationName in this.animations) {
@@ -1437,7 +1651,6 @@ var AnimatorConstructor = cc.Sprite.extend({
 	},
 	stop: function() {
 		this.stopActionByTag(this.__animation_tag);
-		this.controller.callback();
 	}
 });
 
@@ -1476,10 +1689,10 @@ var ColliderConstructor = cc.Node.extend({
 	getAll: function() {
 		return this._children;
 	},
-	hit: function(collider, damage) {
+	hit: function(collider) {
 		if(collider.__instanceId in this.ignored) return;
 		if(this.type) {
-			this.entity.health.damage(damage);
+			this.entity.health.damage(collider.damage);
 		}
 		this.ignored.push(collider.__instanceId);
 	},
