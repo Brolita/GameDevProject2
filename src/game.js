@@ -369,7 +369,7 @@ var rect = function(x,y,w,h, hit) {
  
 function rectCollision(r1, r2) {
 	var x1 = r1.convertToWorldSpace(r1).x;
-	var x2 = r1.convertToWorldSpace(r2).x;
+	var x2 = r2.convertToWorldSpace(r2).x;
 	
 	console.log(x2, (x1 + r1.w));
 	
@@ -480,11 +480,6 @@ var myTestScene = cc.Scene.extend({
 		//this.collisionMaster.enemies[1].y = 300;
 		//this.addChild(this.collisionMaster.enemies[1]);
 		
-		console.log("Ken: " + this.player.__instanceId);
-		console.log("Jackie: " + this.mara.__instanceId);
-		console.log("Enemy 0: " + this.collisionMaster.enemies[0].__instanceId);
-		console.log("Enemy 1: " + this.collisionMaster.enemies[1].__instanceId);
-		
 		this.lastClick = Date.now() - 100; //get time of last click used to determine if the player
         
         var parent = this;
@@ -517,8 +512,43 @@ var myTestScene = cc.Scene.extend({
 		
 		this.constructed = true;
 	},
-
+	
+	initFrame:function(dirFrom){		
+		//set background with this.level
+		
+		//add the enemies
+		
+		//set the player and companion positions
+		switch(dirFrom){
+			case "right":
+				this.player.setPosition(110,this.player.y); //put him in the corner
+				break;
+			case "left":
+				this.player.setPosition(900,this.player.y); //put him in the corner
+				break;
+		}
+		this.player.canMove = true //whether or not the player can move, prevents double movement	
+	},
+	
+	increaseLevel:function(){
+		this.level++; //increment level value
+	},
+	
+	//go to the previous level
+	decreaseLevel:function(){
+		this.level--; //decrement level value
+	},
+	
 	update: function() {
+		if(this.player.x > 1000){
+			this.increaseLevel();
+			this.initFrame("right");
+		}
+		else if(this.player.x < 100){
+			this.decreaseLevel();
+			this.initFrame("left");
+		}
+	
 		this.collisionMaster.collision();
 	}
 })
@@ -821,8 +851,39 @@ function createEnemyA(parent) {
 			this.idle.start();
 			this.callback()
 		},
+		
 		callback: function() {
 			if(this.currentAction == this.flinch) {
+				if(this.entity.health._value < 0){//kill this enemy
+					//<<CODING HERE>>
+					//remove from collisionMaster
+					
+					
+					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
+					
+					//place dead sprite at enemy location
+					//remove instance from scene
+					cc.log("this.entity.scene.collisionMaster.enemies:" + this.entity.scene.collisionMaster.enemies);
+					cc.log("this:" + this + " this.entity:" + this.entity + " this.entity.controller:" + this.entity.controller);
+					var indexToScrap = this.entity.scene.collisionMaster.enemies.indexOf(this.entity);
+					cc.log("indexToScrap:" + indexToScrap);
+					if(indexToScrap < 0){
+						cc.log("Mitt Romney for Grand Marshall");
+						return;
+					}
+					
+					var deadMan = this.entity.scene.collisionMaster.enemies[indexToScrap];
+					cc.log("this.entity.scene.collisionMaster.enemies[indexToScrap].y" + this.entity.scene.collisionMaster.enemies[indexToScrap].y);
+					this.entity.scene.collisionMaster.enemies[indexToScrap].y = 9999;
+					cc.log("this.entity.scene.collisionMaster.enemies.length:" +this.entity.scene.collisionMaster.enemies.length);
+					this.entity.scene.collisionMaster.enemies.splice(indexToScrap,1);
+					cc.log("this.entity.scene.collisionMaster.enemies.length:" +this.entity.scene.collisionMaster.enemies.length);
+					//delete deadMan;
+					cc.log("**enemy removed");
+					//this.entity.y = 99999;
+					this.animator.stop();
+				}
+			
 				if(!this.data.flinch) {
 					this.data.flinch = 1;
 				} else if(this.data.flinch < 3) {
@@ -1270,7 +1331,7 @@ function createMara(parent) {
 		},
 		
 		main: function() {
-			this.data.idlecount =  3 * (5 - master["Mara"]);
+			this.data.idlecount =  2 * (5 - master["Mara"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback();
@@ -1465,7 +1526,7 @@ function createPreston(parent) {
 			this.main()
 		},
 		main: function() {
-			this.data.idlecount =  3 * (5 - master["Preston"]);
+			this.data.idlecount =  2 * (5 - master["Preston"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback()
@@ -1581,10 +1642,9 @@ function createJackie(parent) {
 			this.run = new customAction({
 				update: function() {
 					this.entity.x += this.entity.scaleX * 5;
-					var closest = 10000;
 					var distance = 100;
 					for( var i in this.entity.scene.collisionMaster.enemies ) {
-						if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest ) {
+						if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < distance) {
 							closest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
 							this.animator.stop();
 							this.entity.controller.callback();
@@ -1627,7 +1687,7 @@ function createJackie(parent) {
 			this.main();
 		},
 		main: function() {
-			this.data.idlecount =  3 * (3 - master["Jackie"]);
+			this.data.idlecount =  2 * (3 - master["Jackie"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback();
@@ -1775,7 +1835,7 @@ function createClark(parent) {
 			this.main();
 		}, 
 		main: function() {
-			this.data.idlecount =  3 * (3 - master["Clark"]);
+			this.data.idlecount =  2 * (3 - master["Clark"]);
 			this.data.count = 0;
 			this.idle.start();
 			this.callback();
