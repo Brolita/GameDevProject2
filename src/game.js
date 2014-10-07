@@ -816,8 +816,39 @@ function createEnemyA(parent) {
 			this.idle.start();
 			this.callback()
 		},
+		
 		callback: function() {
 			if(this.currentAction == this.flinch) {
+				if(this.entity.health._value < 0){//kill this enemy
+					//<<CODING HERE>>
+					//remove from collisionMaster
+					
+					
+					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
+					
+					//place dead sprite at enemy location
+					//remove instance from scene
+					cc.log("this.entity.scene.collisionMaster.enemies:" + this.entity.scene.collisionMaster.enemies);
+					cc.log("this:" + this + " this.entity:" + this.entity + " this.entity.controller:" + this.entity.controller);
+					var indexToScrap = this.entity.scene.collisionMaster.enemies.indexOf(this.entity);
+					cc.log("indexToScrap:" + indexToScrap);
+					if(indexToScrap < 0){
+						cc.log("Mitt Romney for Grand Marshall");
+						return;
+					}
+					
+					var deadMan = this.entity.scene.collisionMaster.enemies[indexToScrap];
+					cc.log("this.entity.scene.collisionMaster.enemies[indexToScrap].y" + this.entity.scene.collisionMaster.enemies[indexToScrap].y);
+					this.entity.scene.collisionMaster.enemies[indexToScrap].y = 9999;
+					cc.log("this.entity.scene.collisionMaster.enemies.length:" +this.entity.scene.collisionMaster.enemies.length);
+					this.entity.scene.collisionMaster.enemies.splice(indexToScrap,1);
+					cc.log("this.entity.scene.collisionMaster.enemies.length:" +this.entity.scene.collisionMaster.enemies.length);
+					//delete deadMan;
+					cc.log("**enemy removed");
+					//this.entity.y = 99999;
+					this.animator.stop();
+				}
+			
 				if(!this.data.flinch) {
 					this.data.flinch = 1;
 				} else if(this.data.flinch < 3) {
