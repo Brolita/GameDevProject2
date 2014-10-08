@@ -190,7 +190,15 @@ master["currentDay"] = 0;
 		}
 	}
 	
+	//Wing Dissolve
+	for(var i = 0; i < 8; i++){
+		res.push("assets/art/fantasy/Sprites/Boss_Wing_Dissolve/Boss_Wing_Dissolve_000" + i + "_" + (i + 1) + ".png" );
+	}
 	
+	//Boss Fireball
+	for(var i = 0; i < 8; i++){
+		res.push("assets/art/fantasy/Sprites/Boss_Fireball/Boss_Flying_Fireball_000" + i + "_" + (i + 1) + ".png" );
+	}
 	cc.game.run()
 })();
  
