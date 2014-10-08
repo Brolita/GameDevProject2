@@ -372,13 +372,18 @@ function rectCollision(r1, r2) {
 	var x1 = r1.convertToWorldSpace(r1).x;
 	var x2 = r2.convertToWorldSpace(r2).x;
 	var w1 = r1.w;
-	var w2 = r2.w;
-	
-	if(r1.tag == 3) {
-		 console.log(r1.damage);
-		 console.log(x1, w1, x2, w2);
-		 console.log((x1 <= x2 && (x2 < (x1 + w1)) || (x2 <= x1 && x1 < (x2 + w2))));
-	}
+	if(r1.parent.entity) {
+		if(Math.abs(r1.convertToWorldSpace(r1).y - r2.convertToWorldSpace(r2).y) > 50) return false;
+		if(r1.parent.entity.scaleX == 1) {
+			x1 += w1;
+		}
+	} 
+	var w2 = r2.w
+	if(r2.parent.entity) {
+		if(r2.parent.entity.scaleX == 1) {
+			x2 += w2;
+		}
+	} 
 	
 	return ((x1 <= x2 && (x2 < (x1 + w1)) || (x2 <= x1 && x1 < (x2 + w2))));
 }
@@ -512,6 +517,7 @@ var myTestScene = cc.Scene.extend({
 		this.frame = 0;
 		
 		this.scheduleUpdate();
+		
 		this.mara = createMara(this);
 		this.addChild(this.mara);
 		this.collisionMaster.characters.push(this.mara);
@@ -534,7 +540,7 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.player);
 		this.collisionMaster.characters.push(this.player);
 		
-		this.level = 0;
+		this.level = 7;
 		this.initFrame("right");
 		this.addEnemies();
 		//this.collisionMaster.enemies.push(createEnemy(this));
@@ -583,7 +589,6 @@ var myTestScene = cc.Scene.extend({
 		}
 		
 		
-		cc.log("511: adding enemies");
 		switch(this.level){
 			case 0: //empty
 				break;
@@ -657,7 +662,11 @@ var myTestScene = cc.Scene.extend({
 			case 7: //empty
 				break;
 			case 8: //boss
-				cc.log("Make the boss");
+				this.collisionMaster.boss = createBoss(this);
+				this.collisionMaster.enemies.push(this.collisionMaster.boss);
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 1000;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
 				break;
 			
 			
@@ -679,11 +688,9 @@ var myTestScene = cc.Scene.extend({
 				this.jackie.setPosition(110, this.player.y);
 				this.preston.setPosition(90, this.player.y);
 				this.clark.setPosition(60, this.player.y);
-				//this.jackie.setPosition(20,this.player.y);
 				break;
 			case "left":
 				this.player.setPosition(900,this.player.y); //put him in the corner
-				this.mara.setPosition(1000,this.player.y);
 				//this.jackie.setPosition(1000,this.player.y);
 				break;
 		}
@@ -712,7 +719,6 @@ var myTestScene = cc.Scene.extend({
 		
 		if(this.collisionMaster.enemies.length == 0){
 			if(this.player.x > 1200){
-				cc.log("GOING RIGHT");
 				this.increaseLevel();
 				this.initFrame("right");
 			}
@@ -916,25 +922,55 @@ function createTest(parent) {
 
 function createBoss(parent) {
 	var bossGroundAttack = cc.Animation.create();
+	bossGroundAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossGroundAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossGroundAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireBallAttack = cc.Animation.create();
+	bossFireBallAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossFireBallAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossFireBallAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireWalkAttack = cc.Animation.create();
+	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossFireWalkAttack.setDelayPerUnit(1 / 15);
 	
-	var bossTransformation = cc.Animation.create();
+	var bossFireWalkAttack = cc.Animation.create();
+	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossFireWalkAttack.setDelayPerUnit(1 / 15);
+	
+	var bossFireWalkAttack2 = cc.Animation.create();
+	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossFireWalkAttack2.setDelayPerUnit(1 / 15);
 	
 	var bossIdle = cc.Animation.create();
+	bossIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossIdle.setDelayPerUnit(1 / 15);
 	
 	var bossAirIdle = cc.Animation.create();
+	bossAirIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossAirIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossAirIdle.setDelayPerUnit(1 / 15);
 	
 	var bossFall = cc.Animation.create();
+	bossFall.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossFall.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossFall.setDelayPerUnit(1 / 15);
 	
 	var bossBurst = cc.Animation.create();
+	bossBurst.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
+	bossBurst.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	bossBurst.setDelayPerUnit(1 / 15);
 	
 	var bossAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
 		Flinch: function(cause) {
+			//console.log(this.data);
 			if(this.data.phase == 0) {
 				if(this.data.recentdamage < 4) {
 					this.data.recentdamage ++;
@@ -947,26 +983,29 @@ function createBoss(parent) {
 					this.callback();
 				}
 				if(this.entity.health._value <= 0) {
-					this.entity.health.damage(-this.entity.health._value + 30);
+					this.entity.health.damage(-this.entity.health._value - 50);
 					this.data.phase = 1;
 					this.data.phasetrigger = true;
 				}
 			} else if(this.data.phase == 1 || this.data.phase == 3) {
-				if(this.data.recentdamage < 4) {
+				if(this.data.recentdamage < 2) {
 					this.data.recentdamage ++;
 				} else {
-					this.animator.stop();
-					this.currentAction.stop();
-					this.fall.start();
-					this.callback();
+					if(this.entity.y == 500) {
+						this.animator.stop();
+						this.currentAction.stop();
+						this.fall.start();
+						this.callback();
+					}
 				}
 				if(this.entity.health._value <= 0) {
-					this.entity.health.damage(-this.entity.health._value + 45);
-					this.data.phase = 2;
+					this.entity.health.damage(-this.entity.health._value - 50);
+					this.data.phase ++;
 					this.data.phasetrigger = true;
+					this.callback();
 				}
 			} else if(this.data.phase == 2) {
-				if(cause == this.scene.jackie) {
+				if(cause == this.entity.scene.jackie) {
 					this.data.recentdamage ++;
 				} else if(this.data.recentdamage == 2) {
 					this.animator.stop();
@@ -977,14 +1016,14 @@ function createBoss(parent) {
 					this.callback();
 				}
 				if(this.entity.health._value <= 0) {
-					this.entity.health.damage(-this.entity.health._value + 20);
+					this.entity.health.damage(-this.entity.health._value - 50);
 					this.data.phase = 3;
 					this.data.phasetrigger = true;
 				}
 			} else if(this.data.phase == 4) {
 				this.animator.stop();
 				this.currentAction.stop();
-				this.callback();
+				// end the game in a fade out
 			}
 		},
 		ctor: function(animations, entity) {
@@ -994,9 +1033,12 @@ function createBoss(parent) {
 			this.animator = new AnimatorConstructor(animations, this);
 			this.addChild( this.animator );
 			
-			this.entity.hurtbox.addCollider(-25,-60,100,180);
+			this.entity.hurtbox.addCollider(-25,-30,130,180);
+			this.entity.health.healthBar.y += 30;
 			
-			this.idle = customAction({
+			this.entity.scaleX = -1
+			
+			this.idle = new customAction({
 				update: function() {
 					this.entity.controller.data.recentdamage = 0;
 				},
@@ -1006,49 +1048,49 @@ function createBoss(parent) {
 				target:this
 			});
 			
-			this.airidle = customAction({
+			this.airidle = new customAction({
 				animate: function() {
 					this.animator.play("airidle");
 				},
 				target:this
 			});
 			
-			this.airidle2 = customAction({
+			this.airidle2 = new customAction({
 				animate: function() {
 					this.animator.play("airidle");
 				},
 				target:this
 			});
 			
-			this.attack1 = customAction({
+			this.attack1 = new customAction({
 				update: function() {
 					if(this.frame == 16) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
 					} else if (this.frame == 23) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 26) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
 					} else if (this.frame == 32) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 37) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
 					} else if (this.frame == 44) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 50) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
 					} else if (this.frame == 56) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 62) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
 					} else if (this.frame == 68) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 74) {
-						this.hitbox = this.entity.hitbox.addCollider(0,-30, 50, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
 					} else if (this.frame == 80) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
@@ -1068,19 +1110,22 @@ function createBoss(parent) {
 				target:this
 			});
 			
-			this.burst = customAction({
+			this.burst = new customAction({
 				animate: function() {
 					this.animator.play("burst");
 				},
 				ondisable: function() {
 					this.entity.y = 500;
 				},
+				update: function() {
+					this.entity.controller.data.recentdamage = 0;
+				},
 				target:this
 			});
 			
-			this.fall = customAction({
+			this.fall = new customAction({
 				ondisable: function() {
-					this.entity.x = 300;
+					this.entity.y = 300;
 				},
 				animate: function() {
 					this.animator.play("fall");
@@ -1128,19 +1173,19 @@ function createBoss(parent) {
 				boss.parent.addChild(a);
 			}
 			
-			this.attack2 = customAction({
+			this.attack2 = new customAction({
 				update: function() {
 					if(this.frame == 13) {
 						fireball(this.entity, this.target);
 					}
 				}, 
 				animate: function() {
-					this.play("fireball");
+					this.animator.play("fireball");
 				},
 				target:this
 			});
 			
-			this.attack3 = customAction({
+			this.attack3 = new customAction({
 				update: function() {
 					if(this.frame == 13) {
 						for(var i in this.entity.scene.collisionMaster.characters) {
@@ -1154,32 +1199,72 @@ function createBoss(parent) {
 				target:this
 			});
 		
-			this.attack4 = customAction({
+			this.preattack4 = new customAction({
+				update: function() {
+					console.log("hello");
+					for(var i in this.entity.scene.collisionMaster.characters) {
+						this.entity.scene.collisionMaster.characters[i].x -= 12;
+					}
+				},
+				animate: function() {
+					this.animator.play("preattack4");
+				},
+				target: this
+			});
+		
+			this.attack4 = new customAction({
 				update: function() {
 					this.entity.x += -1;
+					this.entity.hitbox.removeCollider(this.entity.controller.hitbox);
+					this.entity.scene.collisionMaster.removeRefereces(this.entity.controller.hitbox);
+					this.entity.hitbox.removeCollider(this.entity.controller.hitbox);
+					this.entity.scene.collisionMaster.removeRefereces(this.entity.controller.hitbox);
+					
 				},
 				animate: function() {
 					this.animator.play("attack4");
 				},
 				target:this
 			});
+		
+			this.addChild(this.idle);
+			this.addChild(this.airidle);
+			this.addChild(this.burst);
+			this.addChild(this.fall);
+			this.addChild(this.attack1);
+			this.addChild(this.attack2);
+			this.addChild(this.attack3);
+			this.addChild(this.attack4);
+			this.addChild(this.preattack4);
+			
+			this.main();
 		},
 		main: function() {
 			this.data.idlecount = 0;
 			this.data.recentdamage = 0;
+			this.data.phase = 0;
 			this.idle.start();
 			this.callback();
 		},
 		callback: function() {
+			console.log(this.data);
 			if(this.data.phasetrigger) {
 				this.data.phasetrigger = false;
-				if(this.data.phase == 1) {
+				if(this.data.phase == 1 || this.data.phase == 3) {
 					this.currentAction.stop();
 					this.burst.start();
 				} if(this.data.phase == 4) {
+					console.log("hello");
 					this.currentAction.stop();
-					this.attack4.start();
+					this.preattack4.start();
 				}
+			} else if(this.currentAction == this.preattack4) {
+				console.log("hello");
+				this.currentAction.stop();
+				this.attack4.start();
+				this.firewall = cc.Sprite.create("assets/art/fantasy/firewall.png");
+				this.addChild(this.firewall);
+				this.hitbox = this.entity.hitbox.addCollider(75,-15,50,300, 1000);
 			} else if(this.currentAction == this.idle) {
 				if(this.data.idlecount < 5) {
 					this.currentAction.stop();
@@ -1215,6 +1300,7 @@ function createBoss(parent) {
 				this.currentAction.stop();
 				this.attack3.start();
 			}
+		this.currentAction.animate();
 		}
 	});
 	
@@ -1224,6 +1310,7 @@ function createBoss(parent) {
 			attack1: bossGroundAttack,
 			fireball: bossFireBallAttack,
 			attack4: bossFireWalkAttack,
+			preattack4: bossFireWalkAttack2,
 			idle: bossIdle,
 			airidle: bossAirIdle,
 			fall: bossFall,
@@ -1299,6 +1386,13 @@ function createEnemyA(parent) {
 					// move forward
 					if(this.entity.x > 30 && this.entity.x < 1250) {
 						this.entity.x += this.entity.scaleX * 5;
+					}  else {
+						if(this.entity.x <= 30) {
+							this.entity.x = 30.1
+						}
+						if(this.entity.x >= 1250) {
+							this.entity.x = 1249.1;
+						}
 					}
 				},
 				animate: function() {
@@ -1514,6 +1608,13 @@ function createEnemyB(parent) {
 					// move forward
 					if(this.entity.x > 30 && this.entity.x < 1250) {
 						this.entity.x += this.entity.scaleX * 5;
+					} else {
+						if(this.entity.x <= 30) {
+							this.entity.x = 30.1
+						}
+						if(this.entity.x >= 1250) {
+							this.entity.x = 1249.1;
+						}
 					}
 				},
 				animate: function() {
@@ -1570,7 +1671,6 @@ function createEnemyB(parent) {
 					
 					var indexToScrap = this.entity.scene.collisionMaster.enemies.indexOf(this.entity);
 					if(indexToScrap < 0){
-						cc.log("Mitt Romney for Grand Marshall");
 						return;
 					}
 					
@@ -1615,15 +1715,12 @@ function createEnemyB(parent) {
 				var close = 100000;
 				var j = 0;
 				for( i in this.entity.scene.collisionMaster.characters ) {
-					console.log(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x));
 					if(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x) < close) {
 						close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
 						j = i;
 					}
 				}
 				var closest = this.entity.scene.collisionMaster.characters[j];
-				
-				console.log(closest == this.entity.scene.player);
 				
 				if (Math.abs(closest.x - this.entity.x) < 100){
 					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
@@ -1659,8 +1756,6 @@ function createEnemyB(parent) {
 }
 
 function createKen(parent){ //ken is the player character and is controlled by tapping
-    cc.log("creating ken");
-     
     //load in the animations
     var kenIdle = cc.Animation.create();
     kenIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
@@ -1839,9 +1934,11 @@ function createMara(parent) {
 			}); 
 			this.smokescreen  = new customAction({
 				animate: function() {
+					this.entity.controller.y += 15;
 					this.animator.play("smoke");
 				},
 				ondisable: function() {
+					this.entity.controller.y -= 15;
 					smoke(this.entity.scene, this);
 					this.entity.x = this.target.x + (this.target.scaleX) * -30;
 					this.entity.scaleX = this.target.scaleX;
@@ -1852,7 +1949,6 @@ function createMara(parent) {
 				update: function() { 
 					if(this.frame == 17) {
 						this.hitbox = this.entity.hitbox.addCollider(0,-30, 100, 120, 20);
-						this.hitbox.tag = 3;
 					}
 				},
 				ondisable: function() {
@@ -1870,7 +1966,15 @@ function createMara(parent) {
 					// move forward 3px
 					if(this.entity.x > 30 && this.entity.x < 1250) {
 						this.entity.x += this.entity.scaleX * 5;
+					} else {
+						if(this.entity.x <= 30) {
+							this.entity.x = 30.1
+						}
+						if(this.entity.x >= 1250) {
+							this.entity.x = 1249.1;
+						}
 					}
+					
 				},
 				animate: function() {
 					this.animator.play("run");
@@ -1887,10 +1991,11 @@ function createMara(parent) {
 			//down behavior
 			this.down = new customAction({
 				onenable: function() {
-					this.entity.health.damage(-this.entity.health._value);
+					this.entity.health.damage(this.entity.health._value);
 				},
 				update: function() {
-					this.entity.health.damage(-this.entity.health._value);
+					console.log(this.entity.health._value);
+					this.entity.health.damage(this.entity.health._value);
 				},
 				animate: function() {
 					this.animator.play("run");
@@ -1920,7 +2025,11 @@ function createMara(parent) {
 			this.callback();
 		},
 		callback: function() {
-			if(this.currentAction == this.down) {
+			if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.y == 500) {
+				this.entity.scaleX = Math.random() < .5 ? -1 : 1;
+				this.currentAction.stop();
+				this.run.start();
+			} else if(this.currentAction == this.down) {
 				if( this.data.down < 60 ) {
 					this.data.down ++;
 				} else {
@@ -1939,7 +2048,7 @@ function createMara(parent) {
 				this.currentAction.stop();
 				this.data.runcount = 0;
 				this.run.start();
-			} else if(this.data.runcount < 3) {
+			} else if(this.data.runcount < 2) {
 				this.currentAction.stop();
 				this.data.runcount ++;
 				this.run.start();
@@ -1978,7 +2087,6 @@ function createMara(parent) {
 						i = j;
 					}
 				}
-				console.log(i)
 				if(i != -1) {
 					this.lowestHealth = this.entity.scene.collisionMaster.enemies[i];
 					this.currentAction.stop();
@@ -2086,7 +2194,7 @@ function createPreston(parent) {
 				if(target) {
 					var distance = Math.sqrt( (target.x - pres.x)*(target.x - pres.x) + (target.y - pres.y)*(target.y - pres.y) );
 					a.movex = (target.x - pres.x) / distance;
-					s.setRotation(Math.acos(a.movex) * 180 / Math.PI);
+					s.setRotation(Math.acos(a.movex) * -180 / Math.PI);
 					a.movey = (target.y - pres.y) / distance;
 					a.scaleX = .25*pres.scaleX;
 				} else {
@@ -2101,7 +2209,6 @@ function createPreston(parent) {
 					a.x += a.scaleX * 34 * a.movex;
 					a.y += a.scaleX * 34 * a.movey;
 					if(a.x < 0 || a.x > cc.winSize.width) {
-						console.log("removed because passed boundry");
 						pres.scene.collisionMaster.removeRefereces(this);	
 						pres.scene.collisionMaster.p_characters.splice(i, 1);
 						s.opacity = 0;
@@ -2113,7 +2220,6 @@ function createPreston(parent) {
 				}
 				a.scheduleUpdate();
 				a.hit = function() {
-					console.log("removed because hit");
 					pres.scene.collisionMaster.removeRefereces(this);	
 					var i = pres.scene.collisionMaster.p_characters.indexOf(this);
 					pres.scene.collisionMaster.p_characters.splice(i, 1);
@@ -2138,6 +2244,13 @@ function createPreston(parent) {
 				update: function() {
 					if(this.entity.x > 30 && this.entity.x < 1250) {
 						this.entity.x += this.entity.scaleX * 5;
+					}  else {
+						if(this.entity.x <= 30) {
+							this.entity.x = 30.1
+						}
+						if(this.entity.x >= 1250) {
+							this.entity.x = 1249.1;
+						}
 					}
 				},
 				animate: function() {
@@ -2325,7 +2438,6 @@ function createJackie(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
-					console.log("This should be doing the same fucking thing");
 					this.animator.play("run");
 				},
 				target:this
@@ -2335,7 +2447,15 @@ function createJackie(parent) {
 				update: function() {
 					if(this.entity.x > 30 && this.entity.x < 1250) {
 						this.entity.x += this.entity.scaleX * 5;
+					}  else {
+						if(this.entity.x <= 30) {
+							this.entity.x = 30.1
+						}
+						if(this.entity.x >= 1250) {
+							this.entity.x = 1249.1;
+						}
 					}
+					if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.y == 500) return;
 					var distance = 100;
 					for( var i in this.entity.scene.collisionMaster.enemies ) {
 						if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < distance) {
@@ -2403,7 +2523,11 @@ function createJackie(parent) {
 			this.callback();
 		},
 		callback: function() {
-			if(this.currentAction == this.down) {
+			if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.y == 500) {
+				this.entity.scaleX = Math.random() < .5 ? -1 : 1;
+				this.currentAction.stop();
+				this.run.start();
+			} else if(this.currentAction == this.down) {
 				if( this.data.down < 60 ) {
 					this.data.down ++;
 				} else {
@@ -2466,7 +2590,6 @@ function createJackie(parent) {
 					this.data.count = 0;
 				}
 			}
-			console.log(this.currentAction == this.idle, this.currentAction == this.attack);
 			this.currentAction.animate();
 		}
 	});
@@ -2537,8 +2660,16 @@ function createClark(parent) {
 			// run behavior
 			this.run = new customAction({
 				update: function() {
-					if(this.entity.x > 30 && this.entity.x < 1250) 
+					if(this.entity.x > 30 && this.entity.x < 1250) {
 						this.entity.x += this.entity.scaleX * 5;
+					} else {
+						if(this.entity.x <= 30) {
+							this.entity.x = 30.1
+						}
+						if(this.entity.x >= 1250) {
+							this.entity.x = 1249.1;
+						}
+					}
 				},
 				animate: function() {
 					this.animator.play("run");
@@ -2549,10 +2680,16 @@ function createClark(parent) {
 				update: function() {
 					this.entity.scaleX = this.entity.x < this.playerHealth.entity.x ? 1 : -1;
 					if(this.frame > 15 && this.frame < 61) {
-						this.playerHealth.damage(-1);
-						if(this.playerHealth._value == this.playerHealth.maxHealth) {
-							this.animator.stop();
-							this.entity.controller.callback();
+						if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.controller.data.phase == 3) {
+							for( var i in this.entity.scene.collisionMaster.characters ) {
+								this.entity.scene.collisionMaster.characters[i].health.damage(-.1);
+							}
+						} else {
+							this.playerHealth.damage(-1);
+							if(this.playerHealth._value == this.playerHealth.maxHealth) {
+								this.animator.stop();
+								this.entity.controller.callback();
+							}
 						}
 					}
 				},
@@ -2594,7 +2731,11 @@ function createClark(parent) {
 			this.callback();
 		},
 		callback: function() {
-			if(this.currentAction == this.down) {
+			if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.y == 500) {
+				this.entity.scaleX = Math.random() < .5 ? -1 : 1;
+				this.currentAction.stop();
+				this.run.start();
+			} else if(this.currentAction == this.down) {
 				if( this.data.down < 60 ) {
 					this.data.down ++;
 				} else {
@@ -2645,7 +2786,6 @@ function createClark(parent) {
 						 this.entity.scene.collisionMaster.characters[i].health._value !=
 						 this.entity.scene.collisionMaster.characters[i].health.maxHealth &&
 						 this.entity.scene.collisionMaster.characters[i].health._value != 0) {
-							console.log("imma heal you");
 							lowest = this.entity.scene.collisionMaster.characters[i].health._value;
 							lowestTarget = i;
 							distance = this.entity.scene.collisionMaster.characters[i].x - this.entity.x
