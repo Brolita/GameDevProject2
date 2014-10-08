@@ -460,7 +460,7 @@ var myTestScene = cc.Scene.extend({
 		
 		this.scheduleUpdate();
 		
-		this.mara = createJackie(this);
+		this.mara = createPreston(this);
 		this.mara.x = 400;
 		this.mara.y = 300;
 		this.addChild(this.mara);
@@ -472,16 +472,9 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.player);
 		this.collisionMaster.characters.push(this.player);
 		
-		this.collisionMaster.enemies.push(createEnemyA(this));
-		this.collisionMaster.enemies[0].x = 900;
-		this.collisionMaster.enemies[0].y = 300;
-		this.addChild(this.collisionMaster.enemies[0]);
-		
-		this.collisionMaster.enemies.push(createEnemyA(this));
-		this.collisionMaster.enemies[1].x = 800;
-		this.collisionMaster.enemies[1].y = 300;
-		this.addChild(this.collisionMaster.enemies[1]);
-		
+		this.level = 0;
+		this.initFrame("right");
+		this.addEnemies();
 		//this.collisionMaster.enemies.push(createEnemy(this));
 		//this.collisionMaster.enemies[1].x = 900;
 		//this.collisionMaster.enemies[1].y = 300;
@@ -519,8 +512,149 @@ var myTestScene = cc.Scene.extend({
 		
 		this.constructed = true;
 	},
-
+	
+	addEnemies:function(){
+		//remove all the enemies
+		for(i = 0; i < this.collisionMaster.enemies.length; i++){
+			this.collisionMaster.enemies[i].x = -50;
+		}
+		
+		
+		cc.log("511: adding enemies");
+		switch(this.level){
+			case 0: //empty
+				break;
+			case 1: //A
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 800;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				break;
+			case 2: //AA
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 800;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 900;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				
+				break;
+			case 3: //B
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 800;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				break;
+			case 4: //AB
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 800;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 900;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				break;
+			case 5:  //AAB
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 800;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 900;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 1000;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				break;
+			case 6: // ABB
+				this.collisionMaster.enemies.push(createEnemyA(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 800;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 900;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				
+				this.collisionMaster.enemies.push(createEnemyB(this));
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].x = 1000;
+				this.collisionMaster.enemies[this.collisionMaster.enemies.length-1].y = 300;
+				this.addChild(this.collisionMaster.enemies[this.collisionMaster.enemies.length-1]);
+				break;
+			case 7: //empty
+				break;
+			case 8: //boss
+				cc.log("Make the boss");
+				break;
+			
+			
+		}
+	},
+	
+	initFrame:function(dirFrom){		
+		//set background with this.level
+		
+		//add the enemies
+		this.addEnemies();
+		
+		
+		//set the player and companion positions
+		switch(dirFrom){
+			case "right":
+				this.player.setPosition(110,this.player.y); //put him in the corner
+				this.mara.setPosition(20,this.player.y);
+				break;
+			case "left":
+				this.player.setPosition(900,this.player.y); //put him in the corner
+				this.mara.setPosition(1000,this.player.y);
+				break;
+		}
+		this.player.canMove = true //whether or not the player can move, prevents double movement	
+	},
+	
+	increaseLevel:function(){
+		this.level++; //increment level value
+	},
+	
+	//go to the previous level
+	decreaseLevel:function(){
+		this.level--; //decrement level value
+	},
+	
 	update: function() {
+		cc.log("628: update");
+		//code for checking if enemies are offscreen, similar code can be implemented for allies
+		for( i =0; i < this.collisionMaster.enemies.length; i++){
+			if(this.collisionMaster.enemies[i].x <150){
+				this.collisionMaster.enemies[i].x = 150;
+			}
+			else if(this.collisionMaster.enemies[i].x > 1000){
+				this.collisionMaster.enemies[i].x = 1000;
+			}
+		}
+		
+		if(this.collisionMaster.enemies.length == 0){
+			if(this.player.x > 1200){
+				cc.log("GOING RIGHT");
+				this.increaseLevel();
+				this.initFrame("right");
+			}
+			else if(this.player.x < 50){
+				this.decreaseLevel();
+				this.initFrame("left");
+			}
+		}
+	
 		this.collisionMaster.collision();
 	}
 })
@@ -1124,7 +1258,7 @@ function createEnemyB(parent) {
 			run: enemyRun,
 			attack: enemyAttack,
 			flinch: enemyFlinch,
-			down: enemydDown
+			down: enemyDown
 		}, 
 		controller: enemyAI,
 		parent: parent
@@ -1483,18 +1617,28 @@ function createPreston(parent) {
 			
 			this.entity.hurtbox.addCollider(-15,-30,60,120);
 			// makes arrow
-			var arrow = function(pres) {
+			var arrow = function(pres, target) {
 				var a = rect(-30,-10,64,26, true);
 				var s = cc.Sprite.create("assets/art/fantasy/Sprites/arrow.png");
 				a.addChild(s);
 				a.damage = 3;
 				a.x = pres.x;
 				a.y = pres.y;
-				a.scaleX = pres.scaleX;
+				if(target) {
+					var distance = Math.sqrt( (target.x - pres.x) ^2 + (target.y - pres.y) ^2 );
+					a.movex = (target.x - pres.x) / distance;
+					a.movey = (target.y - pres.y) / distance;
+					a.scaleX = pres.scaleX;
+				} else {
+					s.cleanup()
+					a.removeChild(s);
+					a.cleanup();
+				}
 				s.scaleX = .25;
 				s.scaleY = .25;
 				a.update = function() {
-					a.x += a.scaleX * 17;
+					a.x += a.scaleX * 8 * a.movex;
+					a.y += a.scaleX * 8 * a.movey;
 					if(a.x < 0 || a.x > cc.winSize.width) {
 						s.opacity = 0;
 						a.removeChild(s);
@@ -1535,7 +1679,7 @@ function createPreston(parent) {
 			this.attack = new customAction({
 				update: function() {
 					if(this.frame == 9) {
-						arrow(this.entity);
+						arrow(this.entity, this.target);
 					}
 				},
 				animate: function() {
@@ -1607,6 +1751,7 @@ function createPreston(parent) {
 				var tooClose = 0;
 				var distance = 250;
 				var furthest = 0;
+				var index = -1;
 				var j;
 				for( var i in this.entity.scene.collisionMaster.enemies ) {
 					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < distance ) {
@@ -1615,6 +1760,7 @@ function createPreston(parent) {
 					}
 					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) > furthest ) {
 						furthest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
+						index = i;
 						j = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
 					}
 				}
@@ -1630,6 +1776,7 @@ function createPreston(parent) {
 					this.entity.scaleX = j;
 					this.currentAction.stop();
 					this.attack.start();
+					this.attack.target = this.entity.scene.collisionMaster.enemies[index];
 					this.data.count = 0;
 				}
 			}

@@ -11,7 +11,7 @@ Ken: I have two Chronoshifters, and I set them to just outside the dungeon befor
 Preston: So you're going to use them up now and not on Friday?
 Ken: I want to scout as many of the enemies and traps inside the dungeon as possible while giving the new party members a chance to get back into the game.  But if you don't want to do it, then I'm okay with that.
 Preston: Nah, I see where you're coming from.  Let's do this!
-DM: Very well then.  The sky was stained with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 1 - Version w/o Preston:
@@ -19,37 +19,247 @@ DM: Welcome, Ken DuBois.  It seems you've come alone.
 Ken: Yeah, I haven't found anyone yet.  But don't worry; I'll have a full party by Friday.
 DM: If you say so.  I ask of you one final time, Ken.  The Chronoshifters are artifacts that are utterly unique; if you use them now you will likely never find them again.  The ability to rewind time is a powerful one, but is it worth consuming to fight alone?
 Ken: I've only got the two of them, but I've made up my mind.  I need to get as much information as I can on this dungeon, so I'll do whatever it takes to win.
-DM: Very well then.  The sky was stained with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.    
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.    
 
+
+##################################################################################################
 
 End of Day 2 - Version Alone:
+DM: Welcome, Ken DuBois.  It seems you've come alone.
+Ken: You don't have to tell me twice, you know.  
+DM: Are you certain you will be prepared by Friday's end?
+Ken: Sure I will.  Now can we start, please?
+DM: As you wish.  You are using your last Chronoshifter, I presume?
+Ken: Yeah; you know the drill.  
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Preston:
+DM: Welcome, Ken DuBois.  It seems you brought a friend.
+Preston:  Tatsumi, Sniper of the Gods makes his entrance!
+DM: Hmm...I see.  Very well, then.  I trust everything is in order?
+Preston: I've got everything I need.
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Preston: Chronoshifters were the things that turned back time, right?
+DM: That is correct.  A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Preston: Yeah, yeah, I got it.  We ready to go?
+Ken: Ready as I'll ever be.
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Preston, Jackie and Clark
+DM: Welcome, Ken DuBois.  It seems you brought friends.
+Preston:  Tatsumi, Sniper of the Gods makes his entrance!
+Jackie: You're as wee- I mean, enthusiastic as usual, Preston.
+Preston: Your jealousy of my glory is a truly tragic thing.  Still, I suppose I should be gracious to the mere Wyndara the Berserker.
+Jackie: Whatever you say.  
+Clark: You guys know each other, I guess?
+Preston: Yeah, we used to MQ back in the day.  
+DM: Quite the crowd, here.  I trust everything is in order?
+Preston: I've got everything I need.
+Jackie: I'm ready to go!
+Clark: Don't worry about me.
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Clark: You're blowing a Chronoshifter?  Pretty bold, Ken.
+Jackie: Chronoshifter?  What's that?
+DM: A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Jackie: Seems like a waste.
+Ken: I wanted to use it to scout out the enemies and traps in the dungeon.  But if it's a really bad idea, then we can come up with something else.
+Jackie: No, it's fine.  I suppose you shouldn't be afraid to use such a thing.  
+Preston: You guys ready to go?
+Ken: Ready as I'll ever be.
+Jackie: Time to show off what I can do!
+Clark: Time for Helberta to show what she's got!
+Preston: What.
+Jackie: Huh?
+Ken: You're a girl?
+Clark: Look, it was a very efficient build, okay?  Can we hurry up and start?
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Preston, Jackie and Mara
+DM: Welcome, Ken DuBois.  It seems you brought friends.
+Preston:  Tatsumi, Sniper of the Gods makes his entrance!
+Jackie: You're as wee- I mean, enthusiastic as usual, Preston.
+Preston: Your jealousy of my glory is a truly tragic thing.  Still, I suppose I should be gracious to the mere Wyndara the Berserker.
+Jackie: Whatever you say.  
+Mara: Greetings to you both.  I am Mara Thatcher, and it is a pleasure to meet you.
+Preston: Did she already start?
+Jackie: So this is who you were talking about...not bad, bro.
+Ken: Shut up, Jackie!
+Mara: Talking about?  Whatever do you mean?
+Preston: Yeah, Ken.  What do you mean?
+Ken: Look, can we just get on with the campaign?
+DM: Very well, then.  I trust everything is in order?
+Preston: I've got everything I need.
+Jackie: I'm ready to go!
+Mara: I believe I have the necessary supplies.
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Mara: A Chronoshifter?  I presume that is a device that shifts time.
+DM: That is correct.  A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Mara: I see.  This must be quite the challenge for you to use such a rare item.
+Ken: Yeah; I wanted to use it to scout out the enemies and traps in the dungeon.  My inner hoarder is weeping.
+Jackie: Seems like a waste to me, though I suppose you shouldn't be afraid to use such a thing.  
+Preston: You guys ready to go?
+Ken: Ready as I'll ever be.
+Jackie: Time to show off what I can do!
+Mara: I consider myself prepared.  Ylissa the Ranger begins the hunt!
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Preston and Jackie
+DM: Welcome, Ken DuBois.  It seems you brought friends.
+Preston:  Tatsumi, Sniper of the Gods makes his entrance!
+Jackie: You're as wee- I mean, enthusiastic as usual, Preston.
+Preston: Your jealousy of my glory is a truly tragic thing.  Still, I suppose I should be gracious to the mere Wyndara the Berserker.
+Jackie: Whatever you say.  
+DM: Since everyone is here now, I trust everything is in order?
+Preston: I've got everything I need.
+Jackie: I'm ready to go!
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Jackie: Chronoshifter?  What's that?
+DM: A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Jackie: Seems like a waste.
+Ken: I wanted to use it to scout out the enemies and traps in the dungeon.  But if it's a really bad idea, then we can come up with something else.
+Jackie: No, it's fine.  I suppose you shouldn't be afraid to use such a thing.  
+Preston: You guys ready to go?
+Ken: Ready as I'll ever be.
+Jackie: Time to show off what I can do!
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Preston and Clark
+DM: Welcome, Ken DuBois.  It seems you brought friends.
+Preston:  Tatsumi, Sniper of the Gods makes his entrance!
+Clark: Uhh...nice to meet you too.
+Preston: You're a friend of Ken's, right?
+Clark: Yeah; I guess I am.
+DM: Since everyone is here now, I trust everything is in order?
+Preston: I've got everything I need.
+Clark: My sheet's in order.
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Clark: You're blowing a Chronoshifter?  Pretty bold, Ken.
+Preston: Remind me what that was again.
+DM: A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Clark: To scout for enemies and traps?
+Ken: Yeah, exactly.  
+Preston: You guys ready to go?
+Ken: Ready as I'll ever be.
+Clark: Time for Helberta to show what she's got?
+Preston: What.
+Ken: You're a girl?
+Clark: Look, it was a very efficient build, okay?  Can we hurry up and start?
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Preston and Mara
+DM: Welcome, Ken DuBois.  It seems you brought friends.
+Preston:  Tatsumi, Sniper of the Gods makes his entrance!
+Mara: Greetings.  I am Mara Thatcher, and it is a pleasure to meet you.
+Preston: Ken, did she start already?
+Ken: Don't be a jerk, Preston.
+DM: Since everyone is here now, I trust everything is in order?
+Preston: I've got everything I need.
+Mara: I believe I have the necessary supplies.
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Mara: Chronoshifter?  I presume that is a device that shifts time.
+DM: That's correct.  A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Mara: I see.  This must be quite the challenge to convince you to use such a rare item.  
+Ken: Yeah; I wanted to use it to scout out the enemies and traps in the dungeon.  My inner hoarder is weeping.
+Preston: I know that feel, bro.  We all ready to go?
+Ken: Ready as I'll ever be.
+Mara: I consider myself prepared.  Ylissa the Ranger begins the hunt!
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Jackie and Clark
+DM: Welcome, Ken DuBois.  It seems you brought friends.
+Jackie: I haven't seen your face around.  What's your name?
+Clark: It's Clark.  And you are?
+Jackie: Jackie DuBois.  It's nice to meet you!
+Clark: Nice to meet you too.  So you're related to Ken?
+Jackie: I'm his sister, though he's clueless enough where you wouldn't be able to tell.
+Ken: I'm laughing so very much.  Really.  I am.   
+DM: Quite the crowd, here.  I trust everything is in order?
+Jackie: I'm ready to go!
+Clark: Don't worry about me.
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Clark: You're blowing a Chronoshifter?  Pretty bold, Ken.
+Jackie: Chronoshifter?  What's that?
+DM: A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Jackie: Seems like a waste.
+Ken: I wanted to use it to scout out the enemies and traps in the dungeon.  But if it's a really bad idea, then we can come up with something else.
+Jackie: No, it's fine.  I suppose you shouldn't be afraid to use such a thing.  
+Ken: You guys ready to go?
+Jackie: Time to show off what I can do!
+Clark: Time for Helberta to show what she's got!
+Jackie: Huh?
+Ken: You're a girl?
+Clark: Look, it was a very efficient build, okay?  Can we hurry up and start?
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Jackie and Mara
+DM: Welcome, Ken DuBois.  It seems you brought friends.
+Jackie: What's with that grin on your face, Ken?
+Ken: Huh?  What are you talking about?  I'm not grinning.
+Jackie: Whatever you say, clueless brother of mine.  Whatever you say.  
+Mara: Greetings to you both.  I am Mara Thatcher, and it is a pleasure to meet you.
+Jackie: So this is who you were talking about...not bad, bro.
+Ken: Shut up, Jackie!
+Mara: Talking about?  Whatever do you mean?
+Jackie: Nothing really.  But it's nice to meet you too, Mara.
+Ken: Look, can we just get on with the campaign?
+DM: Very well, then.  I trust everything is in order?
+Jackie: I'm ready to go!
+Mara: I believe I have the necessary supplies.
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Mara: A Chronoshifter?  I presume that is a device that shifts time.
+DM: That is correct.  A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Mara: I see.  This must be quite the challenge for you to use such a rare item.
+Ken: Yeah; I wanted to use it to scout out the enemies and traps in the dungeon.  My inner hoarder is weeping.
+Jackie: Seems like a waste to me, though I suppose you shouldn't be afraid to use such a thing.  
+Ken: You two ready to go?
+Jackie: Time to show off what I can do!
+Mara: I consider myself prepared.  Ylissa the Ranger begins the hunt!
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Jackie
+DM: Welcome, Ken DuBois.  It seems you brought a friend.
+Jackie: Sister, actually.  I'm Jackie DuBois; it's nice to meet you.
+Ken: Little sister.  
+Jackie: You're still hung up on that?  Ever the foolish brother, I see.  
+Ken: Look, can we just get on with the campaign?
+DM: Very well, then.  I trust everything is in order?
+Jackie: I'm ready to go!
+DM: This will be your last Chronoshifter, Ken.  Are you certain you wish to use it?
+Ken: I'm not turning back.
+Jackie: Chronoshifter?  What's that?
+DM: A Chronoshifter is a device of ancient magic from a civilization long lost from the annals of history.  It allows adventurers to travel to a set point in time and space.  
+Ken: I set this Chronoshifter to just outside the dungeon before we go inside.  Thanks to that, we can run through the dungeon without having to worry about losing our characters!  It's basically an extra life.
+Jackie: Seems like a waste.
+Ken: I wanted to use it to scout out the enemies and traps in the dungeon.  But if it's a really bad idea, then we can come up with something else.
+Jackie: No, it's fine.  I suppose you shouldn't be afraid to use such a thing.  
+Ken: You ready to go, Jackie?
+Jackie: Yeah.  It's time to show off what I can do!
+DM: Very well then.  The sky was stained black with smoke and ash.  It hung in the air like a leaden spiderweb, and combined with the oppressive heat of the volcanic region to crush all who dared invade.  However, one more thing fills the air - the tortured wails and piteous screams of the hapless many captured by Malleus, the Demon King.  You stand at the threshold of his final bastion: The Pits of Eternal Despair.  
 
 
 End of Day 2 - Version w/Mara
@@ -57,6 +267,9 @@ End of Day 2 - Version w/Mara
 
 End of Day 2 - Version w/Clark
 
+
+
+##################################################################################################
 
 End of Day 3 - Version Alone
 
