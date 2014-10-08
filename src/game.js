@@ -956,14 +956,10 @@ function createBoss(parent) {
 	bossIdle.setDelayPerUnit(1 / 15);
 	
 	var bossAirIdle = cc.Animation.create();
-	for (var i = 0; i < 17; i++) {
-		if(i < 10){
-			bossAirIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_000" + i + "_" + (i + 1) + ".png" );
-		}
-		else{
-			bossAirIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_00" + i + "_" + (i + 1) + ".png" );
-		}
+	for(var i = 0; i < 8; i++){
+		bossFireWalkAttack2.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Flight_Loop/Boss_Flight_Loop_000" + i + "_" + (i + 1) + ".png" );
 	}
+	
 	bossAirIdle.setDelayPerUnit(1 / 15);
 	
 	var bossFall = cc.Animation.create();;

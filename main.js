@@ -199,6 +199,11 @@ master["currentDay"] = 0;
 	for(var i = 0; i < 8; i++){
 		res.push("assets/art/fantasy/Sprites/Boss_Fireball/Boss_Flying_Fireball_000" + i + "_" + (i + 1) + ".png" );
 	}
+	
+	//Flight loop
+	for(var i = 0; i < 8; i++){
+		res.push("assets/art/fantasy/Sprites/Boss_Flight_Loop/Boss_Flight_Loop_000" + i + "_" + (i + 1) + ".png" );
+	}
 	cc.game.run()
 })();
  
