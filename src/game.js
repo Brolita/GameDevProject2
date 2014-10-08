@@ -459,16 +459,16 @@ var myTestScene = cc.Scene.extend({
 		this.frame = 0;
 		
 		this.scheduleUpdate();
-		
 		this.mara = createPreston(this);
 		this.mara.x = 400;
 		this.mara.y = 700;
 		this.addChild(this.mara);
 		this.collisionMaster.characters.push(this.mara);
 		
+		
 		this.player = createKen(this);
 		this.player.x = 300;
-		this.player.y = 300;
+		this.player.y = 500;
 		this.addChild(this.player);
 		this.collisionMaster.characters.push(this.player);
 		
@@ -612,11 +612,13 @@ var myTestScene = cc.Scene.extend({
 		switch(dirFrom){
 			case "right":
 				this.player.setPosition(110,this.player.y); //put him in the corner
-				this.mara.setPosition(20,this.player.y);
+				this.mara.setPosition(20,this.player.y );
+				//this.jackie.setPosition(20,this.player.y);
 				break;
 			case "left":
 				this.player.setPosition(900,this.player.y); //put him in the corner
 				this.mara.setPosition(1000,this.player.y);
+				//this.jackie.setPosition(1000,this.player.y);
 				break;
 		}
 		this.player.canMove = true //whether or not the player can move, prevents double movement	
@@ -1549,7 +1551,7 @@ function createMara(parent) {
 					var lowest = 100000;
 					var i;
 					for(var j in this.entity.scene.collisionMaster.enemies) {
-						if(this.entity.scene.collisionMaster.enemies[j].health._value < lowest) {
+						if(this.entity.scene.collisionMaster.enemies[j].health._value < lowest && this.entity.scene.collisionMaster.enemies[j].y == this.y) {
 							lowest = this.entity.scene.collisionMaster.enemies[j].health._value
 							i = j;
 						}
@@ -1623,10 +1625,12 @@ function createPreston(parent) {
 				a.addChild(s);
 				a.damage = 3;
 				a.x = pres.x;
-				a.y = pres.y;
+				a.y = pres.y; 
 				if(target) {
-					var distance = Math.sqrt( (target.x - pres.x) ^2 + (target.y - pres.y) ^2 );
+					var distance = Math.sqrt( (target.x - pres.x)*(target.x - pres.x) + (target.y - pres.y)*(target.y - pres.y) );
 					a.movex = (target.x - pres.x) / distance;
+					console.log(Math.cos(a.movex) * 90 / Math.PI);
+					s.setRotation(Math.cos(a.movex) * 90 / Math.PI);
 					a.movey = (target.y - pres.y) / distance;
 					a.scaleX = pres.scaleX;
 				} else {
@@ -1637,8 +1641,8 @@ function createPreston(parent) {
 				s.scaleX = .25;
 				s.scaleY = .25;
 				a.update = function() {
-					a.x += a.scaleX * a.movex;
-					a.y += a.scaleX * a.movey;
+					a.x += a.scaleX * 17 * a.movex;
+					a.y += a.scaleX * 17 * a.movey;
 					if(a.x < 0 || a.x > cc.winSize.width) {
 						s.opacity = 0;
 						a.removeChild(s);
@@ -1754,6 +1758,7 @@ function createPreston(parent) {
 				var index = -1;
 				var j = 0;
 				for( var i in this.entity.scene.collisionMaster.enemies ) {
+					console.log("hey");
 					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < distance ) {
 						tooClose = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
 						distance = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
@@ -1940,9 +1945,8 @@ function createJackie(parent) {
 				var tooFar = 0;
 				var distance = 100;
 				var closest = 100000;
-				for( var i = 0; i < this.entity.scene.collisionMaster.enemies.length; i++ ) {
-					console.log("hello");
-					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest ) {
+				for( var i in this.entity.scene.collisionMaster.enemies ) {
+					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest && this.entity.scene.collisionMaster.enemies[i].y == this.entity.y ) {
 						closest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
 						tooFar = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
 						console.log(tooFar);
