@@ -148,6 +148,48 @@ master["currentDay"] = 0;
 			res.push("assets/art/fantasy/Sprites/Clark_Attack/Clark_Attack_00" + i + "_" + (i + 1) + ".png" );
 		}
 	}
+//Boss Animations:
+	//Fire_Walk
+	for(var i = 0; i < 8; i++){
+		res.push("assets/art/fantasy/Sprites/Boss_Fire_Walk/Boss_Fire_Walk_000" + i + "_" + (i + 1) + ".png" );
+	}
+	//Flight_loop
+	for(var i = 0; i < 8; i++){
+		res.push("assets/art/fantasy/Sprites/Boss_Flight_Loop/Boss_Flight_Loop_000" + i + "_" + (i + 1) + ".png" );
+	}
+	//Jump
+	for (var i = 0; i < 14; i++) {
+		if(i < 10){
+			res.push("assets/art/fantasy/Sprites/Boss_Jump/Boss_Jump_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			res.push("assets/art/fantasy/Sprites/Boss_Jump/Boss_Jump_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
+	//Slap_Attack
+	for (var i = 0; i < 14; i++) {
+		if(i < 10){
+			res.push("assets/art/fantasy/Sprites/Boss_Slap_Attack/Boss_Slap_Attack_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			res.push("assets/art/fantasy/Sprites/Boss_Slap_Attack/Boss_Slap_Attack_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
+	//Walk_Without_Fire
+	for(var i = 0; i < 8; i++){
+		res.push("assets/art/fantasy/Sprites/Boss_Walk_Without_Fire/Boss_Walk_Without_Fire_000" + i + "_" + (i + 1) + ".png" );
+	}
+	
+	//Wing_anim
+	for (var i = 0; i < 17; i++) {
+		if(i < 10){
+			res.push("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			res.push("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
+	
 	
 	cc.game.run()
 })();
