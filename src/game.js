@@ -453,11 +453,19 @@ var myTestScene = cc.Scene.extend({
 		
 		this.scheduleUpdate();
 		
-		this.mara = createJackie(this);
+		
+		this.jackie = createJackie(this);
+		this.jackie.x = 950;
+		this.jackie.y = 700;
+		this.addChild(this.jackie);
+		this.collisionMaster.characters.push(this.jackie);
+		
+		this.mara = createMara(this);
 		this.mara.x = 900;
-		this.mara.y = 300;
+		this.mara.y = 700;
 		this.addChild(this.mara);
 		this.collisionMaster.characters.push(this.mara);
+		
 		
 		this.player = createKen(this);
 		this.player.x = 300;
@@ -605,11 +613,13 @@ var myTestScene = cc.Scene.extend({
 		switch(dirFrom){
 			case "right":
 				this.player.setPosition(110,this.player.y); //put him in the corner
-				this.mara.setPosition(20,this.player.y);
+				this.mara.setPosition(20,this.player.y );
+				this.jackie.setPosition(20,this.player.y);
 				break;
 			case "left":
 				this.player.setPosition(900,this.player.y); //put him in the corner
 				this.mara.setPosition(1000,this.player.y);
+				this.jackie.setPosition(1000,this.player.y);
 				break;
 		}
 		this.player.canMove = true //whether or not the player can move, prevents double movement	
@@ -1484,7 +1494,7 @@ function createMara(parent) {
 					var lowest = 100000;
 					var i;
 					for(var j in this.entity.scene.collisionMaster.enemies) {
-						if(this.entity.scene.collisionMaster.enemies[j].health._value < lowest) {
+						if(this.entity.scene.collisionMaster.enemies[j].health._value < lowest && this.entity.scene.collisionMaster.enemies[j].y == this.y) {
 							lowest = this.entity.scene.collisionMaster.enemies[j].health._value
 							i = j;
 						}
@@ -1814,7 +1824,7 @@ function createJackie(parent) {
 				var distance = 100;
 				var closest = 100000;
 				for( var i in this.entity.scene.collisionMaster.enemies ) {
-					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest ) {
+					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest && this.entity.scene.collisionMaster.enemies[i].y == this.entity.y ) {
 						closest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
 						tooFar = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
 					}
