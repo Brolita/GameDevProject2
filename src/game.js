@@ -2433,6 +2433,8 @@ function createJackie(parent) {
 		currentAction: null,
 		data:{},
 		Flinch:function() {
+			
+			cc.log("2503: jackie is flinching this.entity.hurtbox:" + this.entity.hurtbox );
 			if(this.currentAction != this.attack) {
 				this.animator.stop();
 				this.currentAction.stop();
@@ -2449,6 +2451,7 @@ function createJackie(parent) {
 			this.addChild( this.animator );
 			
 			this.entity.hurtbox.addCollider(-15,-30,60,120);
+			this.entity.hurtbox.tag = "jackie";
 			
 			// idle behavior
 			this.idle = new customAction({
@@ -2980,6 +2983,9 @@ var ColliderConstructor = cc.Node.extend({
 	ignored: null,
 	all: null,
 	ctor: function(t, entity) {
+		if(this.tag != null && this.tag == "jackie"){
+			cc.log("jackie collider constructed");
+		}
 		this.entity = entity;
 		if(t == "hitbox") {
 			this.type = false;
@@ -3015,6 +3021,13 @@ var ColliderConstructor = cc.Node.extend({
 		return this.all;
 	},
 	hit: function(collider) {
+		if(this.tag != null && this.tag == "jackie"){
+			cc.log("jackie attacked");
+			cc.log("before: this.entity.health = " + this.entity.health);
+			this.entity.health.damage(collider.damage);
+			cc.log("after: this.entity.health = " + this.entity.health);
+		}
+	
 		if(this.ignored.indexOf(collider.__instanceId) == -1) {
 			if(collider.damage) {
 				this.entity.health.damage(collider.damage);
