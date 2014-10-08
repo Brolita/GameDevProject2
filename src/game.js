@@ -968,6 +968,8 @@ function createBoss(parent) {
 	bossFireWalkAttack2.setDelayPerUnit(1 / 15);
 	
 	var bossIdle = cc.Animation.create();
+	bossIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Boss/Boss_Idle_0000_boss.png");
+	bossIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Boss/Boss_Idle_0001_boss-copy.png");
 	bossIdle.setDelayPerUnit(1 / 15);
 	
 	var bossAirIdle = cc.Animation.create();
@@ -1070,7 +1072,7 @@ function createBoss(parent) {
 					a.x = cc.director.getWinSize().width/2;
 					a.y = cc.director.getWinSize().height/2;
 					a.opacity = 0;
-					a.runAction(cc.fadeIn(.5);
+					a.runAction(cc.fadeIn(.5));
 					this.entity.scene.addChild(a);
 				}
 			}
@@ -1376,8 +1378,9 @@ function createEnemyA(parent) {
 	 */
 	 
 	var enemyIdle = cc.Animation.create();
-	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	
+	enemyIdle.addSpriteFrameWithFile( "assets/art/fantasy/Sprites/Idles/Enemy/Enemy_Idle_0000_1.png" );
+	enemyIdle.addSpriteFrameWithFile( "assets/art/fantasy/Sprites/Idles/Enemy/Enemy_Idle_0001_2.png");
 	enemyIdle.setDelayPerUnit(1 / 15);
 	
 	var enemyAttack = cc.Animation.create();
@@ -1427,7 +1430,7 @@ function createEnemyA(parent) {
 			
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				// and target:this at the end
 				target:this
@@ -1504,7 +1507,7 @@ function createEnemyA(parent) {
 						return;
 					}
 					
-					var s = cc.Sprite.create("assets/art/fantasy/animations/test/testIdle_0.png");
+					var s = cc.Sprite.create("assets/art/fantasy/Sprites/Idles/Enemy/Enemy_Idle_0000_1.png");
 					s.x = this.entity.x;
 					s.y = this.entity.y;
 					s.del = function() {
@@ -1598,13 +1601,13 @@ function createEnemyB(parent) {
 	 */
 	 
 	var enemyIdle = cc.Animation.create();
-	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	enemyIdle.addSpriteFrameWithFile( "assets/art/fantasy/Sprites/Idles/Enemy/Enemy_Idle_0000_1.png" );
+	enemyIdle.addSpriteFrameWithFile( "assets/art/fantasy/Sprites/Idles/Enemy/Enemy_Idle_0001_2.png");
 	enemyIdle.setDelayPerUnit(1 / 15);
 	
 	var enemyAttack = cc.Animation.create();
 	for(var i = 0; i < 6; i++) {
-		enemyRun.addSpriteFrameWithFile("Assets/art/fantasy/Sprites/Enemy_Run_Cycle/Enemy_Run_Cycle_000" + i + "_"  + (i + 1) + ".png" );
+		enemyAttack.addSpriteFrameWithFile("Assets/art/fantasy/Sprites/Enemy_Run_Cycle/Enemy_Run_Cycle_000" + i + "_"  + (i + 1) + ".png" );
 	}
 	enemyAttack.setDelayPerUnit(1 / 15);
 	
@@ -1615,11 +1618,9 @@ function createEnemyB(parent) {
 	enemyRun.setDelayPerUnit(1 / 15);
 	
 	var enemyFlinch = cc.Animation.create();
-	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	enemyFlinch.setDelayPerUnit(1 / 15);
 	
 	var enemyDown = cc.Animation.create();
-	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	enemyDown.setDelayPerUnit(1 / 15);
 	
 	/* now we create an AI constructor
@@ -1655,7 +1656,7 @@ function createEnemyB(parent) {
 			
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				// and target:this at the end
 				target:this
@@ -1731,7 +1732,7 @@ function createEnemyB(parent) {
 						return;
 					}
 					
-					var s = cc.Sprite.create("assets/art/fantasy/animations/test/testIdle_0.png");
+					var s = cc.Sprite.create("assets/art/fantasy/Sprites/Idles/Enemy/Enemy_Idle_0000_1.png");
 					s.x = this.entity.x;
 					s.y = this.entity.y;
 					s.del = function() {
@@ -1817,8 +1818,8 @@ function createEnemyB(parent) {
 function createKen(parent){ //ken is the player character and is controlled by tapping
     //load in the animations
     var kenIdle = cc.Animation.create();
-    kenIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-    kenIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+    kenIdle.addSpriteFrameWithFile( "assets/art/fantasy/Sprites/Idles/Ken/Ken_Idle_0000_Sword-copy.png" );
+    kenIdle.addSpriteFrameWithFile( "assets/art/fantasy/Sprites/Idles/Ken/Ken_Idle_0001_Sword.png" );
     kenIdle.setDelayPerUnit(1 / 15);
     
     var kenAttack = cc.Animation.create();
@@ -1934,6 +1935,8 @@ function createKen(parent){ //ken is the player character and is controlled by t
 
 function createMara(parent) {
 	var maraIdle = cc.Animation.create();
+	maraIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Mara/Mara_Idle_0000_Knives-copy-2.png");
+	maraIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Mara/Mara_Idle_0001_Knives-copy.png");
 	maraIdle.setDelayPerUnit(1 / 15);
 
 	var maraAttack = cc.Animation.create();
@@ -1958,6 +1961,7 @@ function createMara(parent) {
 	maraFlinch.setDelayPerUnit(1 / 15);
 	
 	var maraDown = cc.Animation.create();
+	maraDown.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Mara_Down.png");
 	maraDown.setDelayPerUnit(1 / 15);
 	
 	var maraAI = cc.Node.extend({
@@ -1997,7 +2001,7 @@ function createMara(parent) {
 			
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				// and target:this at the end
 				target:this
@@ -2059,7 +2063,7 @@ function createMara(parent) {
 			// flinch behavior
 			this.flinch = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				target:this
 			});
@@ -2212,6 +2216,9 @@ function createMara(parent) {
 
 function createPreston(parent) {
 	var prestonIdle = cc.Animation.create();
+	prestonIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Preston/Preston_Idle_0000_Archer.png");
+	prestonIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Preston/Preston_Idle_0001_Archer-copy.png");
+	prestonIdle.setDelayPerUnit ( 1 / 15 );
 	
 	var prestonRun = cc.Animation.create();
 	for (var i = 0; i < 6; i++) {
@@ -2309,7 +2316,7 @@ function createPreston(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				target:this
 			});
@@ -2347,7 +2354,7 @@ function createPreston(parent) {
 			// flinch behavior
 			this.flinch = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				target:this
 			});
@@ -2473,6 +2480,9 @@ function createPreston(parent) {
 
 function createJackie(parent) {
 	var jackieIdle = cc.Animation.create();
+	jackieIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Jackie/Jackie_Idle_0000_Club-copy.png");
+	jackieIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Jackie/Jackie_Idle_0001_Club.png");
+	jackieIdle.setDelayPerUnit(1 / 15);
 	
 	var jackieRun = cc.Animation.create();
 	for (var i = 0; i < 6; i++) {
@@ -2481,7 +2491,6 @@ function createJackie(parent) {
 	jackieRun.setDelayPerUnit(1 / 15);
 	
 	var jackieAttack = cc.Animation.create();
-	
 	for(var i = 0; i < 8; i++){
 		jackieAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Jackie_Attack/Jackie_Attack_000" + i + "_" + (i + 1) + ".png");
 	}
@@ -2490,13 +2499,13 @@ function createJackie(parent) {
 	var jackieFlinch = cc.Animation.create();
 	
 	var jackieDown = cc.Animation.create();
+	jackieDown.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Jackie_Down.png");
 	
 	var jackieAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
 		Flinch:function() {
 			
-			cc.log("2503: jackie is flinching this.entity.hurtbox:" + this.entity.hurtbox );
 			if(this.currentAction != this.attack) {
 				this.animator.stop();
 				this.currentAction.stop();
@@ -2518,7 +2527,7 @@ function createJackie(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				target:this
 			});
@@ -2572,7 +2581,7 @@ function createJackie(parent) {
 			});
 			this.flinch = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				target:this
 			});
@@ -2696,6 +2705,9 @@ function createJackie(parent) {
 
 function createClark(parent) {
 	var clarkIdle = cc.Animation.create();
+	clarkIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Clark/Clark_Idle_0000_Elf.png");
+	clarkIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Idles/Clark/Clark_Idle_0001_Elf-copy.png");
+	clarkIdle.setDelayPerUnit(1 / 15);
 	
 	var clarkRun = cc.Animation.create();
 	for (var i = 0; i < 6; i++) {
@@ -2718,6 +2730,8 @@ function createClark(parent) {
 	var clarkFlinch = cc.Animation.create();
 	
 	var clarkDown = cc.Animation.create();
+	clarkDown.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Clark_Down.png");
+	clarkDown.setDelayPerUnit(1 / 15);
 	
 	var clarkAI = cc.Node.extend({
 		currentAction: null,
@@ -2740,7 +2754,7 @@ function createClark(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				target:this
 			});
@@ -2787,7 +2801,7 @@ function createClark(parent) {
 			});
 			this.flinch = new customAction({
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("idle");
 				},
 				target:this
 			});
