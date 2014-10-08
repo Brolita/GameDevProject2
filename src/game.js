@@ -511,7 +511,13 @@ var myTestScene = cc.Scene.extend({
 	},
 
 	ctor: function() {
+		//<<CODE ME LIKE ONE OF YOUR FRENCH GIRLS>>
 		this._super();
+		this.background = cc.Sprite.create("assets/art/fantasy/Sample_Cave.png");
+		this.background.x = cc.director.getWinSize().width/2;
+		this.background.y = cc.director.getWinSize().height/2;
+		this.addChild(this.background);
+		
 		this.constructed =false;
 		
 		this.frame = 0;

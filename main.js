@@ -209,6 +209,8 @@ master["currentDay"] = 0;
 	for(var i = 0; i < 6; i++) {
 		res.push("Assets/art/fantasy/Sprites/Enemy_Run_Cycle/Enemy_Run_Cycle_000" + i + "_"  + (i + 1) + ".png" );
 	}
+	
+	res.push("assets/art/fantasy/Sample_Cave.png");
 	cc.game.run()
 })();
  
@@ -236,7 +238,7 @@ cc.game.onStart = function(){
 	});
     cc.LoaderScene.preload(res, function () {
         //cc.director.runScene(new game());
-		//cc.director.runScene( new myTestScene() );
-		cc.director.runScene(new Opening());
+		cc.director.runScene( new myTestScene() );
+		//cc.director.runScene(new Opening());
     }, this);
 };
