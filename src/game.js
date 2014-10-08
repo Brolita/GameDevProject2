@@ -518,29 +518,29 @@ var myTestScene = cc.Scene.extend({
 		
 		this.scheduleUpdate();
 		
-		if(master.Mara >= 4) {
+		//if(master.Mara >= 4) {
 			this.mara = createMara(this);
 			this.addChild(this.mara);
 			this.collisionMaster.characters.push(this.mara);
-		}
+		//}
 		
-		if(master.Jackie >= 2) {
+		//if(master.Jackie >= 2) {
 			this.jackie = createJackie(this);
 			this.addChild(this.jackie);
 			this.collisionMaster.characters.push(this.jackie);
-		}
+		//}
 		
-		if(master.Clark >= 3) {
+		//if(master.Clark >= 3) {
 			this.clark = createClark(this);
 			this.addChild(this.clark);
 			this.collisionMaster.characters.push(this.clark);
-		}
+		//}
 		
-		if(master.Preston >= 1) {
+		//if(master.Preston >= 1) {
 			this.preston= createPreston(this);
 			this.addChild(this.preston);
 			this.collisionMaster.characters.push(this.preston);
-		}
+		//}
 		
 		this.player = createKen(this);
 		this.player.x = 300;
@@ -1369,8 +1369,9 @@ function createEnemyA(parent) {
 	enemyIdle.setDelayPerUnit(1 / 15);
 	
 	var enemyAttack = cc.Animation.create();
-	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
-	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+	for(var i = 0; i < 24; i++) {
+		enemyAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Enemy_Attack/Enemy_Attack_00" + (i<10?"0"+i:i) + "_" + (i + 1) + ".png" );
+	}
 	enemyAttack.setDelayPerUnit(1 / 15);
 	
 	var enemyRun = cc.Animation.create();
@@ -1440,10 +1441,10 @@ function createEnemyA(parent) {
 			});
 			this.attack = new customAction({
 				update: function() {
-					if(this.frame == 1) {
+					if(this.frame == 13) {
 						// create a hitbox relative coordinates       x, y, w, h, damage
 						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 3);
-					}
+					} 
 				},
 				ondisable: function() {
 					// remove the hitbox
@@ -1452,7 +1453,7 @@ function createEnemyA(parent) {
 					this.hitbox = null;
 				},
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("attack");
 				},
 				target:this
 			});
@@ -1590,8 +1591,9 @@ function createEnemyB(parent) {
 	enemyIdle.setDelayPerUnit(1 / 15);
 	
 	var enemyAttack = cc.Animation.create();
-	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
-	enemyAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+	for(var i = 0; i < 6; i++) {
+		enemyRun.addSpriteFrameWithFile("Assets/art/fantasy/Sprites/Enemy_Run_Cycle/Enemy_Run_Cycle_000" + i + "_"  + (i + 1) + ".png" );
+	}
 	enemyAttack.setDelayPerUnit(1 / 15);
 	
 	var enemyRun = cc.Animation.create();
@@ -1601,9 +1603,11 @@ function createEnemyB(parent) {
 	enemyRun.setDelayPerUnit(1 / 15);
 	
 	var enemyFlinch = cc.Animation.create();
+	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	enemyFlinch.setDelayPerUnit(1 / 15);
 	
 	var enemyDown = cc.Animation.create();
+	enemyIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	enemyDown.setDelayPerUnit(1 / 15);
 	
 	/* now we create an AI constructor

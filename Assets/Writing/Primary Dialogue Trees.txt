@@ -2967,7 +2967,7 @@ sad
 
 10
 Ken
-surprised
+default
 "What?  Why?"
 11
 
