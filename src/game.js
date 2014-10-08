@@ -462,7 +462,7 @@ var myTestScene = cc.Scene.extend({
 		
 		this.mara = createPreston(this);
 		this.mara.x = 400;
-		this.mara.y = 300;
+		this.mara.y = 700;
 		this.addChild(this.mara);
 		this.collisionMaster.characters.push(this.mara);
 		
@@ -1637,8 +1637,8 @@ function createPreston(parent) {
 				s.scaleX = .25;
 				s.scaleY = .25;
 				a.update = function() {
-					a.x += a.scaleX * 8 * a.movex;
-					a.y += a.scaleX * 8 * a.movey;
+					a.x += a.scaleX * a.movex;
+					a.y += a.scaleX * a.movey;
 					if(a.x < 0 || a.x > cc.winSize.width) {
 						s.opacity = 0;
 						a.removeChild(s);
@@ -1752,7 +1752,7 @@ function createPreston(parent) {
 				var distance = 250;
 				var furthest = 0;
 				var index = -1;
-				var j;
+				var j = 0;
 				for( var i in this.entity.scene.collisionMaster.enemies ) {
 					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < distance ) {
 						tooClose = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
@@ -1772,7 +1772,11 @@ function createPreston(parent) {
 					this.entity.scaleX = -1;
 					this.currentAction.stop();
 					this.run.start();
-				} else {
+				} else if(j == 0) {
+					this.entity.scaleX = 1;
+					this.currentAction.stop();
+					this.idle.start();
+				} else{
 					this.entity.scaleX = j;
 					this.currentAction.stop();
 					this.attack.start();
