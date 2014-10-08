@@ -922,8 +922,14 @@ function createTest(parent) {
 
 function createBoss(parent) {
 	var bossGroundAttack = cc.Animation.create();
-	bossGroundAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossGroundAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for (var i = 0; i < 14; i++) {
+		if(i < 10){
+			bossGroundAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Slap_Attack/Boss_Slap_Attack_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			bossGroundAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Slap_Attack/Boss_Slap_Attack_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
 	bossGroundAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireBallAttack = cc.Animation.create();
@@ -932,18 +938,15 @@ function createBoss(parent) {
 	bossFireBallAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireWalkAttack = cc.Animation.create();
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for(var i = 0; i < 8; i++){
+		bossFireWalkAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Fire_Walk/Boss_Fire_Walk_000" + i + "_" + (i + 1) + ".png" );
+	}
 	bossFireWalkAttack.setDelayPerUnit(1 / 15);
-	
-	var bossFireWalkAttack = cc.Animation.create();
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
-	bossFireWalkAttack.setDelayPerUnit(1 / 15);
-	
+
 	var bossFireWalkAttack2 = cc.Animation.create();
-	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for(var i = 0; i < 8; i++){
+		bossFireWalkAttack2.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Walk_Without_Fire/Boss_Walk_Without_Fire_000" + i + "_" + (i + 1) + ".png" );
+	}
 	bossFireWalkAttack2.setDelayPerUnit(1 / 15);
 	
 	var bossIdle = cc.Animation.create();
@@ -952,8 +955,14 @@ function createBoss(parent) {
 	bossIdle.setDelayPerUnit(1 / 15);
 	
 	var bossAirIdle = cc.Animation.create();
-	bossAirIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossAirIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for (var i = 0; i < 17; i++) {
+		if(i < 10){
+			bossAirIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			bossAirIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
 	bossAirIdle.setDelayPerUnit(1 / 15);
 	
 	var bossFall = cc.Animation.create();
