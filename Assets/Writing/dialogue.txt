@@ -447,6 +447,7 @@ happy
 Preston
 default
 "Got it.  Well, I've gotta leave for class, but see you Friday, okay?"
+exit Preston
 17
 
 ################################################

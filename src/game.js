@@ -518,21 +518,29 @@ var myTestScene = cc.Scene.extend({
 		
 		this.scheduleUpdate();
 		
-		this.mara = createMara(this);
-		this.addChild(this.mara);
-		this.collisionMaster.characters.push(this.mara);
+		if(master.Mara >= 4) {
+			this.mara = createMara(this);
+			this.addChild(this.mara);
+			this.collisionMaster.characters.push(this.mara);
+		}
 		
-		this.jackie = createJackie(this);
-		this.addChild(this.jackie);
-		this.collisionMaster.characters.push(this.jackie);
+		if(master.Jackie >= 2) {
+			this.jackie = createJackie(this);
+			this.addChild(this.jackie);
+			this.collisionMaster.characters.push(this.jackie);
+		}
 		
-		this.clark = createClark(this);
-		this.addChild(this.clark);
-		this.collisionMaster.characters.push(this.clark);
+		if(master.Clark >= 3) {
+			this.clark = createClark(this);
+			this.addChild(this.clark);
+			this.collisionMaster.characters.push(this.clark);
+		}
 		
-		this.preston= createPreston(this);
-		this.addChild(this.preston);
-		this.collisionMaster.characters.push(this.preston);
+		if(master.Preston >= 1) {
+			this.preston= createPreston(this);
+			this.addChild(this.preston);
+			this.collisionMaster.characters.push(this.preston);
+		}
 		
 		this.player = createKen(this);
 		this.player.x = 300;
@@ -683,15 +691,18 @@ var myTestScene = cc.Scene.extend({
 		//set the player and companion positions
 		switch(dirFrom){
 			case "right":
-				this.player.setPosition(140,this.player.y); //put him in the corner
-				this.mara.setPosition(75,this.player.y );
-				this.jackie.setPosition(110, this.player.y);
-				this.preston.setPosition(90, this.player.y);
-				this.clark.setPosition(60, this.player.y);
+				this.player.setPosition(200,this.player.y); //put him in the corner
+				if(this.mara) this.mara.setPosition(40,this.player.y );
+				if(this.jackie) this.jackie.setPosition(120, this.player.y);
+				if(this.preston) this.preston.setPosition(160, this.player.y);
+				if(this.clark) this.clark.setPosition(80, this.player.y);
 				break;
 			case "left":
 				this.player.setPosition(900,this.player.y); //put him in the corner
-				//this.jackie.setPosition(1000,this.player.y);
+				if(this.mara) this.mara.setPosition(1060,this.player.y );
+				if(this.jackie) this.jackie.setPosition(980, this.player.y);
+				if(this.preston) this.preston.setPosition(940, this.player.y);
+				if(this.clark) this.clark.setPosition(1020, this.player.y);
 				break;
 		}
 		this.player.canMove = true //whether or not the player can move, prevents double movement	
@@ -1363,8 +1374,9 @@ function createEnemyA(parent) {
 	enemyAttack.setDelayPerUnit(1 / 15);
 	
 	var enemyRun = cc.Animation.create();
-	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
-	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
+	for(var i = 0; i < 6; i++) {
+		enemyRun.addSpriteFrameWithFile("Assets/art/fantasy/Sprites/Enemy_Run_Cycle/Enemy_Run_Cycle_000" + i + "_"  + (i + 1) + ".png" );
+	}
 	enemyRun.setDelayPerUnit(1 / 15);
 	
 	var enemyFlinch = cc.Animation.create();
@@ -1521,8 +1533,10 @@ function createEnemyA(parent) {
 				var j = 0;
 				for( i in this.entity.scene.collisionMaster.characters ) {
 					if(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x) < close) {
-						close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
-						j = i;
+						if(this.entity.scene.collisionMaster.characters[i].health._value > 0) {
+							close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
+							j = i;
+						}
 					}
 				}
 				var closest = this.entity.scene.collisionMaster.characters[j];
@@ -1581,8 +1595,9 @@ function createEnemyB(parent) {
 	enemyAttack.setDelayPerUnit(1 / 15);
 	
 	var enemyRun = cc.Animation.create();
-	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_0.png" );
-	enemyRun.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testWalk_1.png" );
+	for(var i = 0; i < 6; i++) {
+		enemyRun.addSpriteFrameWithFile("Assets/art/fantasy/Sprites/Enemy_Run_Cycle/Enemy_Run_Cycle_000" + i + "_"  + (i + 1) + ".png" );
+	}
 	enemyRun.setDelayPerUnit(1 / 15);
 	
 	var enemyFlinch = cc.Animation.create();
@@ -1652,7 +1667,7 @@ function createEnemyB(parent) {
 				update: function() {
 					if(this.frame == 3) {
 						// create a hitbox relative coordinates       x, y, w, h, damage
-						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 10);
+						this.hitbox = this.entity.hitbox.addCollider(-30,-30,60,120, 10);
 					}
 				},
 				ondisable: function() {
@@ -1742,14 +1757,16 @@ function createEnemyB(parent) {
 				var j = 0;
 				for( i in this.entity.scene.collisionMaster.characters ) {
 					if(Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x) < close) {
-						close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
-						j = i;
+						if(this.entity.scene.collisionMaster.characters[i].health._value > 0) {
+							close = Math.abs(this.entity.scene.collisionMaster.characters[i].x - this.entity.x);
+							j = i;
+						}
 					}
 				}
 				var closest = this.entity.scene.collisionMaster.characters[j];
 				
 				if (Math.abs(closest.x - this.entity.x) < 100){
-					this.entity.scaleX = closest.x < this.entity.x ? -1 : 1;
+					this.entity.scaleX = closest.x < this.entity.x ? 1 :-1;
 					this.currentAction.stop();
 					this.attack.start();
 					this.data.count = 0;
@@ -1859,6 +1876,14 @@ function createKen(parent){ //ken is the player character and is controlled by t
 		callback: function() {
 			if(this.entity.health._value <= 0) {
 				this.entity.health.damage(this.entity.health._value);
+				
+				master.currentDay ++;
+				if(master.currentDay == 4) {
+					// Game Over 
+				} else {
+					cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
+				}
+				
 			}
 			if(this.hitbox) {
 				this.entity.attacking = false;
