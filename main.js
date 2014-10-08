@@ -91,10 +91,26 @@ master["currentDay"] = 0;
 	for (var i = 0; i < 6; i++) {
 		res.push("assets/art/fantasy/Sprites/Preston_Run_Cycle/Preston_Run_Cycle_000" + i + "_" + (i + 1) + "-copy.png" )
 	}
+	//preston attack cycle
+	for (var i = 0; i < 11; i++) {
+		if(i < 10){
+			res.push("assets/art/fantasy/Sprites/Preston_Attack/Preston_Attack_000" + i + "_" + (i + 1) + ".png" )
+		}else{
+			res.push("assets/art/fantasy/Sprites/Preston_Attack/Preston_Attack_00" + i + "_" + (i + 1) + ".png" )			
+		}
+	}
+	
 	// ken walk cycle 
 	for (var i = 0; i < 6; i++) {
 		res.push("assets/art/fantasy/Sprites/Ken_Run_Cycle/Ken_Run_Cycle_000" + i + "_Group-" + (i + 1) + ".png" );
 	}
+	
+	// ken attack
+	for (var i = 0; i < 5; i++) {
+		res.push("assets/art/fantasy/Sprites/Ken_Attack/Ken_Attack_000" + i + "_" + (i + 1) + ".png" );
+	}
+	
+	
 	// mara walk cycle
 	for (var i = 0; i < 6; i++) {
 		res.push("assets/art/fantasy/Sprites/Mara_Run_Cycle/Mara_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
@@ -103,10 +119,26 @@ master["currentDay"] = 0;
 	for (var i = 0; i < 6; i++) {
 		res.push("assets/art/fantasy/Sprites/Jackie_Run_Cycle/Jackie_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
 	}
+	
+	//jackie attack
+	for (var i = 0; i < 8; i++) {
+		res.push("assets/art/fantasy/Sprites/Jackie_Attack/Jackie_Attack_000" + i + "_" + (i + 1) + ".png" );
+	}
+	
 	// clark walk cycle
 	for (var i = 0; i < 6; i++) {
 		res.push("assets/art/fantasy/Sprites/Clark_Run_Cycle/Clark_Run_Cycle_000" + i + "_" + (i + 1) + ".png" );
 	}
+	
+	for (var i = 0; i < 22; i++) {
+		if(i < 10){
+			res.push("assets/art/fantasy/Sprites/Clark_Attack/Clark_Attack_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			res.push("assets/art/fantasy/Sprites/Clark_Attack/Clark_Attack_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
+	
 	cc.game.run()
 })();
  

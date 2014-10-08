@@ -1277,9 +1277,13 @@ function createKen(parent){ //ken is the player character and is controlled by t
     kenIdle.setDelayPerUnit(1 / 15);
     
     var kenAttack = cc.Animation.create();
-    kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
-    kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
-    kenAttack.setDelayPerUnit(1 / 15);
+    //kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_0.png" );
+    //kenAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testAttack_1.png" );
+    for (var i = 0; i < 5; i++){
+		kenAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Ken_Attack/Ken_Attack_000" + i + "_" + (i + 1) + ".png");
+	}
+	
+	kenAttack.setDelayPerUnit(1 / 15);
     
     var kenRun = cc.Animation.create();
     for (var i = 0; i < 6; i++) {
@@ -1595,6 +1599,14 @@ function createPreston(parent) {
 	prestonRun.setDelayPerUnit ( 1 / 15 ) ;
 	
 	var prestonAttack = cc.Animation.create();
+	for(var i = 0; i < 11; i++){
+		if(i < 10){
+			prestonAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Preston_Attack/Preston_Attack_000" + i + "_" + (i + 1) + ".png");
+		}else{
+			prestonAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Preston_Attack/Preston_Attack_00" + i + "_" + (i + 1) + ".png");
+		}
+	}
+	prestonAttack.setDelayPerUnit(1/15);
 	
 	var prestonFlinch = cc.Animation.create();
 	
@@ -1816,6 +1828,11 @@ function createJackie(parent) {
 	
 	var jackieAttack = cc.Animation.create();
 	
+	for(var i = 0; i < 8; i++){
+		jackieAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Jackie_Attack/Jackie_Attack_000" + i + "_" + (i + 1) + ".png");
+	}
+	jackieAttack.setDelayPerUnit(1/15);
+	
 	var jackieFlinch = cc.Animation.create();
 	
 	var jackieDown = cc.Animation.create();
@@ -2005,6 +2022,15 @@ function createClark(parent) {
 	clarkRun.setDelayPerUnit(1 / 15);
 	
 	var clarkHeal = cc.Animation.create();
+	for (var i = 0; i < 22; i++) {
+		if(i < 10){
+			clarkRun.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Clark_Attack/Clark_Attack_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			clarkRun.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Clark_Attack/Clark_Attack_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
+	
 	
 	var clarkFlinch = cc.Animation.create();
 	
