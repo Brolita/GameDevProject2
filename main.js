@@ -213,6 +213,8 @@ master["currentDay"] = 0;
 		res.push("assets/art/fantasy/Sprites/Enemy_Attack/Enemy_Attack_00" + (i<10?"0"+i:i) + "_" + (i + 1) + ".png" );
 	}
 	
+	
+	res.push("assets/art/fantasy/Sample_Cave.png");
 	cc.game.run()
 })();
  
