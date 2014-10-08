@@ -372,7 +372,7 @@ function rectCollision(r1, r2) {
 	var x1 = r1.convertToWorldSpace(r1).x;
 	var x2 = r2.convertToWorldSpace(r2).x;
 	var w1 = r1.w;
-	if(r1.parent.entity) {
+	if(r1.parent && r1.parent.entity) {
 		if(Math.abs(r1.convertToWorldSpace(r1).y - r2.convertToWorldSpace(r2).y) > 50) return false;
 		if(r1.parent.entity.scaleX == 1) {
 			x1 += w1;
@@ -470,7 +470,7 @@ var myTestScene = cc.Scene.extend({
 			}
 			for (var j = 0; j < this.p_enemies.length; j++) {
 				for (var i = 0; i < this.characters.length; i++) { 
-					var character = this.character[i];
+					var character = this.characters[i];
 					var hitbox = this.p_enemies[j];
 					for( var l = 0; l < character.hurtbox.getAll().length; l++) {
 						var hurtbox = character.hurtbox.getAll()[l];
@@ -1078,32 +1078,32 @@ function createBoss(parent) {
 			this.attack1 = new customAction({
 				update: function() {
 					if(this.frame == 16) {
-						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
+						this.hitbox = this.entity.hitbox.addCollider(-40,-30, 80, 100, 10)
 					} else if (this.frame == 23) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 26) {
-						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
+						this.hitbox = this.entity.hitbox.addCollider(-40,-30, 80, 100, 10)
 					} else if (this.frame == 32) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 37) {
-						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
+						this.hitbox = this.entity.hitbox.addCollider(-40,-30, 80, 100, 10)
 					} else if (this.frame == 44) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 50) {
-						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
+						this.hitbox = this.entity.hitbox.addCollider(-40,-30, 80, 100, 10)
 					} else if (this.frame == 56) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 62) {
-						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
+						this.hitbox = this.entity.hitbox.addCollider(-40,-30, 80, 100, 10)
 					} else if (this.frame == 68) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 74) {
-						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
+						this.hitbox = this.entity.hitbox.addCollider(-40,-30, 80, 100, 10)
 					} else if (this.frame == 80) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
@@ -1137,6 +1137,9 @@ function createBoss(parent) {
 			});
 			
 			this.fall = new customAction({
+				update: function() {
+					this.entity.t -=25;
+				},
 				ondisable: function() {
 					this.entity.y = 300;
 				},
@@ -1148,16 +1151,17 @@ function createBoss(parent) {
 			
 			function fireball(boss, t) {
 				var a = rect(-30,-30,60,60, true);
-				var s = cc.Sprite.create("assets/art/fantasy/Sprites/arrow.png");
+				var s = cc.Sprite.create("assets/art/fantasy/fireball.png");
 				a.addChild(s);
 				a.damage = 3;
 				a.x = boss.x + a.x;
 				a.y = boss.y + a.y; 
-				var distance = Math.sqrt( (target.x - boss.x)*(target.x - boss.x) + (target.y - boss.y)*(target.y - boss.y) );
-				a.movex = (target.x - boss.x) / distance;
+				var distance = Math.sqrt( (t.x - boss.x)*(t.x - boss.x) + (t.y - boss.y)*(t.y - boss.y) );
+				a.movex = (t.x - boss.x) / distance;
 				s.setRotation(Math.acos(a.movex) * 180 / Math.PI);
-				a.movey = (target.y - boss.y) / distance;
-				a.scaleX = boss.scaleX;
+				a.movey = (t.y - boss.y) / distance;
+				a.scaleX = .5 * boss.scaleX;
+				a.scaleY = .5;
 				a.update = function() {
 					a.x += a.scaleX * 34 * a.movex;
 					a.y += a.scaleX * 34 * a.movey;
@@ -1167,7 +1171,8 @@ function createBoss(parent) {
 						s.opacity = 0;
 						a.removeChild(s);
 						s.cleanup()
-						a.parent.removeChild(this);
+						if(a.parent)
+							a.parent.removeChild(this);
 						a.cleanup();
 					}
 				}
@@ -1179,7 +1184,8 @@ function createBoss(parent) {
 					s.opacity = 0;
 					a.removeChild(s);
 					s.cleanup()
-					a.parent.removeChild(this);
+					if(a.parent)
+						a.parent.removeChild(this);
 					a.cleanup();				
 				}
 				boss.scene.collisionMaster.p_enemies.push(a);
@@ -1189,6 +1195,7 @@ function createBoss(parent) {
 			this.attack2 = new customAction({
 				update: function() {
 					if(this.frame == 13) {
+						console.log(this.target);
 						fireball(this.entity, this.target);
 					}
 				}, 
@@ -1294,7 +1301,7 @@ function createBoss(parent) {
 				this.airidle.start();
 			} else if (this.currentAction == this.airidle) {
 				this.currentAction.stop();
-				var i = Math.floor(this.entity.scene.collisionMaster.characters.length * Math.random)
+				var i = Math.floor(this.entity.scene.collisionMaster.characters.length * Math.random())
 				this.attack2.target = this.entity.scene.collisionMaster.characters[i];
 				this.attack2.start();
 			} else if (this.currentAction == this.attack2) {
