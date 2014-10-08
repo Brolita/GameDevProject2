@@ -933,8 +933,9 @@ function createBoss(parent) {
 	bossGroundAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireBallAttack = cc.Animation.create();
-	bossFireBallAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFireBallAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for(var i = 0; i < 8; i++){
+		bossFireBallAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Fireball/Boss_Flying_Fireball_000" + i + "_" + (i + 1) + ".png" );
+	}
 	bossFireBallAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireWalkAttack = cc.Animation.create();
@@ -965,9 +966,10 @@ function createBoss(parent) {
 	}
 	bossAirIdle.setDelayPerUnit(1 / 15);
 	
-	var bossFall = cc.Animation.create();
-	bossFall.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFall.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	var bossFall = cc.Animation.create();;
+	for(var i = 0; i < 8; i++){
+		bossFall.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Dissolve/Boss_Wing_Dissolve_000" + i + "_" + (i + 1) + ".png" );
+	}
 	bossFall.setDelayPerUnit(1 / 15);
 	
 	var bossBurst = cc.Animation.create();
