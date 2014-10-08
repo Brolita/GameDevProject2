@@ -973,8 +973,27 @@ function createBoss(parent) {
 	bossFall.setDelayPerUnit(1 / 15);
 	
 	var bossBurst = cc.Animation.create();
-	bossBurst.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossBurst.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	//Boss wing animation
+	for(var i =0; i < 17; i++){
+		
+		if(i < 10){
+			bossBurst.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			bossBurst.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
+	
+	for(var i =0; i < 14; i++){
+		
+		if(i < 10){
+			bossBurst.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Jump/Boss_Jump_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			bossBurst.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Jump/Boss_Jump_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
+	//Boss jump animation
 	bossBurst.setDelayPerUnit(1 / 15);
 	
 	var bossAI = cc.Node.extend({
