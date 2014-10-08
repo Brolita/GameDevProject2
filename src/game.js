@@ -922,8 +922,14 @@ function createTest(parent) {
 
 function createBoss(parent) {
 	var bossGroundAttack = cc.Animation.create();
-	bossGroundAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossGroundAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for (var i = 0; i < 14; i++) {
+		if(i < 10){
+			bossGroundAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Slap_Attack/Boss_Slap_Attack_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			bossGroundAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Slap_Attack/Boss_Slap_Attack_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
 	bossGroundAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireBallAttack = cc.Animation.create();
@@ -932,13 +938,15 @@ function createBoss(parent) {
 	bossFireBallAttack.setDelayPerUnit(1 / 15);
 	
 	var bossFireWalkAttack = cc.Animation.create();
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for(var i = 0; i < 8; i++){
+		bossFireWalkAttack.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Fire_Walk/Boss_Fire_Walk_000" + i + "_" + (i + 1) + ".png" );
+	}
 	bossFireWalkAttack.setDelayPerUnit(1 / 15);
-	
+
 	var bossFireWalkAttack2 = cc.Animation.create();
-	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for(var i = 0; i < 8; i++){
+		bossFireWalkAttack2.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Walk_Without_Fire/Boss_Walk_Without_Fire_000" + i + "_" + (i + 1) + ".png" );
+	}
 	bossFireWalkAttack2.setDelayPerUnit(1 / 15);
 	
 	var bossIdle = cc.Animation.create();
@@ -947,8 +955,14 @@ function createBoss(parent) {
 	bossIdle.setDelayPerUnit(1 / 15);
 	
 	var bossAirIdle = cc.Animation.create();
-	bossAirIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossAirIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
+	for (var i = 0; i < 17; i++) {
+		if(i < 10){
+			bossAirIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_000" + i + "_" + (i + 1) + ".png" );
+		}
+		else{
+			bossAirIdle.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Boss_Wing_Anim/Boss_Wing_Anim_00" + i + "_" + (i + 1) + ".png" );
+		}
+	}
 	bossAirIdle.setDelayPerUnit(1 / 15);
 	
 	var bossFall = cc.Animation.create();
@@ -978,8 +992,8 @@ function createBoss(parent) {
 					this.callback();
 				}
 				if(this.entity.health._value <= 0) {
-					this.entity.health.damage(-this.entity.health._value - 50);
-					this.data.phase = 4;
+					this.entity.health.damage(this.entity.health._value - 50);
+					this.data.phase = 1;
 					this.data.phasetrigger = true;
 				}
 			} else if(this.data.phase == 1 || this.data.phase == 3) {
@@ -994,7 +1008,7 @@ function createBoss(parent) {
 					}
 				}
 				if(this.entity.health._value <= 0) {
-					this.entity.health.damage(-this.entity.health._value - 50);
+					this.entity.health.damage(this.entity.health._value - 50);
 					this.data.phase ++;
 					this.data.phasetrigger = true;
 					this.callback();
@@ -1011,14 +1025,16 @@ function createBoss(parent) {
 					this.callback();
 				}
 				if(this.entity.health._value <= 0) {
-					this.entity.health.damage(-this.entity.health._value - 50);
+					this.entity.health.damage(this.entity.health._value - 35);
 					this.data.phase = 3;
 					this.data.phasetrigger = true;
 				}
 			} else if(this.data.phase == 4) {
-				this.animator.stop();
-				this.currentAction.stop();
-				// end the game in a fade out
+				if(this.entity.health._value <= 0) {
+					this.animator.stop();
+					this.currentAction.stop();
+					// end the game in a fade out
+				}
 			}
 		},
 		ctor: function(animations, entity) {
@@ -1031,7 +1047,7 @@ function createBoss(parent) {
 			this.entity.hurtbox.addCollider(-25,-30,130,180);
 			this.entity.health.healthBar.y += 30;
 			
-			this.entity.scaleX = -1
+			this.entity.scaleX = 1;
 			
 			this.idle = new customAction({
 				update: function() {
@@ -1060,32 +1076,32 @@ function createBoss(parent) {
 			this.attack1 = new customAction({
 				update: function() {
 					if(this.frame == 16) {
-						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
 					} else if (this.frame == 23) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 26) {
-						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
 					} else if (this.frame == 32) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 37) {
-						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
 					} else if (this.frame == 44) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 50) {
-						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
 					} else if (this.frame == 56) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 62) {
-						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
 					} else if (this.frame == 68) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					} else if (this.frame == 74) {
-						this.hitbox = this.entity.hitbox.addCollider(10,-30, 80, 100, 3)
+						this.hitbox = this.entity.hitbox.addCollider(-30,-30, 80, 100, 10)
 					} else if (this.frame == 80) {
 						this.entity.hitbox.removeCollider(this.hitbox);
 						this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
@@ -1211,13 +1227,12 @@ function createBoss(parent) {
 			});
 		
 			this.attack4 = new customAction({
+				onenable: function() {
+					this.hitbox = this.entity.hitbox.addCollider(-75,-15,50,300, 1000);
+					this.entity.health.damage(this.entity.health._value - 15);
+				},	
 				update: function() {
 					this.entity.x += -1;
-					this.entity.hitbox.removeCollider(this.entity.controller.hitbox);
-					this.entity.scene.collisionMaster.removeRefereces(this.entity.controller.hitbox);
-					this.entity.hitbox.removeCollider(this.entity.controller.hitbox);
-					this.entity.scene.collisionMaster.removeRefereces(this.entity.controller.hitbox);
-					
 				},
 				animate: function() {
 					this.animator.play("attack4");
@@ -1245,26 +1260,22 @@ function createBoss(parent) {
 			this.callback();
 		},
 		callback: function() {
-			console.log(this.data);
 			if(this.data.phasetrigger) {
 				this.data.phasetrigger = false;
 				if(this.data.phase == 1 || this.data.phase == 3) {
 					this.currentAction.stop();
 					this.burst.start();
 				} if(this.data.phase == 4) {
-					console.log("hello");
 					this.currentAction.stop();
 					this.preattack4.start();
 				}
 			} else if(this.currentAction == this.preattack4) {
-				console.log("hello");
 				this.currentAction.stop();
 				this.attack4.start();
 				this.firewall = cc.Sprite.create("assets/art/fantasy/firewall.png");
-				this.firewall.x = 115;
-				this.firewall.y = 150;
+				this.firewall.x = -115;
+				this.firewall.y = 100;
 				this.addChild(this.firewall);
-				this.hitbox = this.entity.hitbox.addCollider(75,-15,50,300, 1000);
 			} else if(this.currentAction == this.idle) {
 				if(this.data.idlecount < 5) {
 					this.currentAction.stop();
@@ -1942,6 +1953,11 @@ function createMara(parent) {
 					smoke(this.entity.scene, this);
 					this.entity.x = this.target.x + (this.target.scaleX) * -30;
 					this.entity.scaleX = this.target.scaleX;
+					if(this.target == this.entity.scene.collisionMaster.boss) {
+						console.log("hello");
+						this.entity.x = this.target.x + (this.target.scaleX) * 90;
+						this.entity.scaleX = -1;
+					}
 				},
 				target:this
 			});
@@ -1994,7 +2010,6 @@ function createMara(parent) {
 					this.entity.health.damage(this.entity.health._value);
 				},
 				update: function() {
-					console.log(this.entity.health._value);
 					this.entity.health.damage(this.entity.health._value);
 				},
 				animate: function() {
