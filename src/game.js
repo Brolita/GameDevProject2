@@ -382,13 +382,15 @@ var myTestScene = cc.Scene.extend({
 		p_characters: [],
 		collision: function() {
 			//for each i, enemy and j, characters
-			for (var i = 0; i < this.enemies.length; i++) { 
-				for (var j = 0; j < this.characters.length; j++) {
+			for (var j = 0; j < this.characters.length; j++) {
+				for (var i = 0; i < this.enemies.length; i++) { 
 					var enemy = this.enemies[i];
 					var character = this.characters[j];
-					
-					for(var k = 0; k < enemy.hitbox.getAll().length; k++) { 
-						for( var l = 0; l < character.hurtbox.getAll().length; l++) {
+					for( var l = 0; l < character.hurtbox.getAll().length; l++) {
+						if(!enemy) {
+							break;
+						}
+						for(var k = 0; k < enemy.hitbox.getAll().length; k++) { 
 							var hitbox = enemy.hitbox.getAll()[k];
 							var hurtbox = character.hurtbox.getAll()[l];
 							// here check if hitbox hits hurtbox, and if
@@ -398,11 +400,17 @@ var myTestScene = cc.Scene.extend({
 								character.hurtbox.hit(hitbox);
 								character.controller.Flinch();
 								//enemy.controller.animator.delay();
+								if(!enemy) {
+									break;
+								}
 							}
 						}
 					}
-					for(var k = 0; k < enemy.hurtbox.getAll().length; k++) { 
-						for( var l = 0; l < character.hitbox.getAll().length; l++) {
+					for( var l = 0; l < character.hitbox.getAll().length; l++) {
+						if(!enemy) {
+							break;
+						}
+						for(var k = 0; k < enemy.hurtbox.getAll().length; k++) { 
 							var hitbox = character.hitbox.getAll()[k];
 							var hurtbox = enemy.hurtbox.getAll()[l];
 							// here check if hitbox hits hurtbox, and if
@@ -412,6 +420,9 @@ var myTestScene = cc.Scene.extend({
 								enemy.hurtbox.hit(hitbox);
 								enemy.controller.Flinch();
 								//character.controller.animator.delay();
+								if(!enemy) {
+									break;
+								}
 							}
 						}
 					}
@@ -450,7 +461,7 @@ var myTestScene = cc.Scene.extend({
 		this.scheduleUpdate();
 		
 		this.mara = createJackie(this);
-		this.mara.x = 900;
+		this.mara.x = 400;
 		this.mara.y = 300;
 		this.addChild(this.mara);
 		this.collisionMaster.characters.push(this.mara);
@@ -462,7 +473,7 @@ var myTestScene = cc.Scene.extend({
 		this.collisionMaster.characters.push(this.player);
 		
 		this.collisionMaster.enemies.push(createEnemyA(this));
-		this.collisionMaster.enemies[0].x = 400;
+		this.collisionMaster.enemies[0].x = 900;
 		this.collisionMaster.enemies[0].y = 300;
 		this.addChild(this.collisionMaster.enemies[0]);
 		
@@ -703,7 +714,7 @@ function createTest(parent) {
 }
 
 function createBoss(parent) {
-
+	var bossAttack1 = cc.Animation.create();
 }
 
 function createEnemyA(parent) {
@@ -728,6 +739,9 @@ function createEnemyA(parent) {
 	
 	var enemyFlinch = cc.Animation.create();
 	enemyFlinch.setDelayPerUnit(1 / 15);
+	
+	var enemyDown = cc.Animation.create();
+	enemyDown.setDelayPerUnit(1 / 15);
 	
 	/* now we create an AI constructor
 	 * by extending the node class
@@ -778,7 +792,6 @@ function createEnemyA(parent) {
 					if(this.frame == 1) {
 						// create a hitbox relative coordinates       x, y, w, h, damage
 						this.hitbox = this.entity.hitbox.addCollider(0,-30,60,120, 3);
-						console.log(this.entity.hitbox._children);
 					}
 				},
 				ondisable: function() {
@@ -819,34 +832,31 @@ function createEnemyA(parent) {
 		
 		callback: function() {
 			if(this.currentAction == this.flinch) {
-				if(this.entity.health._value < 0){//kill this enemy
-					//<<CODING HERE>>
-					//remove from collisionMaster
-					
-					
+				if(this.entity.health._value <= 0){//kill this enemy
 					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
 					
-					//place dead sprite at enemy location
-					//remove instance from scene
-					cc.log("this.entity.scene.collisionMaster.enemies:" + this.entity.scene.collisionMaster.enemies);
-					cc.log("this:" + this + " this.entity:" + this.entity + " this.entity.controller:" + this.entity.controller);
 					var indexToScrap = this.entity.scene.collisionMaster.enemies.indexOf(this.entity);
-					cc.log("indexToScrap:" + indexToScrap);
 					if(indexToScrap < 0){
-						cc.log("Mitt Romney for Grand Marshall");
 						return;
 					}
 					
+					var s = cc.Sprite.create("assets/art/fantasy/animations/test/testIdle_0.png");
+					s.x = this.entity.x;
+					s.y = this.entity.y;
+					s.del = function() {
+						s.cleanup();
+					}
+					this.entity.scene.addChild(s);
+					s.scaleX = .41;
+					s.scaleY = .41;
+					s.runAction( cc.sequence ( cc.fadeOut(.5), cc.callFunc(s.del, s) ) );
+					
 					var deadMan = this.entity.scene.collisionMaster.enemies[indexToScrap];
-					cc.log("this.entity.scene.collisionMaster.enemies[indexToScrap].y" + this.entity.scene.collisionMaster.enemies[indexToScrap].y);
 					this.entity.scene.collisionMaster.enemies[indexToScrap].y = 9999;
-					cc.log("this.entity.scene.collisionMaster.enemies.length:" +this.entity.scene.collisionMaster.enemies.length);
 					this.entity.scene.collisionMaster.enemies.splice(indexToScrap,1);
-					cc.log("this.entity.scene.collisionMaster.enemies.length:" +this.entity.scene.collisionMaster.enemies.length);
-					//delete deadMan;
-					cc.log("**enemy removed");
-					//this.entity.y = 99999;
+					deadMan.cleanup();
 					this.animator.stop();
+
 				}
 			
 				if(!this.data.flinch) {
@@ -909,6 +919,7 @@ function createEnemyA(parent) {
 			run: enemyRun,
 			attack: enemyAttack,
 			flinch: enemyFlinch,
+			down: enemyDown
 		}, 
 		controller: enemyAI,
 		parent: parent
@@ -937,6 +948,9 @@ function createEnemyB(parent) {
 	
 	var enemyFlinch = cc.Animation.create();
 	enemyFlinch.setDelayPerUnit(1 / 15);
+	
+	var enemyDown = cc.Animation.create();
+	enemyDown.setDelayPerUnit(1 / 15);
 	
 	/* now we create an AI constructor
 	 * by extending the node class
@@ -1024,6 +1038,34 @@ function createEnemyB(parent) {
 		},
 		callback: function() {
 			if(this.currentAction == this.flinch) {
+				if(this.entity.health._value <= 0){//kill this enemy
+					this.entity.scene.collisionMaster.removeRefereces(this.hitbox);
+					
+					var indexToScrap = this.entity.scene.collisionMaster.enemies.indexOf(this.entity);
+					if(indexToScrap < 0){
+						cc.log("Mitt Romney for Grand Marshall");
+						return;
+					}
+					
+					var s = cc.Sprite.create("assets/art/fantasy/animations/test/testIdle_0.png");
+					s.x = this.entity.x;
+					s.y = this.entity.y;
+					s.del = function() {
+						s.cleanup()
+						delete s;
+					}
+					this.entity.scene.addChild(s);
+					s.scaleX = .41;
+					s.scaleY = .41;
+					s.runAction( cc.sequence ( cc.fadeOut(.5), cc.callFunc(s.del, s) ) );
+					
+					var deadMan = this.entity.scene.collisionMaster.enemies[indexToScrap];
+					this.entity.scene.collisionMaster.enemies[indexToScrap].y = 9999;
+					his.entity.scene.collisionMaster.enemies.splice(indexToScrap,1);
+					deadMan.cleanup();
+					this.animator.stop();
+
+				}
 				if(!this.data.flinch) {
 					this.data.flinch = 1;
 				} else if(this.data.flinch < 15) {
@@ -1082,6 +1124,7 @@ function createEnemyB(parent) {
 			run: enemyRun,
 			attack: enemyAttack,
 			flinch: enemyFlinch,
+			down: enemydDown
 		}, 
 		controller: enemyAI,
 		parent: parent
@@ -1143,6 +1186,8 @@ function createKen(parent){ //ken is the player character and is controlled by t
             this.entity.fixedHeight = this.entity.y;
             p.y = this.entity.fixedHeight;
 			this.t = true;
+			
+			p.x += this.entity.x < p.x ? -30 : 30;
 			
             var jumps = (Math.abs(this.entity.x - p.x))/1000;
 			if(Math.abs(this.entity.x - p.x) > 30) 
@@ -1206,6 +1251,9 @@ function createMara(parent) {
 	
 	var maraFlinch = cc.Animation.create();
 	maraFlinch.setDelayPerUnit(1 / 15);
+	
+	var maraDown = cc.Animation.create();
+	maraDown.setDelayPerUnit(1 / 15);
 	
 	var maraAI = cc.Node.extend({
 		currentAction: null,
@@ -1283,6 +1331,13 @@ function createMara(parent) {
 				},
 				target:this
 			});
+			//down behavior
+			this.down = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
 			
 			// add all the behaviors as children
 			this.addChild(this.idle);
@@ -1290,6 +1345,7 @@ function createMara(parent) {
 			this.addChild(this.smokescreen);
 			this.addChild(this.attack);
 			this.addChild(this.flinch);
+			this.addChild(this.down);
 			
 			// at then end, call main
 			this.main();
@@ -1298,19 +1354,30 @@ function createMara(parent) {
 		main: function() {
 			this.data.idlecount =  2 * (5 - master["Mara"]);
 			this.data.count = 0;
+			this.data.flinch = 0;
+			this.data.down = 0;
 			this.idle.start();
 			this.callback();
 		},
 		callback: function() {
-			if(this.currentAction == this.smokescreen) {
+			if(this.currentAction == this.down) {
+				if( this.data.down < 60 ) {
+					this.data.down ++;
+				} else {
+					this.data.down = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			} else if(this.currentAction == this.smokescreen) {
 				this.currentAction.stop()
 				this.attack.start()
 				this.data.count = 0;
-			}
-		
-			else if(this.currentAction == this.flinch) {
-				if(!this.data.flinch) {
-					this.data.flinch = 1;
+			} else if(this.currentAction == this.flinch) {
+				if(this.entity.health._value <= 0) {
+					this.data.down = 0;
+					this.currentAction.stop();
+					this.down.start();
 				} else if(this.data.flinch < 15) {
 					this.data.flinch ++;
 				} else {
@@ -1319,9 +1386,7 @@ function createMara(parent) {
 					this.idle.start();
 					this.data.count = this.data.idlecount;
 				}
-			}
-		
-			else if(this.data.count < this.data.idlecount) {
+			} else if(this.data.count < this.data.idlecount) {
 				console.log(this.data);
 				if(this.data.count == 0) {
 					this.currentAction.stop();
@@ -1376,7 +1441,8 @@ function createMara(parent) {
 			run: maraRun,
 			smoke: maraSmoke,
 			attack: maraAttack,
-			flinch: maraFlinch
+			flinch: maraFlinch,
+			down: maraDown
 		}, 
 		controller: maraAI,
 		parent: parent
@@ -1395,6 +1461,8 @@ function createPreston(parent) {
 	var prestonAttack = cc.Animation.create();
 	
 	var prestonFlinch = cc.Animation.create();
+	
+	var prestonDown = cc.Animation.create();
 	
 	var prestonAI = cc.Node.extend({
 		currentAction: null,
@@ -1482,22 +1550,41 @@ function createPreston(parent) {
 				},
 				target:this
 			});
+			// down behavior
+			this.down = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
 			
 			this.addChild(this.idle);
 			this.addChild(this.run);
 			this.addChild(this.attack);		
 			this.addChild(this.flinch);
+			this.addChild(this.down);
 			
 			this.main()
 		},
 		main: function() {
-			this.data.idlecount =  2 * (5 - master["Preston"]);
+			this.data.idlecount = 6;
 			this.data.count = this.data.idlecount;
+			this.data.flinch = 0;
+			this.data.down = 0;
 			this.idle.start();
 			this.callback()
 		},
 		callback: function() {
-			if(this.currentAction == this.flinch) {
+			if(this.currentAction == this.down) {
+				if( this.data.down < 60 ) {
+					this.data.down ++;
+				} else {
+					this.data.down = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			} else if(this.currentAction == this.flinch) {
 				if(!this.data.flinch) {
 					this.data.flinch = 1;
 				} else if(this.data.flinch < 15) {
@@ -1575,6 +1662,8 @@ function createJackie(parent) {
 	
 	var jackieFlinch = cc.Animation.create();
 	
+	var jackieDown = cc.Animation.create();
+	
 	var jackieAI = cc.Node.extend({
 		currentAction: null,
 		data:{},
@@ -1599,6 +1688,7 @@ function createJackie(parent) {
 			// idle behavior
 			this.idle = new customAction({
 				animate: function() {
+					console.log("This should be doing the same fucking thing");
 					this.animator.play("run");
 				},
 				target:this
@@ -1633,6 +1723,7 @@ function createJackie(parent) {
 					this.hitbox = null;
 				},
 				animate: function() {
+					console.log("this will be called");
 					this.animator.play("run");
 				},
 				target:this
@@ -1643,22 +1734,40 @@ function createJackie(parent) {
 				},
 				target:this
 			});
+			this.down = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
 			
 			this.addChild(this.idle);
 			this.addChild(this.run);
 			this.addChild(this.attack);
 			this.addChild(this.flinch);
+			this.addChild(this.down);
 			
 			this.main();
 		},
 		main: function() {
-			this.data.idlecount =  2 * (3 - master["Jackie"]);
+			this.data.idlecount =  2 * (4 - master["Jackie"]);
 			this.data.count = this.data.idlecount;
+			this.data.flinch = 0;
+			this.data.down = 0;
 			this.idle.start();
 			this.callback();
 		},
 		callback: function() {
-			if(this.currentAction == this.flinch) {
+			if(this.currentAction == this.down) {
+				if( this.data.down < 60 ) {
+					this.data.down ++;
+				} else {
+					this.data.down = 0;
+					this.currentAction.stop();
+					this.idle.start();
+					this.data.count = this.data.idlecount;
+				}
+			} else if(this.currentAction == this.flinch) {
 				if(!this.data.flinch) {
 					this.data.flinch = 1;
 				} else if(this.data.flinch < 15) {
@@ -1676,19 +1785,23 @@ function createJackie(parent) {
 				}
 				this.data.count ++;
 			} else {
+				
 				var tooFar = 0;
 				var distance = 100;
 				var closest = 100000;
-				for( var i in this.entity.scene.collisionMaster.enemies ) {
+				for( var i = 0; i < this.entity.scene.collisionMaster.enemies.length; i++ ) {
+					console.log("hello");
 					if( Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x) < closest ) {
 						closest = Math.abs(this.entity.scene.collisionMaster.enemies[i].x - this.entity.x);
 						tooFar = this.entity.scene.collisionMaster.enemies[i].x < this.entity.x ? -1: 1;
+						console.log(tooFar);
 					}
 				}
 				var j = tooFar;
 				if(closest < distance) {
 					tooFar = 0; 
 				}
+
 				
 				if(tooFar == -1) {
 					this.entity.scaleX = -1;
@@ -1698,6 +1811,10 @@ function createJackie(parent) {
 					this.entity.scaleX = 1;
 					this.currentAction.stop();
 					this.run.start();
+				} else if(j == 0) {
+					this.entity.scaleX = 1;
+					this.currentAction.stop();
+					this.idle.start();
 				} else {
 					this.entity.scaleX = j;
 					this.currentAction.stop();
@@ -1705,6 +1822,7 @@ function createJackie(parent) {
 					this.data.count = 0;
 				}
 			}
+			console.log(this.currentAction == this.idle, this.currentAction == this.attack);
 			this.currentAction.animate();
 		}
 	});
@@ -1714,7 +1832,8 @@ function createJackie(parent) {
 			idle: jackieIdle,
 			run: jackieRun,
 			attack: jackieAttack,
-			Flinch: jackieFlinch
+			flinch: jackieFlinch,
+			down: jackieDown
 		},
 		controller: jackieAI,
 		parent: parent
@@ -1733,6 +1852,8 @@ function createClark(parent) {
 	var clarkHeal = cc.Animation.create();
 	
 	var clarkFlinch = cc.Animation.create();
+	
+	var clarkDown = cc.Animation.create();
 	
 	var clarkAI = cc.Node.extend({
 		currentAction: null,
@@ -1791,17 +1912,26 @@ function createClark(parent) {
 				},
 				target:this
 			});
+			this.down = new customAction({
+				animate: function() {
+					this.animator.play("run");
+				},
+				target:this
+			});
 			
 			this.addChild(this.idle);
 			this.addChild(this.run);
 			this.addChild(this.heal);
 			this.addChild(this.flinch);
+			this.addChild(this.down);
 			
 			this.main();
 		}, 
 		main: function() {
-			this.data.idlecount =  2 * (3 - master["Clark"]);
+			this.data.idlecount =  2 * (4 - master["Clark"]);
 			this.data.count = this.data.idlecount;
+			this.data.flinch = 0;
+			this.data.down = 0; 
 			this.idle.start();
 			this.callback();
 		},
@@ -1848,7 +1978,8 @@ function createClark(parent) {
 					for( var i in this.entity.scene.collisionMaster.characters ) {
 						if(this.entity.scene.collisionMaster.characters[i].health._value < lowest && 
 						 this.entity.scene.collisionMaster.characters[i].health._value !=
-						 this.entity.scene.collisionMaster.characters[i].health.maxHealth ) {
+						 this.entity.scene.collisionMaster.characters[i].health.maxHealth &&
+						 this.entity.scene.collisionMaster.characters[i].health._value != 0) {
 							lowest = this.entity.scene.collisionMaster.characters[i].health._value;
 							lowestTarget = i;
 						}
@@ -1873,7 +2004,8 @@ function createClark(parent) {
 			idle: clarkIdle,
 			run: clarkRun,
 			heal: clarkHeal,
-			flinch: clarkFlinch
+			flinch: clarkFlinch,
+			down: clarkDown
 		},
 		controller: clarkAI,
 		parent: parent
