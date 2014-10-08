@@ -392,10 +392,7 @@ default
 Ken
 default
 "Well, it's a story about...
-
-(Actually, how do I sell this to him?  Preston likes interacting with the DM's world and characters, from what I remember.  Except we're already at the boss dungeon, so there's no chance for that.  But he also likes bragging and stuff during combat, so maybe I can...hmm...
-
-What do I say?)"
+(Actually, how do I sell this to him?  Preston likes interacting with the DM's world and characters, from what I remember.  Except we're already at the boss dungeon, so there's no chance for that.  But he also likes bragging and stuff during combat, so maybe I can...hmm...)"
 11
 
 ################################################
@@ -403,10 +400,10 @@ What do I say?)"
 11
 Ken
 default
-"...a party of extraordinary heroes working to save a kingdom from the ever-looming threat of a demon king.  They currently stand at the threshold of his foul lair, heroically poised to cleanse the land of his evil once and for all!"
+"...a party of extraordinary heroes working to save a kingdom from the ever-looming threat of a demon king.  They currently stand at the threshold of his foul lair, to cleanse the land of his evil!"
 Preston + 1
 12
-"...a party of heroes led by an extraordinary swordsman.  Their mission: save the kingdom from the swordsman's archnemesis - the Demon King.  The swordsman stands at the threshold of the demon's foul lair, ready to lead his party of adventurers to glory!"
+"...a party of heroes led by an extraordinary swordsman.  Their mission: save the kingdom from the swordsman's archnemesis - the Demon King!"
 Preston + 0
 18
 

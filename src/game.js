@@ -359,11 +359,11 @@ var rect = function(x,y,w,h, hit) {
 	n.y = y;
 	n.w = w;
 	n.h = h;
-	if(hit) {
-		n.drawRect(new cc.Point(x,y),new cc.Point(x+w, y+h),new cc.Color(255,0,0,50), 0,new cc.Color(0,0,0,0));
-	} else {
-		n.drawRect(new cc.Point(x,y),new cc.Point(x+w, y+h),new cc.Color(255,255,0,50), 0,new cc.Color(0,0,0,0));
-	}
+	//if(hit) {
+	//	n.drawRect(new cc.Point(x,y),new cc.Point(x+w, y+h),new cc.Color(255,0,0,50), 0,new cc.Color(0,0,0,0));
+	//} else {
+	//	n.drawRect(new cc.Point(x,y),new cc.Point(x+w, y+h),new cc.Color(255,255,0,50), 0,new cc.Color(0,0,0,0));
+	//}
 	return n;
 };
  
@@ -540,7 +540,7 @@ var myTestScene = cc.Scene.extend({
 		this.addChild(this.player);
 		this.collisionMaster.characters.push(this.player);
 		
-		this.level = 7;
+		this.level = 0;
 		this.initFrame("right");
 		this.addEnemies();
 		//this.collisionMaster.enemies.push(createEnemy(this));
@@ -951,8 +951,6 @@ function createBoss(parent) {
 	bossFireWalkAttack2.setDelayPerUnit(1 / 15);
 	
 	var bossIdle = cc.Animation.create();
-	bossIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossIdle.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
 	bossIdle.setDelayPerUnit(1 / 15);
 	
 	var bossAirIdle = cc.Animation.create();
@@ -1066,6 +1064,8 @@ function createBoss(parent) {
 			
 			this.entity.scaleX = 1;
 			
+			this.animator.y += 30;
+			
 			this.idle = new customAction({
 				update: function() {
 					this.entity.controller.data.recentdamage = 0;
@@ -1146,6 +1146,12 @@ function createBoss(parent) {
 					this.entity.y = 500;
 				},
 				update: function() {
+					if(this.frame == 1)
+						this.entity.y += 65;
+					if(this.frame == 65) 
+						this.entity.y -= 65;
+					if(this.frame > 65 && this.frame <74) 
+						this.entity.y += 25;
 					this.entity.controller.data.recentdamage = 0;
 				},
 				target:this
@@ -1153,7 +1159,7 @@ function createBoss(parent) {
 			
 			this.fall = new customAction({
 				update: function() {
-					this.entity.t -=25;
+					this.entity.y -=25 /3;
 				},
 				ondisable: function() {
 					this.entity.y = 300;
@@ -1165,12 +1171,11 @@ function createBoss(parent) {
 			});
 			
 			function fireball(boss, t) {
-				var a = rect(-30,-30,60,60, true);
+				var a = new cc.Node.create();
 				var s = cc.Sprite.create("assets/art/fantasy/fireball.png");
 				a.addChild(s);
-				a.damage = 3;
-				a.x = boss.x + a.x;
-				a.y = boss.y + a.y; 
+				a.x = boss.x;
+				a.y = boss.y; 
 				var distance = Math.sqrt( (t.x - boss.x)*(t.x - boss.x) + (t.y - boss.y)*(t.y - boss.y) );
 				a.movex = (t.x - boss.x) / distance;
 				s.setRotation(Math.acos(a.movex) * 180 / Math.PI);
@@ -1181,8 +1186,6 @@ function createBoss(parent) {
 					a.x += a.scaleX * 34 * a.movex;
 					a.y += a.scaleX * 34 * a.movey;
 					if(a.x < 0 || a.x > cc.winSize.width) {
-						boss.scene.collisionMaster.removeRefereces(this);	
-						boss.scene.collisionMaster.p_characters.splice(i, 1);
 						s.opacity = 0;
 						a.removeChild(s);
 						s.cleanup()
@@ -1192,18 +1195,6 @@ function createBoss(parent) {
 					}
 				}
 				a.scheduleUpdate();
-				a.hit = function() {
-					boss.scene.collisionMaster.removeRefereces(this);	
-					var i = boss.scene.collisionMaster.p_characters.indexOf(this);
-					boss.scene.collisionMaster.p_characters.splice(i, 1);
-					s.opacity = 0;
-					a.removeChild(s);
-					s.cleanup()
-					if(a.parent)
-						a.parent.removeChild(this);
-					a.cleanup();				
-				}
-				boss.scene.collisionMaster.p_enemies.push(a);
 				boss.parent.addChild(a);
 			}
 			
@@ -1866,6 +1857,9 @@ function createKen(parent){ //ken is the player character and is controlled by t
 			this.callback();
 		},
 		callback: function() {
+			if(this.entity.health._value <= 0) {
+				this.entity.health.damage(this.entity.health._value);
+			}
 			if(this.hitbox) {
 				this.entity.attacking = false;
 				this.entity.hitbox.removeCollider(this.hitbox);
@@ -2321,6 +2315,9 @@ function createPreston(parent) {
 				onenable: function() {
 					this.entity.health.damage(-this.entity.health._value);
 				},
+				update: function() {
+					this.entity.health.damage(this.entity.health._value);
+				},
 				animate: function() {
 					this.animator.play("run");
 				},
@@ -2542,6 +2539,9 @@ function createJackie(parent) {
 				onenable: function() {
 					this.entity.health.damage(-this.entity.health._value);
 				},
+				update: function() {
+					this.entity.health.damage(this.entity.health._value);
+				},
 				animate: function() {
 					this.animator.play("run");
 				},
@@ -2565,6 +2565,10 @@ function createJackie(parent) {
 			this.callback();
 		},
 		callback: function() {
+			if(this.entity.health._value <= 0) {
+				this.currentAction.stop();
+				this.down.start();
+			}
 			if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.y == 500) {
 				this.entity.scaleX = Math.random() < .5 ? -1 : 1;
 				this.currentAction.stop();
@@ -2749,6 +2753,9 @@ function createClark(parent) {
 			this.down = new customAction({
 				onenable: function() {
 					this.entity.health.damage(-this.entity.health._value);
+				},
+				update: function() {
+					this.entity.health.damage(this.entity.health._value);
 				},
 				animate: function() {
 					this.animator.play("run");

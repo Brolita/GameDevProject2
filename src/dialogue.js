@@ -306,7 +306,7 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 		intro = intro || false;
 	
 		if(this.diaNumber == "game") {
-			cc.director.runScene(new game());
+			cc.director.runScene(new myTestScene());
 			return;	
 		} else if(typeof this.diaNumber === 'string' ) {
 			this.parent.changeScene(this.diaNumber);
@@ -319,7 +319,7 @@ var DialogueInteractiveLayer = cc.Layer.extend({
 			this.characterChange({
 				"characterName":this.sceneInfo.dialogue[this.diaNumber].enter,
 				// THIS NEEDS TO BE CHANGED TO DEFAULT AFTER TESTING
-				"sprite": "../assets/art/real/portraits/" + this.sceneInfo.dialogue[this.diaNumber].enter + "_normal.png"
+				"sprite": "../assets/art/real/portraits/" + this.sceneInfo.dialogue[this.diaNumber].enter + "_default.png"
 			})
 		}
 		
