@@ -174,7 +174,7 @@ confused
 19
 Cellphone
 on
-"It's 11:47:00 p.m.  Of course I'm in the middle of something.  It's called sleeping.  You know I have a 6 a.m. tomorrow, so why are you calling me?"
+"It's 11:47 at night.  Of course I'm in the middle of something.  It's called sleeping.  You know I have a 6 a.m. tomorrow, so why are you calling me?"
 20
 
 ##############################################
@@ -3579,7 +3579,7 @@ angry
 Ken
 default
 "Ugh, I can't believe it.  When did she get so angry at me?"
-4XXXXX
+38
 
 ######################################################
 
@@ -3639,7 +3639,6 @@ Mara
 "Goodbye, Ken.  It is time for me to leave."
 39
 
-
 ######################################################
 
 39
@@ -3649,7 +3648,7 @@ sad
 
 (Goddammit, I forgot all about the study session! I can't believe I left Mara hanging like that!)
 
-I'm so, so sorry for leaving you there like that.  The call just took longer than I though, and-"
+I'm so, so sorry for leaving you there like that.  The call just took longer than I thought, and-"
 40
 
 ######################################################
@@ -3857,7 +3856,7 @@ Mara + 0
 21
 "Because you're someone I like spending time with."
 Mara + 1 
-2XXXX
+27
 
 ######################################################
 
@@ -3913,23 +3912,23 @@ game
 
 ######################################################
 
-26
+27
 Mara
 embarrassed
 "Well, that's...umm..."
-27
-
-######################################################
-
-27
-Ken
-embarrassed
-"(Oh God, I can't believe I said that!)"
 28 
 
 ######################################################
 
-28
+28 
+Ken
+embarrassed
+"(Oh God, I can't believe I said that!)"
+29
+
+######################################################
+
+29
 Mara
 embarrassed
 "Hmm...thanks, I guess?"
@@ -3937,36 +3936,793 @@ embarrassed
 
 ######################################################
 
-29
+30
 Ken
 embarrassed
 "Yeah, no problem.  But yeah, I'd like you to be there; I think you'd have fun, and I know I would."
-30
+31
 
 ######################################################
 
-30
+31
 Mara
 embarrassed
 "Well, I guess I'll think about it- I mean, I suppose I will consider it.
 
 At any rate, I must leave.  Goodbye, Ken, and thank you for your aid."
-31
+32
 
 ######################################################
 
-31
+32
 Ken
 embarrassed
 "I was glad to help."
+33
+
+######################################################
+
+33
+Ken
+embarrassed
+"(I'm not even sure if that went well or not.  I guess I'll go to the DM and get more practice in.)"
+game
+
+######################################################
+
+<< #Day 3
+<< Decision_C #Ken meets Clark and asks him to join the campaign
+>> Decision_C
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+>> Clark
+>> default
+
+######################################################
+
+0
+Ken
+default
+"(Friday.  The final day.  This is it.  Everything I've been doing culminates here and now.  
+
+Now, let's see if I can find anyone...hey, there's Clark!)
+
+Yo, Clark!  Hang on a sec!"
+1 
+
+######################################################
+
+1 
+Clark
+default
+"Oh, hi Ken.  Is something up?"
+2 
+
+######################################################
+
+2
+Ken
+default
+"Yeah, actually.  I know you've got some issues when it comes to MythQuest; I completely understand if you're not up for this.  But if it's at all possible, could you join the MythQuest campaign I'm in?  You'd be a lifesaver."
+[Clark > 2]
+3 
+[Clark == 2]
+9
+[Clark < 2]
+22
+
+######################################################
+
+3 
+Clark
+happy
+"Yeah, of course.  What, did I practice with you for nothing?"
+4 
+
+######################################################
+
+4 
+Ken
+happy
+"I know, but I just had to check.  Seriously, though: thank you.  You're really saving me here."
+5 
+
+######################################################
+
+5 
+Clark
+happy
+"No problem, dude.  Friends help each other out, don't they?"
+6
+
+######################################################
+
+6
+Ken
+happy
+"Yeah.  See you later then, Clark."
+7 
+
+######################################################
+
+7 
+Clark
+happy
+"Yeah, see you."
+8
+
+######################################################
+
+8
+Ken
+happy
+"(YES!  Party member, GET!  I'm really glad Clark's my friend, and that he's happier now.  
+
+Alright, time to move on!  Time's-a-wasting!"
+Clark + 1
+Decision_J
+
+######################################################
+
+9
+Clark
+default
+"I really don't know.  I mean, there's the stuff that you said on one hand, and then on the other hand is everything else."
+10
+
+######################################################
+
+10
+Ken
+default
+"(What do I say to Clark to convince him to play?  Something I said before, maybe?  Then again, he might be tired of me proselytizing by now.
+
+What should I say?)"
+11
+
+######################################################
+
+11
+Ken
+default
+"Dude, please; I need you there!  Even if it's just this once!"
+Clark + 0
+12
+"Just consider this a last hurrah if you have to.  But please, can you do this for me?"
+Clark + 1
+16
+
+######################################################
+
+12
+Clark
+angry
+"Look, I don't feel like it, okay?  Seriously, get out of my face about this and leave me alone!"
+13
+
+######################################################
+
+13
+Ken
+sad
+"Whoa, just wait up for a moment!"
+14
+
+######################################################
+
+14
+Clark
+angry
+"I'm tired of 'waiting up' for you or 'holding on'!  We're done talking about this, Ken!  Find someone else!"
+15
+
+######################################################
+
+15
+Ken
+sad
+"Jesus McGoddamn Christ, that couldn't have gone worse if I tried! I guess I should look for someone else now."
+Decision_J
+
+######################################################
+
+16
+Clark
+default
+"You really mean that?"
+17
+
+######################################################
+
+17
+Ken
+default
+"Of course.  If you don't want to, you don't want to, and it's wrong of me to try to force you to want to."
+18
+
+######################################################
+
+18
+Clark
+default
+"Alright, then; just this once.
+
+But all bets are off for anything else."
+19
+
+######################################################
+
+19
+Ken
+default
+"Thanks a lot for this, Clark.  I hope you enjoy yourself.
+20
+
+######################################################
+
+20
+Clark
+default
+"So do I, Ken.  So do I.  I'll see you at 7."
+21
+
+######################################################
+
+21
+Ken
+default
+"Yeah, see you then.
+
+(Well, he's joining the campaign, but...I wish he didn't feel bad about enjoying his passion.  Time to find some else, I suppose.)"
+Decision_J
+
+######################################################
+
+22
+Clark
+sad
+"I gave it some thought, and I'm just not feeling it.  To be honest, I'm going to give up MythQuest too; it's just causing me too many problem in my life."
+23
+
+######################################################
+
+23
+Ken
+sad
+"Dude, please; I need you there!  Even if it's just this once, so don't give up on me now!"
+12
+
+######################################################
+
+>> Decision_J
+>> Campus #A field with paths, trees and nondescript people in the background
+>> Ken
+>> default
+>> Clark
+>> default
+
+######################################################
+
+0
+Ken
+default
+"Alright, I've got two people left to check on.  If I remember correctly, Jackie got out of class around right about...bingo!
+
+Jackie, can I talk to you for a moment?"
+1 
+
+######################################################
+
+1 
+Jackie
+default
+"Huh?  Sure Ken, what's up?"
+2 
+
+######################################################
+
+2 
+Ken
+default
+"Well...I was wondering if you were able to make it to the MythQuest campaign today at 7."
+[Jackie > 1]
+3
+[Jackie == 1]
+15
+[Jackie < 1]
 32
 
 ######################################################
 
-32
+3 
+Jackie
+angry
+"No, I'm not joining your campaign."
+4
+
+######################################################
+
+4
+Ken
+confused
+"Wait, what?  But didn't you..."
+5 
+
+######################################################
+
+5
+Jackie
+happy
+"Nah, I just practiced with you yesterday for nothing.
+
+Of course I'm joining your campaign, you goof of a big brother.  Wyndara the Berserker is at your service."
+6
+
+######################################################
+
+6
+Ken
+happy
+"Thanks a lot, Jackie.  I really appreciate this."
+7
+
+######################################################
+
+7 
+Jackie
+happy
+"No problem at all, big bro.  Ah, my bad: ARMAGEDDON THE DOOMBLADE!"
+8
+
+######################################################
+
+8
 Ken
 embarrassed
-"(I'm not even sure if that went well or not.  I guess I'll go to the DM and get more practice in.)"
+"There are circumstances behind that name, I'll have you know!"
+9
+
+######################################################
+
+9
+Jackie
+happy
+"Ah, yes.  I'm sure there's a perfectly logical explanation for ARMAGEDDON THE DOOMBLADE!
+
+PBFFTHAHAHAHAHAHAHAHAHAHAHAHAHHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA!!!!!  Yeah, right; are you an eighth-grader or something!"
+10
+
+######################################################
+
+10
+Ken
+embarrassed
+"Look, I had to get my name legally changed to get into-"
+11
+
+######################################################
+
+11
+Jackie
+happy
+"Choo choo, all aboard delusion train number two!  I'm your conductor, ARMAGEDDON THE DOOMBLADE!"
+12
+
+######################################################
+
+12
+Ken
+embarrassed
+"(Ugh...me and my big mouth...)"
+13
+
+######################################################
+
+13
+Jackie
+happy
+"I've gotta go, but I'll see you there...ARMAGEDDON THE DOOMBLADE!"
+14
+
+######################################################
+
+14
+Ken
+happy
+"I'm never living that down, am I?  Still, it looks like I've got another member of the party!
+
+(Time to get to my writing class!  After that, I'll talk to Mara!)"
+Jackie + 1
+Decision_M
+
+######################################################
+
+15
+Jackie
+default
+"I don't know, Ken.  Part of me wants to help you out, but you really haven't instilled much confidence in me as of now.  There are the times when you're kind and understanding, and then there are the times where you're a insensitive and titanic dimwit."
+16
+
+######################################################
+
+16
+Ken
+default
+"(There's got to be something I can say to convince her to join.  Something I need to do.  Think.  Remember everything Jackie said to you, everything you've done to her.
+
+Now, what should I say?)"
+17
+
+######################################################
+
+17
+Ken
+default
+"I'm sorry I made you feel this way.  I wish I could get you to trust me again, but...that won't happen in a day."
+Jackie + 1 
+18
+"I'm not going to be like I was before.  I promise you that."
+Jackie + 0
+24 
+
+######################################################
+
+19
+Jackie
+default
+"Yeah.  There's no way you can change in a day."
+20
+
+######################################################
+
+20
+Jackie
+happy
+"But this can be the first day.  I'll give you a chance, big brother; so don't screw it up!"
+21
+
+######################################################
+
+21
+Ken
+happy
+"You got it, Jackie!  Thanks, sis.  You really saved me here."
+22
+
+######################################################
+
+22
+Jackie
+happy
+"Hahaha, thank me more!  I've got to go, but I'll see you at 7, alright?"
+23
+
+######################################################
+
+23
+Ken
+happy
+"See you then, sis!
+
+(It's a good thing I patched things up with Jackie, though I'll have to keep making sure I improve for a while.  I should get to my writing class.)"
+Decision_M
+
+######################################################
+
+24
+Jackie
+sad
+"I'm sorry, but I can't accept that promise."
+25
+
+######################################################
+
+25
+Ken
+sad
+"How come?  Why won't you believe me?"
+26
+
+######################################################
+
+26
+Jackie
+angry
+"Because you haven't even apologized to me!"
+27
+
+######################################################
+
+27
+Ken
+angry
+"What are you talking about?  Of course I have!
+
+(I had to have, right?  At least once...)"
+28
+
+######################################################
+
+28
+Jackie
+angry
+"Once isn't enough, Ken!  You've been pulling this crap for years, so don't you dare assume that only once is enough!
+
+You need to strive to be a better person every day of your life!  Can you do that, Ken DuBois!"
+29
+
+######################################################
+
+29
+Ken
+sad
+"I..."
+30
+
+######################################################
+
+30
+Jackie
+sad
+"That's what I thought.  Goodbye, Ken."
+31
+
+######################################################
+
+31
+Ken
+sad
+"(Jackie felt that way all this time?  What have I done?
+
+I...I'm going to deal with this later; I need to head to class.)"
+Decision_M
+
+######################################################
+
+32
+Jackie
+sad
+"I'm sorry.  But there's no way I can do that."
+33
+
+######################################################
+
+33
+Ken
+sad
+"Why not; is it because of how I was before?  I won't be like that, I promise you."
+24
+
+######################################################
+
+>> Decision_M
+>> Classroom #A classroom filled with empty seats
+>> Ken
+>> default
+>> Mara
+>> default
+
+######################################################
+
+0 
+Ken
+embarrassed
+"Mara, can you hold on for a bit?  I want to ask you something."
+1 
+
+######################################################
+
+1 
+Mara
+default
+"Very well then.  What is your request?"
+2 
+
+######################################################
+
+2 
+Ken
+embarrassed
+"Well...um...there's a role-playing campaign I'm participating in that goes on on Fridays starting at 7, and I'd like to know if you wanted to come.  IF you can't or don't want to, I understand, but I'd be happier if you did."
+[Mara > 3]
+3
+[Mara == 3]
+11
+[Mara < 3]
+20
+
+######################################################
+
+3
+Mara
+confused
+"Did our prior practice session not count?"
+4 
+
+######################################################
+
+4 
+Ken
+embarrassed
+"No, that totally counted!  I just wanted to make sure that you didn't change your mind or anything."
+5 
+
+######################################################
+
+5
+Mara
+default
+"Why would I have changed my mind?"
+6
+
+######################################################
+
+6
+Mara
+embarrassed
+"After all, spending that time with you was fun."
+7 
+
+######################################################
+
+7 
+Ken
+happy
+"(God, are you listening?  Please don't kill me; dying happy is overrated.)"
+8
+
+######################################################
+
+8
+Ken
+embarrassed
+"Y-yeah, I had fun too.  
+
+So, see you tonight?"
+9
+
+######################################################
+
+9
+Mara
+happy
+"Yes.  I'll see you tonight, Ken."
+10
+
+######################################################
+
+10
+Ken
+happy
+"(Must...not..jump for joy!)
+
+YES!!!
+
+(Damn, that was fast.  Anyways, I better head back to my room to prepare.  My allies have been gathered; my final battle is nigh!)"
+Mara + 1
+game
+
+######################################################
+
+11
+Mara
+default
+"I am uncertain.  Role-playing holds the possibility to be fascinating on a certain level; however, there is something missing that would normally hold my interest.
+
+Furthermore, there are other activities I could perform on a Friday night, such as studying or attending outings with friends.  What argument can you make for me to go?"
+12
+
+######################################################
+
+12
+Ken
+default
+"(What should I say to her?  I want her to go but...why do I want her to go?  Is it because I need a party member?  Is it because I like her?
+
+And what reason would she have to go?  What should I say?)"
+13
+
+######################################################
+
+13
+Ken
+default
+"It seems like your sort of thing."
+Mara + 0 
+14
+"For relaxation, for stress release, but most of all for fun."
+Mara + 1 
+XXXXX
+
+######################################################
+
+14
+Mara
+confused
+"My sort of thing?  What does that mean?"
+15
+
+######################################################
+
+15
+Ken
+confused
+"Well...it means...um...it matches your way of speaking?"
+16
+
+######################################################
+
+16
+Mara
+angry
+"How superbly superficial of you.  I understand; to you, that is the dominant impression you have of me.
+
+Not a personality, nor an interest, but a style of speech."
+17
+
+######################################################
+
+17
+Ken
+sad
+"Wait, that's not what I mea-"
+18
+
+######################################################
+
+18
+Mara
+sad
+"It is a pity; I had hopes that you may have been different.  Evidently, I was mistaken.
+
+Goodbye, Ken DuBois."
+19
+
+######################################################
+
+19
+Ken
+sad
+"I...that wasn't what I...GODDAMMIT!!!
+
+(I guess that's it, then.  For better or for worse, my party's been made.  All I can do now is fight.)"
+game
+
+######################################################
+
+20
+Mara
+default
+"I cannot.  Or rather, I have not the interest."
+21
+
+######################################################
+
+21
+Ken
+sad
+"Are you sure?  I mean, there's plenty of things you can d-"
+22
+
+######################################################
+
+22
+Mara
+default
+"I am quite certain.  Despite your efforts, I hold no interest in this campaign of yours.
+
+Furthermore, I will no longer require your tutoring services, though I appreciate your generous offer.  Goodbye, Ken DuBois."
+23
+
+######################################################
+
+24
+Ken
+sad
+"(I...wow, that...
+
+I hurt.  I really, really hurt.  But, there's nothing I can do about this except to drown it out.  I have a final battle to face, after all.)"
 game
 
 ######################################################
