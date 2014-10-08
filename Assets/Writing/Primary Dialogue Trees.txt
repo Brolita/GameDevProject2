@@ -1352,11 +1352,13 @@ default
 6
 Mara
 default
-"Well, you certainly appear as if you know what you are doing."
-[Mara > 0]
-"I take it this is preparation for tomorrow?"
-[Mara = 0]
-"Though I must say, it is slightly offputting that you have gone so far without my request."
+case: Mara > 0
+"Well, you certainly appear as if you know what you are doing.
+I take it this is preparation for tomorrow?"
+7
+case: Mara = 0
+"Well, you certainly appear as if you know what you are doing.
+Though I must say, it is slightly offputting that you have gone so far without my request."
 7
 
 #################################################
@@ -1364,9 +1366,9 @@ default
 7 
 Ken
 embarrassed
-[Mara > 0]
+case: Mara > 0
 "Yeah, I wanted to make sure I was prepared to help you as much as I could."
-[Mara = 0]
+case: Mara = 0
 "Ahaha...ha...ha...
 
 Sorry.  I wanted to make it up to you after offending you this morning, but I guess I screwed up again."
@@ -1377,9 +1379,13 @@ Sorry.  I wanted to make it up to you after offending you this morning, but I gu
 8
 Mara
 default
+case: Mara = 0
 "Well, I thank you for your concern."
-[Emily = 0]
-"If you are willing to aid me in my studies, would you consider doing so at 5:30 p.m. at the Library tomorrow?  It may make an adequate supplement at the least."
+9
+case: Mara > 0
+"Well, I thank you for your concern.
+
+If you are willing to aid me in my studies, would you consider doing so at 5:30 p.m. at the Library tomorrow?  It may make an adequate supplement at the least."
 9
 
 #################################################
@@ -1877,12 +1883,15 @@ Campus_Transit
 0
 Ken
 default
+case: Preston > 0
 "Supplies?  Check.  Textbooks from last semester?  Check.  Motivation?  Oh so check.  
 
 I'll grab something to eat and then head over to the Library."
-[Preston > 0]
 1
-[Preston == 0]
+case: Preston = 0
+"Supplies?  Check.  Textbooks from last semester?  Check.  Motivation?  Oh so check.  
+
+I'll grab something to eat and then head over to the Library."
 2 
 
 #################################################
@@ -4004,12 +4013,14 @@ default
 2
 Ken
 default
+case: Clark > 2
 "Yeah, actually.  I know you've got some issues when it comes to MythQuest; I completely understand if you're not up for this.  But if it's at all possible, could you join the MythQuest campaign I'm in?  You'd be a lifesaver."
-[Clark > 2]
 3 
-[Clark == 2]
+case: Clark = 2
+"Yeah, actually.  I know you've got some issues when it comes to MythQuest; I completely understand if you're not up for this.  But if it's at all possible, could you join the MythQuest campaign I'm in?  You'd be a lifesaver."
 9
-[Clark < 2]
+case: Clark < 2
+"Yeah, actually.  I know you've got some issues when it comes to MythQuest; I completely understand if you're not up for this.  But if it's at all possible, could you join the MythQuest campaign I'm in?  You'd be a lifesaver."
 22
 
 ######################################################
@@ -4225,12 +4236,14 @@ default
 2 
 Ken
 default
+case: Jackie > 1
 "Well...I was wondering if you were able to make it to the MythQuest campaign today at 7."
-[Jackie > 1]
 3
-[Jackie == 1]
+case: Jackie = 1
+"Well...I was wondering if you were able to make it to the MythQuest campaign today at 7."
 15
-[Jackie < 1]
+case: Jackie < 1
+"Well...I was wondering if you were able to make it to the MythQuest campaign today at 7."
 32
 
 ######################################################
@@ -4524,12 +4537,14 @@ default
 2 
 Ken
 embarrassed
+case: Mara > 3
 "Well...um...there's a role-playing campaign I'm participating in that goes on on Fridays starting at 7, and I'd like to know if you wanted to come.  IF you can't or don't want to, I understand, but I'd be happier if you did."
-[Mara > 3]
 3
-[Mara == 3]
+case: Mara = 3
+"Well...um...there's a role-playing campaign I'm participating in that goes on on Fridays starting at 7, and I'd like to know if you wanted to come.  IF you can't or don't want to, I understand, but I'd be happier if you did."
 11
-[Mara < 3]
+case: Mara < 3
+"Well...um...there's a role-playing campaign I'm participating in that goes on on Fridays starting at 7, and I'd like to know if you wanted to come.  IF you can't or don't want to, I understand, but I'd be happier if you did."
 20
 
 ######################################################

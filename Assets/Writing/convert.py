@@ -119,19 +119,19 @@ while line != '':
 			if '>' in line:
 				currentText["case"]["cmp"] = ">"
 				try:
-					int(line[line.find('<'):])
-				except ValueError:
-					print "Error: Line " + str(i) + ": Epected value to compare to in case, read " + line
-					sys.exit(0)
-				currentText["case"]["value"] = int(line[line.find('<'):])
-			elif '<' in line:
-				currentText["case"]["cmp"] = "<"
-				try:
-					int(line[line.find('>')+1:])
+					int(line[line.find('>') + 1:])
 				except ValueError:
 					print "Error: Line " + str(i) + ": Epected value to compare to in case, read " + line
 					sys.exit(0)
 				currentText["case"]["value"] = int(line[line.find('>')+1:])
+			elif '<' in line:
+				currentText["case"]["cmp"] = "<"
+				try:
+					int(line[line.find('<')+1:])
+				except ValueError:
+					print "Error: Line " + str(i) + ": Epected value to compare to in case, read " + line
+					sys.exit(0)
+				currentText["case"]["value"] = int(line[line.find('<')+1:])
 			elif '=' in line:
 				currentText["case"]["cmp"] = "="
 				try:
