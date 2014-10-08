@@ -936,11 +936,6 @@ function createBoss(parent) {
 	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
 	bossFireWalkAttack.setDelayPerUnit(1 / 15);
 	
-	var bossFireWalkAttack = cc.Animation.create();
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
-	bossFireWalkAttack.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
-	bossFireWalkAttack.setDelayPerUnit(1 / 15);
-	
 	var bossFireWalkAttack2 = cc.Animation.create();
 	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_0.png" );
 	bossFireWalkAttack2.addSpriteFrameWithFile( "Assets/art/fantasy/animations/test/testIdle_1.png" );
@@ -984,7 +979,7 @@ function createBoss(parent) {
 				}
 				if(this.entity.health._value <= 0) {
 					this.entity.health.damage(-this.entity.health._value - 50);
-					this.data.phase = 1;
+					this.data.phase = 4;
 					this.data.phasetrigger = true;
 				}
 			} else if(this.data.phase == 1 || this.data.phase == 3) {
@@ -1201,12 +1196,15 @@ function createBoss(parent) {
 		
 			this.preattack4 = new customAction({
 				update: function() {
-					console.log("hello");
 					for(var i in this.entity.scene.collisionMaster.characters) {
-						this.entity.scene.collisionMaster.characters[i].x -= 12;
+						this.entity.scene.collisionMaster.characters[i].x -= 200;
+						if(this.entity.scene.collisionMaster.characters[i].x <= 30) {
+							this.entity.scene.collisionMaster.characters[i].x = 30;
+						}
 					}
 				},
 				animate: function() {
+					console.log("hello");
 					this.animator.play("preattack4");
 				},
 				target: this
@@ -1263,6 +1261,8 @@ function createBoss(parent) {
 				this.currentAction.stop();
 				this.attack4.start();
 				this.firewall = cc.Sprite.create("assets/art/fantasy/firewall.png");
+				this.firewall.x = 115;
+				this.firewall.y = 150;
 				this.addChild(this.firewall);
 				this.hitbox = this.entity.hitbox.addCollider(75,-15,50,300, 1000);
 			} else if(this.currentAction == this.idle) {
