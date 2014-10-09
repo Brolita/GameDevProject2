@@ -1072,8 +1072,11 @@ function createBoss(parent) {
 					a.x = cc.director.getWinSize().width/2;
 					a.y = cc.director.getWinSize().height/2;
 					a.opacity = 0;
-					a.runAction(cc.fadeIn(.5));
+					a.runAction( cc.sequence(cc.delayTime(2), cc.fadeIn(.5) ));
 					this.entity.scene.addChild(a);
+					for(var i in this.entity.scene.collisionMaster.characters) {
+						this.entity.scene.collisionMaster.characters[i].controller.animator.stop();
+					}
 				}
 			}
 		},
@@ -1694,7 +1697,7 @@ function createEnemyB(parent) {
 					this.hitbox = null;
 				},
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("attack");
 				},
 				target:this
 			});
@@ -1895,11 +1898,12 @@ function createKen(parent){ //ken is the player character and is controlled by t
 				this.entity.health.damage(this.entity.health._value);
 				
 				master.currentDay ++;
-				if(master.currentDay == 4) {
+				//if(master.currentDay == 4) {
 					// Game Over 
-				} else {
-					cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
-				}
+				//} else {
+					//cc.director.runScene(new Dialogue(master.day[master.currentDay].firstScene));
+					//this.entity.scene.cleanup()
+				//}
 				
 			}
 			if(this.hitbox) {
@@ -2076,7 +2080,7 @@ function createMara(parent) {
 					this.entity.health.damage(this.entity.health._value);
 				},
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("down");
 				},
 				target:this
 			});
@@ -2239,6 +2243,8 @@ function createPreston(parent) {
 	var prestonFlinch = cc.Animation.create();
 	
 	var prestonDown = cc.Animation.create();
+	prestonDown.addSpriteFrameWithFile("assets/art/fantasy/Sprites/Preston_Down.png");
+	prestonDown.setDelayPerUnit(1/15);
 	
 	var prestonAI = cc.Node.extend({
 		currentAction: null,
@@ -2361,13 +2367,13 @@ function createPreston(parent) {
 			// down behavior
 			this.down = new customAction({
 				onenable: function() {
-					this.entity.health.damage(-this.entity.health._value);
+					this.entity.health.damage(this.entity.health._value);
 				},
 				update: function() {
 					this.entity.health.damage(this.entity.health._value);
 				},
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("down");
 				},
 				target:this
 			});
@@ -2593,7 +2599,7 @@ function createJackie(parent) {
 					this.entity.health.damage(this.entity.health._value);
 				},
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("down");
 				},
 				target:this
 			});
@@ -2618,8 +2624,7 @@ function createJackie(parent) {
 			if(this.entity.health._value <= 0) {
 				this.currentAction.stop();
 				this.down.start();
-			}
-			if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.y == 500) {
+			} else if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.y == 500) {
 				this.entity.scaleX = Math.random() < .5 ? -1 : 1;
 				this.currentAction.stop();
 				this.run.start();
@@ -2783,11 +2788,14 @@ function createClark(parent) {
 					if(this.frame > 15 && this.frame < 61) {
 						if(this.entity.scene.collisionMaster.boss && this.entity.scene.collisionMaster.boss.controller.data.phase == 3) {
 							for( var i in this.entity.scene.collisionMaster.characters ) {
-								this.entity.scene.collisionMaster.characters[i].health.damage(-.1);
+								this.entity.scene.collisionMaster.characters[i].health.damage(-.3);
+								if(this.entity.scene.collisionMaster.characters[i].health._value >= this.entity.scene.collisionMaster.characters[i].health.maxHealth) {
+									this.playerHealth._value = this.playerHealth.maxHealth -1;
+								}
 							}
 						} else {
 							this.playerHealth.damage(-1);
-							if(this.playerHealth._value == this.playerHealth.maxHealth) {
+							if(this.playerHealth._value >= this.playerHealth.maxHealth) {
 								this.animator.stop();
 								this.entity.controller.callback();
 							}
@@ -2807,13 +2815,13 @@ function createClark(parent) {
 			});
 			this.down = new customAction({
 				onenable: function() {
-					this.entity.health.damage(-this.entity.health._value);
+					this.entity.health.damage(this.entity.health._value);
 				},
 				update: function() {
 					this.entity.health.damage(this.entity.health._value);
 				},
 				animate: function() {
-					this.animator.play("run");
+					this.animator.play("down");
 				},
 				target:this
 			});
@@ -3108,10 +3116,7 @@ var ColliderConstructor = cc.Node.extend({
 	},
 	hit: function(collider) {
 		if(this.tag != null && this.tag == "jackie"){
-			cc.log("jackie attacked");
-			cc.log("before: this.entity.health = " + this.entity.health);
 			this.entity.health.damage(collider.damage);
-			cc.log("after: this.entity.health = " + this.entity.health);
 		}
 	
 		if(this.ignored.indexOf(collider.__instanceId) == -1) {

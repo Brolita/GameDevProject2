@@ -1292,7 +1292,7 @@ M_and_Next_Chance
 #################################################
 
 >> M_and_Next_Chance
->> Classroom #A classroom filled with empty seats
+>> Library #A classroom filled with empty seats
 >> Mara
 >> default
 >> Ken
